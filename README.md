@@ -1,1 +1,2 @@
 # SmartDiet-Assistant
+sekk test
