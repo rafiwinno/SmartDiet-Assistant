@@ -2,18 +2,16 @@ export default function AIRecommendCard({ recommendation = null, onViewMenu }) {
   if (!recommendation) return null
 
   return (
-    <div style={{ background: '#F1EFE8', borderRadius: '12px', padding: '1rem 1.25rem', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-      <div style={{
-        width: 34, height: 34, background: '#fff', borderRadius: '8px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0, fontSize: '16px',
-      }}>✦</div>
+    <div className="bg-stone-100 rounded-xl px-5 py-4 flex items-start gap-3">
+      <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shrink-0 text-base">
+        ✦
+      </div>
       <div>
-        <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '3px' }}>Rekomendasi makan malam</p>
-        <p style={{ fontSize: '13px', color: '#5F5E5A', lineHeight: '1.5' }}>{recommendation}</p>
+        <p className="text-sm font-medium mb-1">Rekomendasi makan malam</p>
+        <p className="text-sm text-stone-500 leading-relaxed">{recommendation}</p>
         <button
           onClick={onViewMenu}
-          style={{ marginTop: '8px', fontSize: '12px', fontWeight: '500', color: '#3B6D11', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}
+          className="mt-2 text-xs font-medium text-green-700 hover:text-green-800 bg-transparent border-none cursor-pointer p-0"
         >
           Lihat menu lengkap →
         </button>
