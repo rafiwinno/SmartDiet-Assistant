@@ -1,3 +1,3 @@
 export default function History() {
-  return <p>Riwayat — coming soon</p>
+  return <p>Riwayat — belum bang</p>
 }

@@ -1,75 +1,103 @@
-import CalorieRing       from '../components/dashboard/CalorieRing'
-import MacroCard         from '../components/dashboard/MacroCard'
-import MealList          from '../components/dashboard/MealList'
-import WaterTracker      from '../components/dashboard/WaterTracker'
-import AIRecommendCard   from '../components/dashboard/AIRecommendCard'
+import CalorieRing from "../components/dashboard/CalorieRing";
+import MacroCard from "../components/dashboard/MacroCard";
+import MealList from "../components/dashboard/MealList";
+import WaterTracker from "../components/dashboard/WaterTracker";
+import AIRecommendCard from "../components/dashboard/AIRecommendCard";
 
-const label = (text) => (
-  <p style={{ fontSize: '11px', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#888780', marginBottom: '10px' }}>
-    {text}
+const SectionLabel = ({ children }) => (
+  <p className="text-[11px] font-medium uppercase tracking-widest text-stone-400 mb-2.5">
+    {children}
   </p>
-)
+);
 
 export default function Dashboard({
-  userName        = 'Popon',
-  calories        = { consumed: 1480, target: 2000 },
-  macros          = { protein: { consumed: 72, target: 120 }, carbs: { consumed: 190, target: 250 }, fat: { consumed: 38, target: 65 } },
-  meals           = [
-    { type: 'breakfast', description: 'Oatmeal, pisang, telur rebus',       kcal: 420 },
-    { type: 'lunch',     description: 'Nasi ayam, sayur bening, tempe',     kcal: 680 },
-    { type: 'snack',     description: 'Yogurt, kacang campur',              kcal: 380 },
+  userName = "Popon",
+  calories = { consumed: 1480, target: 2000 },
+  macros = {
+    protein: { consumed: 72, target: 120 },
+    carbs: { consumed: 190, target: 250 },
+    fat: { consumed: 38, target: 65 },
+  },
+  meals = [
+    {
+      type: "breakfast",
+      description: "Oatmeal, pisang, telur rebus",
+      kcal: 420,
+    },
+    { type: "lunch", description: "Nasi ayam, sayur bening, tempe", kcal: 680 },
+    { type: "snack", description: "Yogurt, kacang campur", kcal: 380 },
   ],
-  water           = { glasses: 5, target: 8 },
-  recommendation  = 'Kamu masih butuh 520 kcal dan 48 g protein. Kami sarankan ikan bakar dengan sayuran kukus dan nasi merah.',
-  onAddMeal       = () => {},
-  onAddWater      = () => {},
-  onViewMenu      = () => {},
+  // water          = { glasses: 5, target: 8 },
+  recommendation = "Kamu masih butuh 520 kcal dan 48 g protein. Kami sarankan ikan bakar dengan sayuran kukus dan nasi merah.",
+  onAddMeal = () => {},
+  onAddWater = () => {},
+  onViewMenu = () => {},
 }) {
-  const today = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  const today = new Date().toLocaleDateString("id-ID", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: '24px', fontWeight: '500' }}>Hai, {userName}!</h1>
-        <p style={{ fontSize: '13px', color: '#888780', marginTop: '2px', textTransform: 'capitalize' }}>{today}</p>
+        <h1 className="text-lg font-medium text-stone-800">
+          Selamat pagi, {userName}!
+        </h1>
+        <p className="text-sm text-stone-400 mt-0.5 capitalize">{today}</p>
       </div>
 
       {/* Calories */}
       <div>
-        {label('Ringkasan harian')}
+        <SectionLabel>Ringkasan harian</SectionLabel>
         <CalorieRing consumed={calories.consumed} target={calories.target} />
       </div>
 
       {/* Macros */}
       <div>
-        {label('Makronutrien')}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
-          <MacroCard type="protein" consumed={macros.protein.consumed} target={macros.protein.target} />
-          <MacroCard type="carbs"   consumed={macros.carbs.consumed}   target={macros.carbs.target}   />
-          <MacroCard type="fat"     consumed={macros.fat.consumed}      target={macros.fat.target}     />
+        <SectionLabel>Makronutrien</SectionLabel>
+        <div className="grid grid-cols-3 gap-2.5">
+          <MacroCard
+            type="protein"
+            consumed={macros.protein.consumed}
+            target={macros.protein.target}
+          />
+          <MacroCard
+            type="carbs"
+            consumed={macros.carbs.consumed}
+            target={macros.carbs.target}
+          />
+          <MacroCard
+            type="fat"
+            consumed={macros.fat.consumed}
+            target={macros.fat.target}
+          />
         </div>
       </div>
 
       {/* Meals */}
       <div>
-        {label('Makanan hari ini')}
+        <SectionLabel>Makanan hari ini</SectionLabel>
         <MealList meals={meals} onAddMeal={onAddMeal} />
       </div>
 
       {/* Water */}
-      <div>
-        {label('Asupan air')}
+      {/* <div>
+        <SectionLabel>Asupan air</SectionLabel>
         <WaterTracker glasses={water.glasses} target={water.target} onAdd={onAddWater} />
-      </div>
+      </div> */}
 
       {/* AI Recommendation */}
       <div>
-        {label('Rekomendasi AI')}
-        <AIRecommendCard recommendation={recommendation} onViewMenu={onViewMenu} />
+        <SectionLabel>Rekomendasi AI</SectionLabel>
+        <AIRecommendCard
+          recommendation={recommendation}
+          onViewMenu={onViewMenu}
+        />
       </div>
-
     </div>
-  )
+  );
 }

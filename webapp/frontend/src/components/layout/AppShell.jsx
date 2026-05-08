@@ -3,14 +3,9 @@ import Sidebar from './Sidebar'
 
 export default function AppShell() {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#F9F8F5' }}>
+    <div className="flex min-h-screen bg-stone-100">
       <Sidebar />
-      <main style={{
-        flex: 1,
-        marginLeft: '220px',
-        padding: '2rem 2.5rem',
-       //maxWidth: '860px',
-      }}>
+      <main className="flex-1 ml-56 px-10 py-8">
         <Outlet />
       </main>
     </div>
