@@ -1,6 +1,11 @@
 import { useState } from "react";
-
-// ─── Constants ───────────────────────────────────────────────────────────────
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import FieldLabel from "../components/ui/FieldLabel";
+import TextInput from "../components/ui/TextInput";
+import OptionCard from "../components/ui/OptionCard";
+import TagToggle from "../components/ui/TagToggle";
+import Badge from "../components/ui/Badge";
 
 const ACTIVITY_LEVELS = [
   {
@@ -44,7 +49,6 @@ const DIETARY_RESTRICTIONS = [
   "Bebas laktosa",
   "Bebas kacang",
 ];
-
 const COMMON_ALLERGIES = [
   "Kacang tanah",
   "Susu",
@@ -54,7 +58,6 @@ const COMMON_ALLERGIES = [
   "Kedelai",
   "Gandum",
 ];
-
 const STEPS = [
   "Data diri",
   "Aktivitas & tujuan",
@@ -62,113 +65,40 @@ const STEPS = [
   "Ringkasan",
 ];
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
-
-function FieldLabel({ children, required }) {
+function StepIndicator({ current, labels }) {
   return (
-    <label className="block text-sm font-medium text-stone-700 mb-1.5">
-      {children}
-      {required && <span className="text-red-400 ml-0.5">*</span>}
-    </label>
-  );
-}
-
-function TextInput({ value, onChange, placeholder, type = "text", suffix }) {
-  return (
-    <div className="relative">
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full px-4 py-2.5 text-sm bg-white border border-stone-200 rounded-lg text-stone-800 placeholder-stone-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-      />
-      {suffix && (
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-stone-400">
-          {suffix}
-        </span>
-      )}
-    </div>
-  );
-}
-
-function OptionCard({ selected, onClick, label, desc }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`w-full text-left px-4 py-3 rounded-xl border transition-all cursor-pointer
-        ${
-          selected
-            ? "border-green-500 bg-green-50 ring-1 ring-green-500"
-            : "border-stone-200 bg-white hover:border-stone-300 hover:bg-stone-50"
-        }`}
-    >
-      <p
-        className={`text-sm font-medium ${selected ? "text-green-800" : "text-stone-800"}`}
-      >
-        {label}
-      </p>
-      {desc && <p className="text-xs text-stone-400 mt-0.5">{desc}</p>}
-    </button>
-  );
-}
-
-function TagToggle({ label, selected, onClick }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`px-3.5 py-1.5 rounded-full text-sm border transition-all cursor-pointer
-        ${
-          selected
-            ? "bg-green-600 text-white border-green-600"
-            : "bg-white text-stone-600 border-stone-200 hover:border-stone-400"
-        }`}
-    >
-      {label}
-    </button>
-  );
-}
-
-function StepIndicator({ current, total, labels }) {
-  return (
-    <div className="mb-8">
-      <div className="flex items-center gap-0">
-        {labels.map((label, i) => (
-          <div key={i} className="flex items-center flex-1 last:flex-none">
-            <div className="flex flex-col items-center gap-1.5">
-              <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold transition-all
-                ${
-                  i < current
-                    ? "bg-green-600 text-white"
-                    : i === current
-                      ? "bg-stone-800 text-white"
-                      : "bg-stone-200 text-stone-400"
-                }`}
-              >
-                {i < current ? "✓" : i + 1}
-              </div>
-              <span
-                className={`text-xs whitespace-nowrap ${i === current ? "text-stone-700 font-medium" : "text-stone-400"}`}
-              >
-                {label}
-              </span>
+    <div className="flex items-center mb-8">
+      {labels.map((label, i) => (
+        <div key={i} className="flex items-center flex-1 last:flex-none">
+          <div className="flex flex-col items-center gap-1.5">
+            <div
+              className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold transition-all
+              ${
+                i < current
+                  ? "bg-green-600 text-white"
+                  : i === current
+                    ? "bg-stone-800 text-white"
+                    : "bg-stone-200 text-stone-400"
+              }`}
+            >
+              {i < current ? "✓" : i + 1}
             </div>
-            {i < labels.length - 1 && (
-              <div
-                className={`flex-1 h-px mx-2 mb-5 ${i < current ? "bg-green-400" : "bg-stone-200"}`}
-              />
-            )}
+            <span
+              className={`text-xs whitespace-nowrap ${i === current ? "text-stone-700 font-medium" : "text-stone-400"}`}
+            >
+              {label}
+            </span>
           </div>
-        ))}
-      </div>
+          {i < labels.length - 1 && (
+            <div
+              className={`flex-1 h-px mx-2 mb-5 ${i < current ? "bg-green-400" : "bg-stone-200"}`}
+            />
+          )}
+        </div>
+      ))}
     </div>
   );
 }
-
-// ─── Steps ───────────────────────────────────────────────────────────────────
 
 function StepPersonal({ data, onChange }) {
   return (
@@ -179,7 +109,6 @@ function StepPersonal({ data, onChange }) {
           Informasi dasar untuk menghitung kebutuhan kalorimu
         </p>
       </div>
-
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
           <FieldLabel required>Nama lengkap</FieldLabel>
@@ -189,7 +118,6 @@ function StepPersonal({ data, onChange }) {
             placeholder="Nama kamu"
           />
         </div>
-
         <div>
           <FieldLabel required>Usia</FieldLabel>
           <TextInput
@@ -200,7 +128,6 @@ function StepPersonal({ data, onChange }) {
             suffix="tahun"
           />
         </div>
-
         <div>
           <FieldLabel required>Jenis kelamin</FieldLabel>
           <div className="grid grid-cols-2 gap-2">
@@ -217,7 +144,6 @@ function StepPersonal({ data, onChange }) {
             ))}
           </div>
         </div>
-
         <div>
           <FieldLabel required>Berat badan</FieldLabel>
           <TextInput
@@ -228,7 +154,6 @@ function StepPersonal({ data, onChange }) {
             suffix="kg"
           />
         </div>
-
         <div>
           <FieldLabel required>Tinggi badan</FieldLabel>
           <TextInput
@@ -255,7 +180,6 @@ function StepActivity({ data, onChange }) {
           Mempengaruhi perhitungan TDEE dan target kalori harianmu
         </p>
       </div>
-
       <div>
         <FieldLabel required>Tingkat aktivitas</FieldLabel>
         <div className="flex flex-col gap-2">
@@ -270,7 +194,6 @@ function StepActivity({ data, onChange }) {
           ))}
         </div>
       </div>
-
       <div>
         <FieldLabel required>Tujuan utama</FieldLabel>
         <div className="flex flex-col gap-2">
@@ -310,7 +233,6 @@ function StepDietary({ data, onChange }) {
           Opsional — digunakan untuk menyaring rekomendasi menu
         </p>
       </div>
-
       <div>
         <FieldLabel>Pantangan makan</FieldLabel>
         <div className="flex flex-wrap gap-2 mt-1">
@@ -324,7 +246,6 @@ function StepDietary({ data, onChange }) {
           ))}
         </div>
       </div>
-
       <div>
         <FieldLabel>Alergi makanan</FieldLabel>
         <div className="flex flex-wrap gap-2 mt-1">
@@ -351,9 +272,9 @@ function StepDietary({ data, onChange }) {
 }
 
 function StepSummary({ data }) {
-  const ACTIVITY_LABEL =
+  const actLabel =
     ACTIVITY_LEVELS.find((a) => a.value === data.activityLevel)?.label ?? "—";
-  const GOAL_LABEL = GOALS.find((g) => g.value === data.goal)?.label ?? "—";
+  const goalLabel = GOALS.find((g) => g.value === data.goal)?.label ?? "—";
 
   const rows = [
     { label: "Nama", value: data.name || "—" },
@@ -369,8 +290,8 @@ function StepSummary({ data }) {
     },
     { label: "Berat badan", value: data.weight ? `${data.weight} kg` : "—" },
     { label: "Tinggi badan", value: data.height ? `${data.height} cm` : "—" },
-    { label: "Tingkat aktivitas", value: ACTIVITY_LABEL },
-    { label: "Tujuan", value: GOAL_LABEL },
+    { label: "Tingkat aktivitas", value: actLabel },
+    { label: "Tujuan", value: goalLabel },
   ];
 
   return (
@@ -383,8 +304,7 @@ function StepSummary({ data }) {
           Periksa kembali sebelum menyimpan
         </p>
       </div>
-
-      <div className="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+      <Card padding={false}>
         {rows.map((row, i) => (
           <div
             key={i}
@@ -396,10 +316,10 @@ function StepSummary({ data }) {
             </span>
           </div>
         ))}
-      </div>
+      </Card>
 
       {(data.dietary?.length > 0 || data.allergies?.length > 0) && (
-        <div className="bg-white border border-stone-200 rounded-xl px-5 py-4 shadow-sm">
+        <Card>
           {data.dietary?.length > 0 && (
             <div className="mb-3">
               <p className="text-xs font-medium text-stone-400 uppercase tracking-wider mb-2">
@@ -407,12 +327,9 @@ function StepSummary({ data }) {
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {data.dietary.map((d) => (
-                  <span
-                    key={d}
-                    className="px-2.5 py-1 bg-stone-100 text-stone-600 text-xs rounded-full"
-                  >
+                  <Badge key={d} variant="stone">
                     {d}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -424,17 +341,14 @@ function StepSummary({ data }) {
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {data.allergies.map((a) => (
-                  <span
-                    key={a}
-                    className="px-2.5 py-1 bg-red-50 text-red-600 text-xs rounded-full"
-                  >
+                  <Badge key={a} variant="red">
                     {a}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
           )}
-        </div>
+        </Card>
       )}
 
       <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-4">
@@ -450,8 +364,6 @@ function StepSummary({ data }) {
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-
 const INITIAL = {
   name: "",
   age: "",
@@ -464,6 +376,8 @@ const INITIAL = {
   allergies: [],
   otherAllergies: "",
 };
+
+// ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function Profile({ onSave = () => {} }) {
   const [step, setStep] = useState(0);
@@ -479,11 +393,8 @@ export default function Profile({ onSave = () => {} }) {
     return true;
   };
 
-  const handleSave = () => onSave(data);
-
   return (
-    <div className="flex flex-col gap-0">
-      {/* Page header */}
+    <div className="flex flex-col">
       <div className="mb-6">
         <h1 className="text-xl font-semibold text-stone-800">Profil saya</h1>
         <p className="text-sm text-stone-400 mt-0.5">
@@ -491,48 +402,32 @@ export default function Profile({ onSave = () => {} }) {
         </p>
       </div>
 
-      <StepIndicator current={step} total={STEPS.length} labels={STEPS} />
+      <StepIndicator current={step} labels={STEPS} />
 
-      {/* Step content */}
-      <div className="bg-stone-50 rounded-2xl border border-stone-200 p-6 shadow-sm min-h-64">
+      <Card className="min-h-64">
         {step === 0 && <StepPersonal data={data} onChange={update} />}
         {step === 1 && <StepActivity data={data} onChange={update} />}
         {step === 2 && <StepDietary data={data} onChange={update} />}
         {step === 3 && <StepSummary data={data} />}
-      </div>
+      </Card>
 
-      {/* Navigation */}
       <div className="flex items-center justify-between mt-5">
-        <button
-          type="button"
-          onClick={() => setStep((s) => s - 1)}
+        <Button
+          variant="secondary"
           disabled={step === 0}
-          className="px-5 py-2.5 text-sm font-medium text-stone-600 bg-white border border-stone-200 rounded-lg hover:bg-stone-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+          onClick={() => setStep((s) => s - 1)}
         >
           Kembali
-        </button>
-
+        </Button>
         <span className="text-xs text-stone-400">
           {step + 1} / {STEPS.length}
         </span>
-
         {step < STEPS.length - 1 ? (
-          <button
-            type="button"
-            onClick={() => setStep((s) => s + 1)}
-            disabled={!canNext()}
-            className="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
-          >
+          <Button disabled={!canNext()} onClick={() => setStep((s) => s + 1)}>
             Lanjut
-          </button>
+          </Button>
         ) : (
-          <button
-            type="button"
-            onClick={handleSave}
-            className="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-all cursor-pointer"
-          >
-            Simpan profil
-          </button>
+          <Button onClick={() => onSave(data)}>Simpan profil</Button>
         )}
       </div>
     </div>
