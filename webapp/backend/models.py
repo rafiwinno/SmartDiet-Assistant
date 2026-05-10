@@ -1,0 +1,120 @@
+# models.py
+
+
+from sqlmodel import SQLModel, Field, Relationship
+from typing import Optional, List
+from datetime import datetime
+import uuid
+
+
+class User(SQLModel, table=True):
+    
+    # Tabel: users
+    # Menyimpan data akun 
+    
+    __tablename__ = "users"
+
+    id: str = Field(
+        default_factory=lambda: str(uuid.uuid4()),
+        primary_key=True
+    )
+    name: str
+    email: str = Field(unique=True, index=True)
+    password_hash: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    profile:  Optional["UserProfile"] = Relationship(back_populates="user")
+    meal_logs: List["MealLog"]        = Relationship(back_populates="user")
+
+
+class UserProfile(SQLModel, table=True):
+    
+    # Tabel: user_profiles
+    # Menyimpan data fisik + hasil kalkulasi BMR/TDEE
+    
+    __tablename__ = "user_profiles"
+
+    id: str = Field(
+        default_factory=lambda: str(uuid.uuid4()),
+        primary_key=True
+    )
+    user_id: str = Field(foreign_key="users.id", unique=True)
+
+    # Data dari form Profile.jsx
+    name:           str
+    age:            int
+    weight_kg:      float   
+    height_cm:      float   
+    gender:         str     
+    activity_level: str     # "sedentary"|"light"|"moderate"|"active"|"very_active"
+    goal:           str     # "lose" | "maintain" | "gain"
+
+    # Pantangan & alergi (disimpan sebagai JSON string)
+    dietary:   Optional[str] = None
+    allergies: Optional[str] = None
+
+    # Hasil kalkulasi otomatis oleh backend
+    bmr:            Optional[float] = None
+    tdee:           Optional[float] = None
+    calorie_target: Optional[int]   = None
+
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+    user: Optional[User] = Relationship(back_populates="profile")
+
+
+class Food(SQLModel, table=True):
+    
+    #Tabel: foods
+    #Database nutrisi makanan (dari dataset Kaggle tim DS)
+    
+    __tablename__ = "foods"
+
+    id: str = Field(
+        default_factory=lambda: str(uuid.uuid4()),
+        primary_key=True
+    )
+    name:             str
+    category:         str           
+    calories_per_100g: float
+    protein_g:        float
+    carbs_g:          float
+    fat_g:            float
+    fiber_g:          Optional[float] = None
+    serving_size_g:   Optional[float] = 100.0
+    is_verified:      bool = False
+
+    meal_logs: List["MealLog"] = Relationship(back_populates="food")
+
+
+class MealLog(SQLModel, table=True):
+    
+    # Tabel: meal_logs
+    # Catatan makanan harian user — dipakai untuk:
+    # - POST /meal  (catat makanan)
+    # - GET  /meal/history (riwayat)
+    # - DELETE /meal/{id} (hapus catatan)
+
+    __tablename__ = "meal_logs"
+
+    id: str = Field(
+        default_factory=lambda: str(uuid.uuid4()),
+        primary_key=True
+    )
+    user_id:   str = Field(foreign_key="users.id", index=True)
+    food_id:   Optional[str] = Field(default=None, foreign_key="foods.id")
+
+    # Detail makanan 
+    food_name:  str
+    meal_type:  str     
+    quantity_g: float
+    calories:   float
+    protein_g:  float   = 0
+    carbs_g:    float   = 0
+    fat_g:      float   = 0
+
+    log_date:   str     # format: "2026-05-09" 
+    logged_at:  datetime = Field(default_factory=datetime.utcnow)
+
+    user: Optional[User]  = Relationship(back_populates="meal_logs")
+    food: Optional[Food]  = Relationship(back_populates="meal_logs")
