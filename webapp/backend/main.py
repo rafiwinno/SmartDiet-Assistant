@@ -24,7 +24,7 @@ app = FastAPI(
 
 # ─── CORS Middleware ──────────────────────────────────────────────────────────
 # Tanpa ini, browser akan blokir request dari frontend ke backend
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+allowed_origins = os.getenv("ALLOWED_ORIGINS")
 
 app.add_middleware(
     CORSMiddleware,
