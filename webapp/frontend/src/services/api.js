@@ -27,9 +27,15 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      window.location.reload()
+      const token = localStorage.getItem('token')
+      const isLoginRequest = error.config?.url?.includes('/auth/login')
+
+      // Only force-logout if token exists and this isn't a login attempt
+      if (token && !isLoginRequest) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        window.location.reload()
+      }
     }
     return Promise.reject(error)
   }
