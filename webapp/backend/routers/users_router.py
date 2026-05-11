@@ -165,5 +165,6 @@ def get_profile(
             status_code=404,
             detail="Profil belum diisi. Silakan lengkapi data diri terlebih dahulu."
         )
-
+    result = _format_profile(profile)
+    result["name"] = current_user.name
     return _format_profile(profile)

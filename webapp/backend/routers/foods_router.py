@@ -56,8 +56,6 @@ def search_foods(
                 protein_g         = f.protein_g,
                 carbs_g           = f.carbs_g,
                 fat_g             = f.fat_g,
-                fiber_g           = f.fiber_g,
-                serving_size_g    = f.serving_size_g,
             )
             for f in foods
         ],
@@ -67,7 +65,7 @@ def search_foods(
 
 @router.get("/{food_id}")
 def get_food_detail(
-    food_id: str,
+    food_id: int,
     current_user: User = Depends(get_current_user),
     session: Session   = Depends(get_session)
 ):
@@ -91,6 +89,4 @@ def get_food_detail(
         protein_g         = food.protein_g,
         carbs_g           = food.carbs_g,
         fat_g             = food.fat_g,
-        fiber_g           = food.fiber_g,
-        serving_size_g    = food.serving_size_g,
     )

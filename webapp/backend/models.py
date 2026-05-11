@@ -1,11 +1,8 @@
 # models.py
 
-
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 from datetime import datetime
-import uuid
-
 
 class User(SQLModel, table=True):
     
@@ -14,10 +11,7 @@ class User(SQLModel, table=True):
     
     __tablename__ = "users"
 
-    id: str = Field(
-        default_factory=lambda: str(uuid.uuid4()),
-        primary_key=True
-    )
+    id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     email: str = Field(unique=True, index=True)
     password_hash: str
@@ -29,25 +23,20 @@ class User(SQLModel, table=True):
 
 class UserProfile(SQLModel, table=True):
     
-    # Tabel: user_profiles
     # Menyimpan data fisik + hasil kalkulasi BMR/TDEE
     
     __tablename__ = "user_profiles"
 
-    id: str = Field(
-        default_factory=lambda: str(uuid.uuid4()),
-        primary_key=True
-    )
-    user_id: str = Field(foreign_key="users.id", unique=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="users.id", unique=True)
 
-    # Data dari form Profile.jsx
-    name:           str
-    age:            int
-    weight_kg:      float   
-    height_cm:      float   
-    gender:         str     
-    activity_level: str     # "sedentary"|"light"|"moderate"|"active"|"very_active"
-    goal:           str     # "lose" | "maintain" | "gain"
+    weight_kg:        float
+    height_cm:        float
+    activity_level:   str
+    target_weight_kg: float     
+    age:       Optional[int] = None
+    gender:    Optional[str] = None
+    goal:      Optional[str] = None
 
     # Pantangan & alergi (disimpan sebagai JSON string)
     dietary:   Optional[str] = None
@@ -62,7 +51,6 @@ class UserProfile(SQLModel, table=True):
 
     user: Optional[User] = Relationship(back_populates="profile")
 
-
 class Food(SQLModel, table=True):
     
     #Tabel: foods
@@ -70,19 +58,13 @@ class Food(SQLModel, table=True):
     
     __tablename__ = "foods"
 
-    id: str = Field(
-        default_factory=lambda: str(uuid.uuid4()),
-        primary_key=True
-    )
+    id: Optional[int] = Field(default=None, primary_key=True)
     name:             str
     category:         str           
     calories_per_100g: float
     protein_g:        float
     carbs_g:          float
     fat_g:            float
-    fiber_g:          Optional[float] = None
-    serving_size_g:   Optional[float] = 100.0
-    is_verified:      bool = False
 
     meal_logs: List["MealLog"] = Relationship(back_populates="food")
 
@@ -97,12 +79,9 @@ class MealLog(SQLModel, table=True):
 
     __tablename__ = "meal_logs"
 
-    id: str = Field(
-        default_factory=lambda: str(uuid.uuid4()),
-        primary_key=True
-    )
-    user_id:   str = Field(foreign_key="users.id", index=True)
-    food_id:   Optional[str] = Field(default=None, foreign_key="foods.id")
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id:   int = Field(foreign_key="users.id", index=True)
+    food_id:   Optional[int] = Field(default=None, foreign_key="foods.id")
 
     # Detail makanan 
     food_name:  str

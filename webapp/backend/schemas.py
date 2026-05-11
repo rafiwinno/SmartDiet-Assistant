@@ -45,7 +45,7 @@ class UserLogin(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type:   str = "bearer"
-    user_id:      str
+    user_id:      int
     user_name:    str
 
 
@@ -79,10 +79,10 @@ class ProfileResponse(BaseModel):
     calorie_target: Optional[int]
 
 
-# ─── MEALS (Minggu 3) ─────────────────────────────────────────────────────────
+# ─── MEALS ─────────────────────────────────────────────────────────
 
 class MealLogInput(BaseModel):
-    food_id:    Optional[str] = None  
+    food_id:    Optional[int] = None  
     food_name:  str
     meal_type:  MealType
     quantity_g: float
@@ -95,7 +95,7 @@ class MealLogInput(BaseModel):
 
 class MealLogResponse(BaseModel):
     # Format data meal log yang dikembalikan ke frontend
-    id:         str
+    id:         int
     food_name:  str
     meal_type:  str
     quantity_g: float
@@ -121,12 +121,10 @@ class MealHistoryResponse(BaseModel):
 
 class FoodResponse(BaseModel):
     # Format data makanan dari database
-    id:               str
+    id:               int
     name:             str
     category:         str
     calories_per_100g: float
     protein_g:        float
     carbs_g:          float
     fat_g:            float
-    fiber_g:          Optional[float]
-    serving_size_g:   Optional[float]

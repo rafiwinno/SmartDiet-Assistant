@@ -34,10 +34,9 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 
-def create_token(user_id: str) -> str:
-    # JWT token hanya berlaku 7 hari
+def create_token(user_id: int) -> str:
     expire  = datetime.utcnow() + timedelta(days=TOKEN_EXPIRE_DAYS)
-    payload = {"sub": user_id, "exp": expire}
+    payload = {"sub": str(user_id), "exp": expire}
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 
@@ -63,15 +62,15 @@ def get_current_user(
     try:
         token   = credentials.credentials
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = payload.get("sub")
+        user_id_str = payload.get("sub")
 
-        if not user_id:
+        if not user_id_str:
             raise credentials_exception
 
     except JWTError:
         raise credentials_exception
 
-    user = session.get(User, user_id)
+    user = session.get(User, int(user_id_str))
     if not user:
         raise credentials_exception
 
