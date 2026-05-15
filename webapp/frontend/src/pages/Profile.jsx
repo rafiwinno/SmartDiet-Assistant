@@ -164,6 +164,16 @@ function StepPersonal({ data, onChange }) {
             suffix="cm"
           />
         </div>
+        <div className="col-span-2">
+          <FieldLabel required>Target berat badan</FieldLabel>
+          <TextInput
+            value={data.targetWeight}
+            onChange={(v) => onChange("targetWeight", v)}
+            placeholder="60"
+            type="number"
+            suffix="kg"
+          />
+        </div>
       </div>
     </div>
   );
@@ -292,6 +302,10 @@ function StepSummary({ data }) {
     { label: "Tinggi badan", value: data.height ? `${data.height} cm` : "—" },
     { label: "Tingkat aktivitas", value: actLabel },
     { label: "Tujuan", value: goalLabel },
+    {
+      label: "Target berat badan",
+      value: data.targetWeight ? `${data.targetWeight} kg` : "—",
+    },
   ];
 
   return (
@@ -370,6 +384,7 @@ const INITIAL = {
   gender: "",
   weight: "",
   height: "",
+  targetWeight: "", // new
   activityLevel: "",
   goal: "",
   dietary: [],
@@ -388,7 +403,14 @@ export default function Profile({ onSave = () => {} }) {
 
   const canNext = () => {
     if (step === 0)
-      return data.name && data.age && data.gender && data.weight && data.height;
+      return (
+        data.name &&
+        data.age &&
+        data.gender &&
+        data.weight &&
+        data.height &&
+        data.targetWeight
+      );
     if (step === 1) return data.activityLevel && data.goal;
     return true;
   };

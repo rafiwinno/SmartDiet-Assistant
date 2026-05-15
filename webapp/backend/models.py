@@ -1,48 +1,39 @@
-# models.py
-
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 from datetime import datetime
 
+
 class User(SQLModel, table=True):
-    
-    # Tabel: users
-    # Menyimpan data akun 
-    
     __tablename__ = "users"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    name: str
-    email: str = Field(unique=True, index=True)
+    id:            Optional[int] = Field(default=None, primary_key=True)
+    name:          str
+    email:         str = Field(unique=True, index=True)
     password_hash: str
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at:    datetime = Field(default_factory=datetime.utcnow)
 
-    profile:  Optional["UserProfile"] = Relationship(back_populates="user")
-    meal_logs: List["MealLog"]        = Relationship(back_populates="user")
+    profile:   Optional["UserProfile"] = Relationship(back_populates="user")
+    meal_logs: List["MealLog"]         = Relationship(back_populates="user")
 
 
 class UserProfile(SQLModel, table=True):
-    
-    # Menyimpan data fisik + hasil kalkulasi BMR/TDEE
-    
     __tablename__ = "user_profiles"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(foreign_key="users.id", unique=True)
+    id:      Optional[int] = Field(default=None, primary_key=True)
+    user_id: int           = Field(foreign_key="users.id", unique=True)
 
-    weight_kg:        float
-    height_cm:        float
-    activity_level:   str
-    target_weight_kg: float     
-    age:       Optional[int] = None
-    gender:    Optional[str] = None
-    goal:      Optional[str] = None
+    weight_kg:        Optional[float] = None
+    height_cm:        Optional[float] = None
+    activity_level:   Optional[str]   = None
+    target_weight_kg: Optional[float] = None
+    age:              Optional[int]   = None
+    gender:           Optional[str]   = None
+    goal:             Optional[str]   = None
 
-    # Pantangan & alergi (disimpan sebagai JSON string)
+    # Stored as JSON strings e.g. '["Halal","Vegan"]'
     dietary:   Optional[str] = None
     allergies: Optional[str] = None
 
-    # Hasil kalkulasi otomatis oleh backend
     bmr:            Optional[float] = None
     tdee:           Optional[float] = None
     calorie_target: Optional[int]   = None
@@ -51,49 +42,38 @@ class UserProfile(SQLModel, table=True):
 
     user: Optional[User] = Relationship(back_populates="profile")
 
+
 class Food(SQLModel, table=True):
-    
-    #Tabel: foods
-    #Database nutrisi makanan (dari dataset Kaggle tim DS)
-    
     __tablename__ = "foods"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    name:             str
-    category:         str           
+    id:                Optional[int] = Field(default=None, primary_key=True)
+    name:              str
+    category:          str
     calories_per_100g: float
-    protein_g:        float
-    carbs_g:          float
-    fat_g:            float
+    protein_g:         float
+    carbs_g:           float
+    fat_g:             float
 
     meal_logs: List["MealLog"] = Relationship(back_populates="food")
 
 
 class MealLog(SQLModel, table=True):
-    
-    # Tabel: meal_logs
-    # Catatan makanan harian user — dipakai untuk:
-    # - POST /meal  (catat makanan)
-    # - GET  /meal/history (riwayat)
-    # - DELETE /meal/{id} (hapus catatan)
-
     __tablename__ = "meal_logs"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    user_id:   int = Field(foreign_key="users.id", index=True)
-    food_id:   Optional[int] = Field(default=None, foreign_key="foods.id")
+    id:      Optional[int] = Field(default=None, primary_key=True)
+    user_id: int           = Field(foreign_key="users.id", index=True)
+    food_id: Optional[int] = Field(default=None, foreign_key="foods.id")
 
-    # Detail makanan 
     food_name:  str
-    meal_type:  str     
+    meal_type:  str
     quantity_g: float
     calories:   float
-    protein_g:  float   = 0
-    carbs_g:    float   = 0
-    fat_g:      float   = 0
+    protein_g:  float = 0
+    carbs_g:    float = 0
+    fat_g:      float = 0
 
-    log_date:   str     # format: "2026-05-09" 
-    logged_at:  datetime = Field(default_factory=datetime.utcnow)
+    log_date:  str
+    logged_at: datetime = Field(default_factory=datetime.utcnow)
 
-    user: Optional[User]  = Relationship(back_populates="meal_logs")
-    food: Optional[Food]  = Relationship(back_populates="meal_logs")
+    user: Optional[User] = Relationship(back_populates="meal_logs")
+    food: Optional[Food] = Relationship(back_populates="meal_logs")
