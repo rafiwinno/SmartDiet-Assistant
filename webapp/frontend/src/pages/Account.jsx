@@ -5,66 +5,10 @@ import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import { getCurrentUser } from "../services/api";
 
-// ─── Avatar presets ───────────────────────────────────────────────────────────
-
-const AVATAR_PRESETS = [
-  "nutriwise",
-  "healthy",
-  "active",
-  "balance",
-  "fresh",
-  "green",
-  "vital",
-  "strong",
-];
-
-function avatarUrl(seed) {
-  return `https://api.dicebear.com/9.x/thumbs/svg?seed=${seed}`;
-}
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function AvatarPicker({ selected, onChange }) {
-  const [open, setOpen] = useState(false);
 
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="relative">
-        <img
-          src={avatarUrl(selected)}
-          alt="avatar"
-          className="w-24 h-24 rounded-full bg-stone-100 border-4 border-white shadow-md"
-        />
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-600 rounded-full
-            flex items-center justify-center text-white text-xs shadow cursor-pointer
-            hover:bg-green-700 transition-all"
-        >
-          ✎
-        </button>
-      </div>
-
-      {open && (
-        <div className="grid grid-cols-4 gap-2 p-3 bg-white border border-stone-200 rounded-xl shadow-lg">
-          {AVATAR_PRESETS.map((seed) => (
-            <button
-              key={seed}
-              onClick={() => {
-                onChange(seed);
-                setOpen(false);
-              }}
-              className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all cursor-pointer
-                ${selected === seed ? "border-green-500" : "border-transparent hover:border-stone-300"}`}
-            >
-              <img src={avatarUrl(seed)} alt={seed} className="w-full h-full" />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function InfoRow({ label, value }) {
   return (
@@ -137,14 +81,6 @@ export default function Account({
   onEditProfile = () => {},
 }) {
   const navigate = useNavigate();
-  const [avatar, setAvatar] = useState(
-    localStorage.getItem("avatar_seed") ?? "nutriwise",
-  );
-
-  const handleAvatarChange = (seed) => {
-    setAvatar(seed);
-    localStorage.setItem("avatar_seed", seed);
-  };
 
   const GENDER_MAP = { male: "Laki-laki", female: "Perempuan" };
   const ACTIVITY_MAP = {
@@ -171,7 +107,11 @@ export default function Account({
       {/* Avatar + name */}
       <Card>
         <div className="flex flex-col items-center gap-3 py-2">
-          <AvatarPicker selected={avatar} onChange={handleAvatarChange} />
+          <img
+            src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${profile.name}`}
+            alt="avatar"
+            className="w-24 h-24 rounded-full bg-stone-100 border-4 border-white shadow-md"
+          />
           <div className="text-center">
             <p className="text-lg font-semibold text-stone-800">
               {profile.name}

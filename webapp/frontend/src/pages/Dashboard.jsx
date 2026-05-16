@@ -72,7 +72,7 @@ function CalorieTarget({ calories, macros }) {
 function DailyProgress({
   currentDay,
   totalDays,
-  currentStreak = 0,
+  currentStreak,
   onFinishDay,
 }) {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -96,14 +96,14 @@ function DailyProgress({
             </p>
 
             {/* Streak badge */}
-            {/* {currentStreak > 0 && (
+            {currentStreak > 0 && (
               <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1
                 bg-emerald-100 border border-emerald-500 rounded-full">
                 <span className="text-emerald-500 text-xs font-semibold">
                   Streak {currentStreak} Hari 🔥🔥🔥
                 </span>
               </div>
-            )} */}
+            )}
           </div>
 
           <button
@@ -113,7 +113,7 @@ function DailyProgress({
               hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed
               transition-all cursor-pointer"
           >
-            Selesai hari ini
+            Selesai Hari Ini
           </button>
         </div>
 

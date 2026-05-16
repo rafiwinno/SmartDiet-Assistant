@@ -5,7 +5,7 @@ import { getCurrentUser } from "../../services/api";
 function TopBar() {
   const navigate = useNavigate();
   const user = getCurrentUser();
-  const userName = user.name.toUpperCase();
+  const userName = user.name;
 
   return (
     <div className="fixed top-4 right-0 left-56 h-14 flex items-center justify-end px-10 z-40 pointer-events-none">
@@ -16,7 +16,7 @@ function TopBar() {
           hover:bg-stone-50 transition-all cursor-pointer"
       >
         <img
-          src="https://api.dicebear.com/9.x/glass/svg?seed=Aneka"
+          src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${userName}`}
           alt="avatar"
           className="w-7 h-7 rounded-full bg-stone-100 shrink-0"
         />
