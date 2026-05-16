@@ -11,6 +11,7 @@ import Button from "./components/ui/Button";
 import { isLoggedIn } from "./services/api";
 import { useNutrition } from "./hooks/useNutrition";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/LandingPage";
 
 // ─── Wrapper Profile: sambungkan onSave ke API ────────────────────────────────
 function ProfileWithAPI() {
@@ -80,14 +81,23 @@ function ProfileWithAPI() {
 }
 
 function ProtectedRoute({ children }) {
-  return isLoggedIn() ? children : <Navigate to="/login" replace />;
+  return isLoggedIn() ? children : <Navigate to="/landing" replace />;
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
+  function PublicLanding() {
+    const navigate = useNavigate();
+    useEffect(() => {
+      if (isLoggedIn()) navigate("/");
+    }, []);
+    return <LandingPage />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/"

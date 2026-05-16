@@ -25,7 +25,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="mb-8 px-1.5">
         <span className="text-xl font-semibold tracking-tight">
-          <span className="text-green-400">Smart</span>
+          <span className="text-blue-400">Smart</span>
           <span className="text-white">Diet</span>
         </span>
         <p className="text-xs text-stone-500 mt-0.5">Assistant</p>

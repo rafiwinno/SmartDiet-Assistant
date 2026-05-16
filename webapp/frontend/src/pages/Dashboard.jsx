@@ -69,12 +69,7 @@ function CalorieTarget({ calories, macros }) {
   );
 }
 
-function DailyProgress({
-  currentDay,
-  totalDays,
-  currentStreak,
-  onFinishDay,
-}) {
+function DailyProgress({ currentDay, totalDays, currentStreak, onFinishDay }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
@@ -97,8 +92,10 @@ function DailyProgress({
 
             {/* Streak badge */}
             {currentStreak > 0 && (
-              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1
-                bg-emerald-100 border border-emerald-500 rounded-full">
+              <div
+                className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1
+                bg-emerald-100 border border-emerald-500 rounded-full"
+              >
                 <span className="text-emerald-500 text-xs font-semibold">
                   Streak {currentStreak} Hari 🔥🔥🔥
                 </span>
@@ -109,7 +106,7 @@ function DailyProgress({
           <button
             onClick={() => setShowConfirm(true)}
             disabled={currentDay >= totalDays}
-            className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg
+            className="px-4 py-2 text-sm font-medium text-white bg-green-600
               hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed
               transition-all cursor-pointer"
           >
