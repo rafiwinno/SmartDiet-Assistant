@@ -10,6 +10,7 @@ import Card from "./components/ui/Card";
 import Button from "./components/ui/Button";
 import { isLoggedIn } from "./services/api";
 import { useNutrition } from "./hooks/useNutrition";
+import NotFound from "./pages/NotFound";
 
 // ─── Wrapper Profile: sambungkan onSave ke API ────────────────────────────────
 function ProfileWithAPI() {
@@ -100,6 +101,7 @@ export default function App() {
           <Route path="profile" element={<ProfileWithAPI />} />
           <Route path="history" element={<History />} />
           <Route path="account" element={<Account />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
