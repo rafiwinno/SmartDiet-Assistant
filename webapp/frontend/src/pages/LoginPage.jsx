@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Card      from '../components/ui/Card'
-import Button    from '../components/ui/Button'
-import TextInput from '../components/ui/TextInput'
-import FieldLabel from '../components/ui/FieldLabel'
+import { useState }     from 'react'
+import { useNavigate }  from 'react-router-dom'
+import Card             from '../components/ui/Card'
+import Button           from '../components/ui/Button'
+import TextInput        from '../components/ui/TextInput'
+import FieldLabel       from '../components/ui/FieldLabel'
 import { login, register } from '../services/api'
 
 export default function LoginPage() {
@@ -35,9 +35,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-blue-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        {/* Logo */}
         <div className="text-center mb-8">
           <p className="text-3xl font-semibold tracking-tight">
             <span className="text-green-500">Smart</span>
@@ -47,12 +46,15 @@ export default function LoginPage() {
         </div>
 
         <Card>
-          {/* Toggle */}
           <div className="flex bg-stone-100 rounded-lg p-1 mb-6">
-            {[['login','Masuk'], ['register','Daftar']].map(([m, label]) => (
-              <button key={m} type="button" onClick={() => { setMode(m); setError('') }}
+            {[['login', 'Masuk'], ['register', 'Daftar']].map(([m, label]) => (
+              <button key={m} type="button"
+                onClick={() => { setMode(m); setError('') }}
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition-all cursor-pointer
-                  ${mode === m ? 'bg-white text-stone-800 shadow-sm' : 'text-stone-400 hover:text-stone-600'}`}>
+                  ${mode === m
+                    ? 'bg-blue-500 text-white shadow-sm'
+                    : 'text-stone-400 hover:text-stone-600'
+                  }`}>
                 {label}
               </button>
             ))}
@@ -67,11 +69,13 @@ export default function LoginPage() {
             )}
             <div>
               <FieldLabel required>Email</FieldLabel>
-              <TextInput value={form.email} onChange={v => set('email', v)} placeholder="email@example.com" type="email" />
+              <TextInput value={form.email} onChange={v => set('email', v)}
+                placeholder="email@example.com" type="email" />
             </div>
             <div>
               <FieldLabel required>Password</FieldLabel>
-              <TextInput value={form.password} onChange={v => set('password', v)} placeholder="••••••••" type="password" />
+              <TextInput value={form.password} onChange={v => set('password', v)}
+                placeholder="••••••••" type="password" />
             </div>
 
             {error && (
@@ -85,6 +89,10 @@ export default function LoginPage() {
             </Button>
           </div>
         </Card>
+
+        <p className="text-center text-xs text-stone-400 mt-6">
+          SmartDiet Assistant · CC26-PSU214
+        </p>
       </div>
     </div>
   )

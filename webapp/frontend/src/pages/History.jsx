@@ -1,182 +1,122 @@
-import { useState } from 'react'
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import Card        from '../components/ui/Card'
-import Badge       from '../components/ui/Badge'
-import ProgressBar from '../components/ui/ProgressBar'
-import ToggleGroup from '../components/ui/ToggleGroup'
+import { useState, useEffect } from 'react'
+import { useNavigate }         from 'react-router-dom'
+import Badge                   from '../components/ui/Badge'
+import { getPlans }            from '../services/api'
 
-const DAILY_DATA = [
-  { label: 'Sen', calories: 1820, protein: 88,  carbs: 220, fat: 52 },
-  { label: 'Sel', calories: 2100, protein: 102, carbs: 260, fat: 61 },
-  { label: 'Rab', calories: 1650, protein: 75,  carbs: 195, fat: 44 },
-  { label: 'Kam', calories: 1480, protein: 72,  carbs: 190, fat: 38 },
-  { label: 'Jum', calories: 1950, protein: 95,  carbs: 240, fat: 57 },
-  { label: 'Sab', calories: 2200, protein: 110, carbs: 275, fat: 65 },
-  { label: 'Min', calories: 1780, protein: 85,  carbs: 215, fat: 49 },
-]
-
-const WEEKLY_DATA = [
-  { label: 'Minggu 1', calories: 1750, protein: 82, carbs: 210, fat: 48 },
-  { label: 'Minggu 2', calories: 1900, protein: 91, carbs: 235, fat: 54 },
-  { label: 'Minggu 3', calories: 2050, protein: 99, carbs: 252, fat: 60 },
-  { label: 'Minggu 4', calories: 1860, protein: 89, carbs: 228, fat: 51 },
-]
-
-const TARGETS = { calories: 2000, protein: 120, carbs: 250, fat: 65 }
-
-const METRICS = [
-  { key: 'calories', label: 'Kalori',  unit: 'kcal', color: '#16a34a' },
-  { key: 'protein',  label: 'Protein', unit: 'g',    color: '#ea580c' },
-  { key: 'carbs',    label: 'Karbo',   unit: 'g',    color: '#d97706' },
-  { key: 'fat',      label: 'Lemak',   unit: 'g',    color: '#2563eb' },
-]
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (!active || !payload?.length) return null
-  return (
-    <div className="bg-white border border-stone-200 rounded-xl shadow-lg px-4 py-3 text-sm">
-      <p className="font-semibold text-stone-700 mb-2">{label}</p>
-      {payload.map(p => (
-        <div key={p.dataKey} className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full" style={{ background: p.color }} />
-            <span className="text-stone-500">{p.name}</span>
-          </div>
-          <span className="font-medium text-stone-800">{p.value}</span>
-        </div>
-      ))}
-    </div>
-  )
+const GOAL_LABEL = {
+  lose    : 'Turun berat badan',
+  maintain: 'Pertahankan berat',
+  gain    : 'Naik berat badan',
 }
 
-// ─── Local sub-components ────────────────────────────────────────────────────
+const GOAL_BADGE = { lose: 'blue', maintain: 'green', gain: 'amber' }
 
-function StatCard({ label, avg, target, unit, color }) {
-  const delta = avg - target
-  const over  = delta > 0
+function PlanCard({ plan, onClick }) {
+  const createdAt = new Date(plan.created_at).toLocaleDateString('id-ID', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  })
+  const endedAt = plan.ended_at
+    ? new Date(plan.ended_at).toLocaleDateString('id-ID', {
+        day: 'numeric', month: 'long', year: 'numeric',
+      })
+    : null
+
+  const progress = Math.min(plan.days_elapsed, plan.total_days)
 
   return (
-    <Card>
+    <button
+      onClick={onClick}
+      className="w-full text-left bg-white border border-stone-200 rounded-2xl p-5
+        hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+    >
       <div className="flex items-start justify-between mb-3">
-        <p className="text-xs font-medium text-stone-400">{label}</p>
-        <Badge variant={over ? 'red' : 'green'}>
-          {over ? '+' : ''}{delta} {unit}
-        </Badge>
-      </div>
-      <p className="text-2xl font-semibold text-stone-800 leading-none">
-        {avg}<span className="text-sm font-normal text-stone-400 ml-1">{unit}</span>
-      </p>
-      <p className="text-xs text-stone-400 mt-1">Target {target} {unit}</p>
-      <ProgressBar value={avg} max={target} color={color} className="mt-3" />
-    </Card>
-  )
-}
-
-function MealLogRow({ day }) {
-  const over = day.calories > TARGETS.calories
-  return (
-    <div className="flex items-center gap-4 px-5 py-3.5 border-b border-stone-100 last:border-none">
-      <p className="w-10 shrink-0 text-sm font-semibold text-stone-700 text-center">{day.label}</p>
-      <div className="flex-1">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs text-stone-400">P {day.protein}g · C {day.carbs}g · F {day.fat}g</span>
-          <span className={`text-xs font-semibold ${over ? 'text-red-500' : 'text-green-600'}`}>
-            {day.calories} kcal
-          </span>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-stone-800 truncate">{plan.name}</p>
+          <p className="text-xs text-stone-400 mt-0.5">Mulai {createdAt}</p>
         </div>
-        <ProgressBar value={day.calories} max={TARGETS.calories} color={over ? '#f87171' : '#16a34a'} />
+        <div className="ml-3 shrink-0">
+          {plan.is_active
+            ? <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-200">Aktif</span>
+            : <span className="text-xs font-medium px-2 py-1 rounded-full bg-stone-100 text-stone-400">Selesai</span>
+          }
+        </div>
       </div>
-    </div>
+
+      <div className="flex items-center gap-3 mb-3">
+        {plan.goal && (
+          <Badge variant={GOAL_BADGE[plan.goal] || 'stone'}>
+            {GOAL_LABEL[plan.goal] || plan.goal}
+          </Badge>
+        )}
+        {plan.calorie_target && (
+          <span className="text-xs text-stone-400">{plan.calorie_target} kcal/hari</span>
+        )}
+      </div>
+
+      {/* Progress bar hari */}
+      <div className="flex items-center gap-3">
+        <div className="flex-1 h-1.5 bg-stone-100 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-blue-500 rounded-full transition-all"
+            style={{ width: `${(progress / plan.total_days) * 100}%` }}
+          />
+        </div>
+        <span className="text-xs text-stone-400 shrink-0">
+          {progress}/{plan.total_days} hari
+        </span>
+      </div>
+
+      {endedAt && !plan.is_active && (
+        <p className="text-xs text-stone-400 mt-2">Berakhir {endedAt}</p>
+      )}
+
+      <div className="flex justify-end mt-2">
+        <span className="text-xs text-stone-300 group-hover:text-blue-400 transition-colors">
+          Lihat riwayat →
+        </span>
+      </div>
+    </button>
   )
 }
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+export default function History() {
+  const navigate         = useNavigate()
+  const [plans,   setPlans]   = useState([])
+  const [loading, setLoading] = useState(true)
 
-export default function History({ dailyData = DAILY_DATA, weeklyData = WEEKLY_DATA }) {
-  const [range,      setRange]      = useState('daily')
-  const [chartType,  setChartType]  = useState('bar')
-  const [activeKeys, setActiveKeys] = useState(['calories'])
-
-  const data = range === 'daily' ? dailyData : weeklyData
-
-  const averages = METRICS.reduce((acc, m) => {
-    acc[m.key] = Math.round(data.reduce((sum, d) => sum + d[m.key], 0) / data.length)
-    return acc
-  }, {})
-
-  const toggleMetric = (key) => {
-    setActiveKeys(prev =>
-      prev.includes(key)
-        ? prev.length > 1 ? prev.filter(k => k !== key) : prev
-        : [...prev, key]
-    )
-  }
-
-  const ChartComponent = chartType === 'line' ? LineChart : BarChart
+  useEffect(() => {
+    getPlans()
+      .then(data => setPlans(data))
+      .catch(() => setPlans([]))
+      .finally(() => setLoading(false))
+  }, [])
 
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h1 className="text-xl font-semibold text-stone-800">Riwayat & progres</h1>
-        <p className="text-sm text-stone-400 mt-0.5">Pantau tren nutrisi harianmu</p>
+        <h1 className="text-xl font-semibold text-stone-800">History</h1>
+        <p className="text-sm text-stone-400 mt-0.5">Riwayat plan diet yang pernah kamu jalankan</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        {METRICS.map(m => (
-          <StatCard key={m.key} label={`Rata-rata ${m.label}`}
-            avg={averages[m.key]} target={TARGETS[m.key]}
-            unit={m.unit} color={m.color} />
-        ))}
-      </div>
-
-      <Card>
-        <div className="flex items-center justify-between mb-5 gap-3 flex-wrap">
-          <p className="text-sm font-semibold text-stone-800">Tren nutrisi</p>
-          <div className="flex gap-2">
-            <ToggleGroup value={range} onChange={setRange}
-              options={[{ value: 'daily', label: 'Mingguan' }, { value: 'weekly', label: 'Bulanan' }]} />
-            <ToggleGroup value={chartType} onChange={setChartType}
-              options={[{ value: 'bar', label: 'Batang' }, { value: 'line', label: 'Garis' }]} />
-          </div>
+      {loading ? (
+        <p className="text-sm text-stone-400 text-center py-12">Memuat riwayat...</p>
+      ) : plans.length === 0 ? (
+        <div className="text-center py-16">
+          <p className="text-3xl mb-3">📋</p>
+          <p className="text-sm font-medium text-stone-600 mb-1">Belum ada plan</p>
+          <p className="text-xs text-stone-400">Buat plan pertamamu di halaman Planner</p>
         </div>
-
-        <div className="flex gap-2 flex-wrap mb-4">
-          {METRICS.map(m => (
-            <button key={m.key} type="button" onClick={() => toggleMetric(m.key)}
-              className={`px-3 py-1 rounded-full text-xs font-medium border transition-all cursor-pointer
-                ${activeKeys.includes(m.key) ? 'text-white border-transparent' : 'bg-white text-stone-400 border-stone-200 hover:border-stone-300'}`}
-              style={activeKeys.includes(m.key) ? { background: m.color, borderColor: m.color } : {}}>
-              {m.label}
-            </button>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {plans.map(plan => (
+            <PlanCard
+              key={plan.id}
+              plan={plan}
+              onClick={() => navigate(`/history/${plan.id}`)}
+            />
           ))}
         </div>
-
-        <ResponsiveContainer width="100%" height={240}>
-          <ChartComponent data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f4" />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: '#a8a29e' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#a8a29e' }} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} />
-            {METRICS.filter(m => activeKeys.includes(m.key)).map(m =>
-              chartType === 'line' ? (
-                <Line key={m.key} type="monotone" dataKey={m.key} name={m.label}
-                  stroke={m.color} strokeWidth={2} dot={{ r: 3, fill: m.color }} activeDot={{ r: 5 }} />
-              ) : (
-                <Bar key={m.key} dataKey={m.key} name={m.label}
-                  fill={m.color} radius={[4, 4, 0, 0]} maxBarSize={32} />
-              )
-            )}
-          </ChartComponent>
-        </ResponsiveContainer>
-      </Card>
-
-      <Card padding={false}>
-        <div className="px-5 py-4 border-b border-stone-100">
-          <p className="text-sm font-semibold text-stone-800">Log harian</p>
-          <p className="text-xs text-stone-400 mt-0.5">Rincian per hari vs target</p>
-        </div>
-        {dailyData.map((day, i) => <MealLogRow key={i} day={day} />)}
-      </Card>
+      )}
     </div>
   )
 }

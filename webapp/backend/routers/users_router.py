@@ -5,7 +5,7 @@ from sqlmodel import Session, select
 
 from database import get_session
 from models import User, UserProfile
-from schemas import ProfileInput, ProfileResponse
+from schemas import ProfileInput, ProfileResponse, OnboardingInput
 from auth import get_current_user
 
 router = APIRouter()
@@ -33,23 +33,17 @@ GOAL_ADJUSTMENTS = {
     "gain":     +500,
 }
 
-
-@router.put("/profile", response_model=ProfileResponse)
-def save_profile(
-    data:    ProfileInput,
+@router.put("/onboarding")
+def save_onboarding(
+    data:    OnboardingInput,
     session: Session = Depends(get_session),
     user:    User    = Depends(get_current_user),
 ):
-    # 1. Update name in users table
-    user.name = data.name
-    session.add(user)
-
-    # 2. Calculate BMR → TDEE → calorie_target
-    bmr            = calc_bmr(data.weight_kg, data.height_cm, data.age, data.gender)
-    tdee           = bmr * ACTIVITY_MULTIPLIERS.get(data.activity_level, 1.2)
-    calorie_target = round(tdee + GOAL_ADJUSTMENTS.get(data.goal, 0))
-
-    # 3. Upsert user_profiles
+    """
+    PUT /v1/user/onboarding
+    Endpoint khusus popup onboarding setelah register.
+    Hanya menyimpan age dan gender.
+    """
     profile = session.exec(
         select(UserProfile).where(UserProfile.user_id == user.id)
     ).first()
@@ -57,11 +51,48 @@ def save_profile(
     if not profile:
         profile = UserProfile(user_id=user.id)
 
-    profile.age              = data.age
+    profile.age        = data.age
+    profile.gender     = data.gender
+    profile.updated_at = datetime.utcnow()
+
+    session.add(profile)
+    session.commit()
+    return {"message": "OK"}
+
+@router.put("/profile", response_model=ProfileResponse)
+def save_profile(
+    data:    ProfileInput,
+    session: Session = Depends(get_session),
+    user:    User    = Depends(get_current_user),
+):
+    # Ambil profil yang sudah ada (untuk ambil age/gender dari onboarding)
+    profile = session.exec(
+        select(UserProfile).where(UserProfile.user_id == user.id)
+    ).first()
+
+    if not profile:
+        profile = UserProfile(user_id=user.id)
+
+    # Pakai data baru kalau ada, kalau tidak pakai data existing
+    effective_name   = data.name   or user.name
+    effective_age    = data.age    or profile.age    or 25   
+    effective_gender = data.gender or profile.gender or "male"
+
+    # Update name kalau dikirim
+    if data.name:
+        user.name = data.name
+        session.add(user)
+
+    # Hitung BMR dengan data effective
+    bmr            = calc_bmr(data.weight_kg, data.height_cm, effective_age, effective_gender)
+    tdee           = bmr * ACTIVITY_MULTIPLIERS.get(data.activity_level, 1.2)
+    calorie_target = round(tdee + GOAL_ADJUSTMENTS.get(data.goal, 0))
+
+    profile.age              = effective_age
+    profile.gender           = effective_gender
     profile.weight_kg        = data.weight_kg
     profile.height_cm        = data.height_cm
     profile.target_weight_kg = data.target_weight_kg
-    profile.gender           = data.gender
     profile.activity_level   = data.activity_level
     profile.goal             = data.goal
     profile.dietary          = json.dumps(data.dietary or [])

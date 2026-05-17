@@ -14,9 +14,9 @@ export default function NotFound() {
         <p className="text-sm text-stone-400 mb-8">
           Halaman yang kamu cari tidak ada atau sudah dipindahkan.
         </p>
-        {/* <Button onClick={() => navigate('/')}>
+        { <Button onClick={() => navigate('/')}>
           Kembali ke Dashboard
-        </Button> */}
+        </Button> }
       </div>
     </div>
   )

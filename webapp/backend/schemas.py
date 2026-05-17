@@ -47,12 +47,12 @@ class TokenResponse(BaseModel):
 # ─── PROFILE ──────────────────────────────────────────────────────────────────
 
 class ProfileInput(BaseModel):
-    name:             str
-    age:              int
+    name:             Optional[str]          = None
+    age:              Optional[int]          = None
+    gender:           Optional[Gender]       = None
     weight_kg:        float
     height_cm:        float
     target_weight_kg: float
-    gender:           Gender
     activity_level:   ActivityLevel
     goal:             Goal
     dietary:          Optional[List[str]] = []
@@ -115,3 +115,9 @@ class FoodResponse(BaseModel):
     protein_g:         float
     carbs_g:           float
     fat_g:             float
+
+# ─── ONBOARDING ────────────────────────────────────────────────────────────────────
+
+class OnboardingInput(BaseModel):
+    age:    int
+    gender: Gender

@@ -1,23 +1,58 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AppShell from "./components/layout/AppShell";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import History from "./pages/History";
-import LoginPage from "./pages/LoginPage";
-import Account from "./pages/Account";
-import Card from "./components/ui/Card";
-import Button from "./components/ui/Button";
-import { isLoggedIn } from "./services/api";
-import { useNutrition } from "./hooks/useNutrition";
-import NotFound from "./pages/NotFound";
-import LandingPage from "./pages/LandingPage";
+import AppShell        from "./components/layout/AppShell";
+import Dashboard       from "./pages/Dashboard";
+import Profile         from "./pages/Profile";
+import Planner         from "./pages/Planner";
+import History         from "./pages/History";
+import HistoryDetail   from "./pages/HistoryDetail";
+import LoginPage       from "./pages/LoginPage";
+import Account         from "./pages/Account";
+import LandingPage     from "./pages/LandingPage";
+import NotFound        from "./pages/NotFound";
+import OnboardingPopup from "./components/ui/OnboardingPopup";
+import Card            from "./components/ui/Card";
+import Button          from "./components/ui/Button";
+import { isLoggedIn, getProfile } from "./services/api";
+import { useNutrition }           from "./hooks/useNutrition";
+import { useEffect }              from "react";
 
-// ─── Wrapper Profile: sambungkan onSave ke API ────────────────────────────────
+// ─── OnboardingGate ───────────────────────────────────────────────────────────
+// Muncul sekali setelah register jika age/gender belum diisi
+function OnboardingGate({ children }) {
+  const [needsOnboarding, setNeedsOnboarding] = useState(false);
+  const [checked, setChecked] = useState(!isLoggedIn());
+
+  useEffect(() => {
+    if (!isLoggedIn()) return;
+    getProfile()
+      .then((profile) => {
+        setNeedsOnboarding(!profile.age || !profile.gender);
+        setChecked(true);
+      })
+      .catch(() => {
+        setNeedsOnboarding(true);
+        setChecked(true);
+      });
+  }, []);
+
+  if (!checked) return null;
+
+  return (
+    <>
+      {children}
+      {needsOnboarding && isLoggedIn() && (
+        <OnboardingPopup onComplete={() => setNeedsOnboarding(false)} />
+      )}
+    </>
+  );
+}
+
+// ─── ProfileWithAPI ──────────────────────────────
 function ProfileWithAPI() {
   const { updateProfile, loading } = useNutrition();
   const [result, setResult] = useState(null);
-  const [error, setError] = useState("");
+  const [error,  setError]  = useState("");
 
   const handleSave = async (data) => {
     try {
@@ -39,13 +74,9 @@ function ProfileWithAPI() {
             </h2>
             <div className="grid grid-cols-3 gap-2 mb-4">
               {[
-                { label: "BMR", value: result.bmr, color: "text-blue-600" },
-                { label: "TDEE", value: result.tdee, color: "text-purple-600" },
-                {
-                  label: "Target",
-                  value: result.calorie_target,
-                  color: "text-green-600",
-                },
+                { label: "BMR",    value: result.bmr,            color: "text-blue-600"   },
+                { label: "TDEE",   value: result.tdee,           color: "text-purple-600" },
+                { label: "Target", value: result.calorie_target, color: "text-green-600"  },
               ].map(({ label, value, color }) => (
                 <div key={label} className="bg-stone-50 rounded-xl p-3">
                   <p className={`text-lg font-bold ${color}`}>{value}</p>
@@ -72,46 +103,42 @@ function ProfileWithAPI() {
       )}
       <Profile onSave={handleSave} />
       {loading && (
-        <p className="mt-3 text-sm text-stone-400">
-          ⏳ Menyimpan dan menghitung...
-        </p>
+        <p className="mt-3 text-sm text-stone-400">⏳ Menyimpan dan menghitung...</p>
       )}
     </>
   );
 }
 
+// ─── ProtectedRoute ────────────
 function ProtectedRoute({ children }) {
   return isLoggedIn() ? children : <Navigate to="/landing" replace />;
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  function PublicLanding() {
-    const navigate = useNavigate();
-    useEffect(() => {
-      if (isLoggedIn()) navigate("/");
-    }, []);
-    return <LandingPage />;
-  }
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/landing" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login"   element={<LoginPage />} />
+
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <AppShell />
+              <OnboardingGate>
+                <AppShell />
+              </OnboardingGate>
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
-          <Route path="profile" element={<ProfileWithAPI />} />
-          <Route path="history" element={<History />} />
-          <Route path="account" element={<Account />} />
-          <Route path="*" element={<NotFound />} />
+          <Route index                    element={<Dashboard />}     />
+          <Route path="planner"           element={<Planner />}       />
+          <Route path="profile"           element={<ProfileWithAPI />} />
+          <Route path="history"           element={<History />}       />
+          <Route path="history/:planId"   element={<HistoryDetail />} />
+          <Route path="account"           element={<Account />}       />
+          <Route path="*"                 element={<NotFound />}      />
         </Route>
       </Routes>
     </BrowserRouter>

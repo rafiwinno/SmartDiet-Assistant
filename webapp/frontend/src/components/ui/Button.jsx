@@ -1,9 +1,8 @@
 const VARIANTS = {
-  primary: "bg-green-600 text-white border-transparent hover:bg-green-700",
+  primary  : "bg-blue-500 text-white border-transparent hover:bg-blue-600",
   secondary: "bg-white text-stone-600 border-stone-200 hover:bg-stone-50",
-  ghost:
-    "bg-transparent text-stone-400 border-transparent hover:text-stone-600 hover:bg-stone-100",
-  danger: "bg-red-50 text-red-600 border-red-200 hover:bg-red-100",
+  ghost    : "bg-transparent text-stone-400 border-transparent hover:text-stone-600 hover:bg-stone-100",
+  danger   : "bg-red-50 text-red-600 border-red-200 hover:bg-red-100",
 };
 
 const SIZES = {
@@ -15,11 +14,11 @@ const SIZES = {
 export default function Button({
   children,
   onClick,
-  variant = "primary",
-  size = "md",
-  disabled = false,
+  variant   = "primary",
+  size      = "md",
+  disabled  = false,
   fullWidth = false,
-  type = "button",
+  type      = "button",
   className = "",
 }) {
   return (
