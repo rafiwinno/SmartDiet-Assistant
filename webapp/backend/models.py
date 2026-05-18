@@ -31,7 +31,6 @@ class UserProfile(SQLModel, table=True):
 
     age:    Optional[float] = None
     gender: Optional[str]   = None
-    goal:   Optional[str]   = None
 
     dietary:   Optional[str] = None   
     allergies: Optional[str] = None   
@@ -52,7 +51,6 @@ class DietPlan(SQLModel, table=True):
     user_id:         int                = Field(foreign_key="users.id")
     name:            str
     calorie_target:  Optional[int]      = None
-    goal:            Optional[str]      = None
     activity_level:  Optional[str]      = None
     weight_at_start: Optional[float]    = None
     is_active:       bool               = True

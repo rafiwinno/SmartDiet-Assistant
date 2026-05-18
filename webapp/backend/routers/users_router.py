@@ -27,11 +27,6 @@ ACTIVITY_MULTIPLIERS = {
     "very_active": 1.9,
 }
 
-GOAL_ADJUSTMENTS = {
-    "lose":     -500,
-    "maintain": 0,
-    "gain":     +500,
-}
 
 @router.put("/onboarding")
 def save_onboarding(
@@ -86,7 +81,7 @@ def save_profile(
     # Hitung BMR dengan data effective
     bmr            = calc_bmr(data.weight_kg, data.height_cm, effective_age, effective_gender)
     tdee           = bmr * ACTIVITY_MULTIPLIERS.get(data.activity_level, 1.2)
-    calorie_target = round(tdee + GOAL_ADJUSTMENTS.get(data.goal, 0))
+    calorie_target = round(tdee)
 
     profile.age              = effective_age
     profile.gender           = effective_gender
@@ -94,7 +89,6 @@ def save_profile(
     profile.height_cm        = data.height_cm
     profile.target_weight_kg = data.target_weight_kg
     profile.activity_level   = data.activity_level
-    profile.goal             = data.goal
     profile.dietary          = json.dumps(data.dietary or [])
     profile.allergies        = json.dumps(data.allergies or [])
     profile.bmr              = round(bmr, 1)
@@ -115,7 +109,6 @@ def save_profile(
         target_weight_kg = profile.target_weight_kg,
         gender           = profile.gender,
         activity_level   = profile.activity_level,
-        goal             = profile.goal,
         dietary          = json.loads(profile.dietary  or "[]"),
         allergies        = json.loads(profile.allergies or "[]"),
         bmr              = profile.bmr,
@@ -144,7 +137,6 @@ def get_profile(
         target_weight_kg = profile.target_weight_kg,
         gender           = profile.gender or "",
         activity_level   = profile.activity_level or "",
-        goal             = profile.goal or "",
         dietary          = json.loads(profile.dietary  or "[]"),
         allergies        = json.loads(profile.allergies or "[]"),
         bmr              = profile.bmr,

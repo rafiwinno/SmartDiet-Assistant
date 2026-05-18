@@ -10,11 +10,6 @@ class ActivityLevel(str, Enum):
     active      = "active"
     very_active = "very_active"
 
-class Goal(str, Enum):
-    lose     = "lose"
-    maintain = "maintain"
-    gain     = "gain"
-
 class Gender(str, Enum):
     male   = "male"
     female = "female"
@@ -54,7 +49,6 @@ class ProfileInput(BaseModel):
     height_cm:        float
     target_weight_kg: float
     activity_level:   ActivityLevel
-    goal:             Goal
     dietary:          Optional[List[str]] = []
     allergies:        Optional[List[str]] = []
 
@@ -66,7 +60,6 @@ class ProfileResponse(BaseModel):
     target_weight_kg: Optional[float]
     gender:           str
     activity_level:   str
-    goal:             str
     dietary:          List[str]
     allergies:        List[str]
     bmr:              Optional[float]

@@ -15,12 +15,6 @@ from auth import get_current_user
 
 router = APIRouter()
 
-# Label goal untuk nama plan otomatis
-GOAL_LABEL = {
-    "lose"    : "Turun BB",
-    "maintain": "Maintain",
-    "gain"    : "Naik BB",
-}
 
 
 def _format_plan(plan: DietPlan) -> dict:
@@ -32,7 +26,6 @@ def _format_plan(plan: DietPlan) -> dict:
         "id"             : plan.id,
         "name"           : plan.name,
         "calorie_target" : plan.calorie_target,
-        "goal"           : plan.goal,
         "activity_level" : plan.activity_level,
         "weight_at_start": plan.weight_at_start,
         "is_active"      : plan.is_active,
@@ -118,10 +111,10 @@ def create_plan(
             detail="Lengkapi profil terlebih dahulu sebelum membuat plan"
         )
 
-    if not profile.goal or not profile.activity_level:
+    if not profile.activity_level:
         raise HTTPException(
             status_code=400,
-            detail="Isi tujuan dan tingkat aktivitas di profil terlebih dahulu"
+            detail="Isi tingkat aktivitas di profil terlebih dahulu"
         )
 
     # 2. Nonaktifkan plan lama
@@ -136,15 +129,13 @@ def create_plan(
         old_plan.ended_at  = datetime.utcnow()
 
     # 3. Buat plan baru
-    goal_label = GOAL_LABEL.get(profile.goal, "Plan")
     bulan_tahun = datetime.utcnow().strftime("%b %Y")
-    plan_name   = f"{goal_label} — {bulan_tahun}"
+    plan_name   = f"Plan — {bulan_tahun}"
 
     new_plan = DietPlan(
         user_id         = current_user.id,
         name            = plan_name,
         calorie_target  = int(profile.calorie_target) if profile.calorie_target else None,
-        goal            = profile.goal,
         activity_level  = profile.activity_level,
         weight_at_start = profile.weight_kg,
     )
