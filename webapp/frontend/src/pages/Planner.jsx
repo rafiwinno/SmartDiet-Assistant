@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate }         from 'react-router-dom'
 import Button    from '../components/ui/Button'
 import Card      from '../components/ui/Card'
 import FieldLabel from '../components/ui/FieldLabel'
@@ -7,6 +8,7 @@ import OptionCard from '../components/ui/OptionCard'
 import TagToggle  from '../components/ui/TagToggle'
 import Badge      from '../components/ui/Badge'
 import { getActivePlan, saveProfile, createPlan } from '../services/api'
+import { calcMacroTargets } from '../constants/nutrition'
 
 const ACTIVITY_LEVELS = [
   { value: 'sedentary',   label: 'Tidak aktif',   desc: 'Kerja kantoran, jarang olahraga'    },
@@ -14,12 +16,6 @@ const ACTIVITY_LEVELS = [
   { value: 'moderate',    label: 'Sedang',         desc: 'Olahraga 3–5x seminggu'             },
   { value: 'active',      label: 'Aktif',          desc: 'Olahraga intensif 6–7x seminggu'    },
   { value: 'very_active', label: 'Sangat aktif',   desc: 'Atlet atau kerja fisik berat'       },
-]
-
-const GOALS = [
-  { value: 'lose',     label: 'Turunkan berat badan', desc: 'Defisit kalori terkontrol'         },
-  { value: 'maintain', label: 'Pertahankan berat',    desc: 'Seimbang sesuai kebutuhan'         },
-  { value: 'gain',     label: 'Naikkan berat badan',  desc: 'Surplus kalori untuk massa otot'  },
 ]
 
 const DIETARY_RESTRICTIONS = ['Vegetarian', 'Vegan', 'Halal', 'Bebas gluten', 'Bebas laktosa', 'Bebas kacang']
@@ -69,16 +65,6 @@ function StepActivity({ data, onChange }) {
         </div>
       </div>
 
-      <div>
-        <FieldLabel required>Tujuan utama</FieldLabel>
-        <div className="flex flex-col gap-2">
-          {GOALS.map(opt => (
-            <OptionCard key={opt.value} label={opt.label} desc={opt.desc}
-              selected={data.goal === opt.value}
-              onClick={() => onChange('goal', opt.value)} />
-          ))}
-        </div>
-      </div>
     </div>
   )
 }
@@ -123,13 +109,11 @@ function StepDietary({ data, onChange }) {
 
 function StepSummary({ data }) {
   const actLabel  = ACTIVITY_LEVELS.find(a => a.value === data.activityLevel)?.label ?? '—'
-  const goalLabel = GOALS.find(g => g.value === data.goal)?.label ?? '—'
   const rows = [
     { label: 'Berat badan',        value: data.weight       ? `${data.weight} kg`       : '—' },
     { label: 'Tinggi badan',       value: data.height       ? `${data.height} cm`       : '—' },
     { label: 'Target berat badan', value: data.targetWeight ? `${data.targetWeight} kg` : '—' },
     { label: 'Tingkat aktivitas',  value: actLabel                                            },
-    { label: 'Tujuan',             value: goalLabel                                           },
   ]
   return (
     <div className="flex flex-col gap-5">
@@ -201,7 +185,7 @@ function StepIndicator({ current, labels }) {
 
 const INITIAL = {
   weight: '', height: '', targetWeight: '',
-  activityLevel: '', goal: '',
+  activityLevel: '',
   dietary: [], allergies: [], otherAllergies: '',
 }
 
@@ -234,7 +218,7 @@ export default function Planner() {
   }
 
   const canNext = () => {
-    if (step === 0) return data.weight && data.height && data.targetWeight && data.activityLevel && data.goal
+    if (step === 0) return data.weight && data.height && data.targetWeight && data.activityLevel
     return true
   }
 
@@ -319,42 +303,327 @@ export default function Planner() {
   }
 
   // ─── Sukses ───────────────────────────────────────────────────────────────
-  if (view === 'success' && result) {
-    return (
-      <div className="flex flex-col">
-        <div className="mb-6">
-          <h1 className="text-xl font-semibold text-stone-800">Planner</h1>
-        </div>
-        <div className="max-w-sm">
-          <Card>
-            <div className="text-center">
-              <p className="text-4xl mb-3">🎯</p>
-              <h2 className="text-lg font-semibold text-stone-800 mb-1">Plan berhasil dibuat!</h2>
-              <p className="text-sm text-stone-400 mb-4">
-                {result.plan?.name}
+  // ─── Sukses ───────────────────────────────────────────────────────────────
+if (view === 'success' && result) {
+  const plan    = result.plan
+  const profile = result.profile
+
+  const macros = plan.calorie_target
+    ? calcMacroTargets(plan.calorie_target, plan.goal)
+    : { protein: '—', carbs: '—', fat: '—' }
+
+  const startDate = new Date(plan.created_at).toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+
+  const deficitColor = plan.calorie_deficit
+    ? plan.calorie_deficit > 0
+      ? 'text-rose-500'
+      : 'text-blue-600'
+    : 'text-stone-400'
+
+  const deficitLabel = plan.calorie_deficit
+    ? plan.calorie_deficit > 0
+      ? `−${plan.calorie_deficit} kcal`
+      : `+${Math.abs(plan.calorie_deficit)} kcal`
+    : '—'
+
+  const ACTIVITY_LABEL = {
+    sedentary: 'Tidak aktif',
+    light: 'Ringan',
+    moderate: 'Sedang',
+    active: 'Aktif',
+    very_active: 'Sangat aktif',
+  }
+
+return (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+
+    {/* Modal */}
+    <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-[0_20px_70px_rgba(0,0,0,0.22)] animate-in fade-in zoom-in-95 duration-300">
+
+      {/* Background glows */}
+      <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-200/40 blur-3xl" />
+      <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl" />
+
+      {/* Main Layout */}
+      <div className="grid lg:grid-cols-[320px_1fr]">
+
+        {/* LEFT PANEL */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-teal-500 via-blue-500 to-teal-500 px-6 py-6 text-white">
+
+          <div className="absolute inset-0 bg-black/[0.03]" />
+
+          <div className="relative flex h-full flex-col">
+
+            {/* Icon */}
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur border border-white/20 shadow-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-xl font-bold text-blue-500">
+                ✓
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="mt-5">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1 text-[10px] font-semibold tracking-wide">
+                <div className="h-2 w-2 rounded-full bg-lime-300 animate-pulse" />
+                PLAN AKTIF
+              </div>
+
+              <h2 className="mt-4 text-3xl font-black leading-tight">
+                Plan Berhasil Dibuat
+              </h2>
+
+              <p className="mt-3 text-sm leading-relaxed text-white/80">
+                Program diet kamu sudah siap dimulai.
+                Tinggal konsisten dan ikuti target harianmu ✨
               </p>
-              <div className="grid grid-cols-3 gap-2 mb-4">
+            </div>
+
+            {/* Plan Name */}
+            <div className="mt-6 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-white/60">
+                Nama Plan
+              </p>
+
+              <p className="mt-2 text-lg font-bold">
+                {plan.name}
+              </p>
+            </div>
+
+            {/* Calories */}
+            <div className="mt-4 rounded-2xl bg-white text-stone-900 p-5 shadow-xl">
+
+              <p className="text-[10px] uppercase tracking-wide text-stone-400 font-semibold">
+                Target Kalori
+              </p>
+
+              <div className="mt-2 flex items-end gap-2">
+                <h3 className="text-4xl font-black tracking-tight text-blue-600">
+                  {plan.calorie_target}
+                </h3>
+
+                <span className="mb-1 text-sm text-stone-400">
+                  kcal
+                </span>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between border-t border-stone-100 pt-3">
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-wide text-stone-400">
+                    Defisit
+                  </p>
+
+                  <p className={`mt-1 text-sm font-bold ${deficitColor}`}>
+                    {deficitLabel}
+                  </p>
+                </div>
+
+                <div className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                  {ACTIVITY_LABEL[plan.activity_level] ??
+                    plan.activity_level ??
+                    '—'}
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Quote */}
+            <div className="mt-auto pt-5">
+              <p className="text-xs leading-relaxed text-white/75 italic">
+                “Konsistensi kecil setiap hari menghasilkan perubahan besar.”
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        {/* RIGHT PANEL */}
+        <div className="px-6 py-6">
+
+          {/* Top meta */}
+          <div className="grid grid-cols-3 gap-3">
+
+            {[
+              {
+                label: 'Mulai',
+                value: startDate,
+              },
+              {
+                label: 'Durasi',
+                value: '30 Hari',
+              },
+              {
+                label: 'Selesai',
+                value: plan.estimated_end_date,
+              },
+            ].map(({ label, value }) => (
+              <div
+                key={label}
+                className="rounded-2xl border border-stone-100 bg-stone-50 px-4 py-3"
+              >
+                <p className="text-[10px] uppercase tracking-wide text-stone-400 font-semibold">
+                  {label}
+                </p>
+
+                <p className="mt-1.5 text-sm font-bold text-stone-800 leading-snug">
+                  {value}
+                </p>
+              </div>
+            ))}
+
+          </div>
+
+          {/* Main Grid */}
+          <div className="mt-5 grid grid-cols-2 gap-4">
+
+            {/* Macros */}
+            <div className="rounded-3xl border border-stone-100 bg-stone-50/70 p-5">
+
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-stone-800">
+                  Makronutrien
+                </h3>
+
+                <span className="text-[10px] text-stone-400">
+                  Daily Intake
+                </span>
+              </div>
+
+              <div className="mt-4 space-y-3">
+
                 {[
-                  { label: 'BMR',    value: result.profile?.bmr,            color: 'text-blue-600'   },
-                  { label: 'TDEE',   value: result.profile?.tdee,           color: 'text-purple-600' },
-                  { label: 'Target', value: result.profile?.calorie_target, color: 'text-blue-500'   },
-                ].map(({ label, value, color }) => (
-                  <div key={label} className="bg-stone-50 rounded-xl p-3">
-                    <p className={`text-lg font-bold ${color}`}>{value ? Math.round(value) : '—'}</p>
-                    <p className="text-xs text-stone-400 mt-0.5">{label}</p>
+                  {
+                    label: 'Protein',
+                    value: macros.protein,
+                    unit: 'g',
+                    color: 'text-orange-500',
+                    bg: 'bg-orange-50',
+                  },
+                  {
+                    label: 'Karbo',
+                    value: macros.carbs,
+                    unit: 'g',
+                    color: 'text-amber-500',
+                    bg: 'bg-amber-50',
+                  },
+                  {
+                    label: 'Lemak',
+                    value: macros.fat,
+                    unit: 'g',
+                    color: 'text-sky-500',
+                    bg: 'bg-sky-50',
+                  },
+                ].map(({ label, value, unit, color, bg }) => (
+                  <div
+                    key={label}
+                    className={`flex items-center justify-between rounded-2xl px-4 py-3 ${bg}`}
+                  >
+                    <div>
+                      <p className="text-xs font-semibold text-stone-700">
+                        {label}
+                      </p>
+
+                      <p className="text-[10px] text-stone-400">
+                        per hari
+                      </p>
+                    </div>
+
+                    <div className="flex items-end gap-1">
+                      <p className={`text-2xl font-black ${color}`}>
+                        {value}
+                      </p>
+
+                      <span className="mb-0.5 text-xs text-stone-400">
+                        {unit}
+                      </span>
+                    </div>
                   </div>
                 ))}
+
               </div>
-              <p className="text-xs text-stone-400 mb-4">kcal/hari</p>
-              <Button variant="secondary" onClick={() => { setView('idle'); setData(INITIAL); setStep(0) }}>
-                Kembali ke Planner
-              </Button>
+
             </div>
-          </Card>
+
+            {/* Weight Info */}
+            <div className="rounded-3xl border border-stone-100 bg-stone-50/70 p-5">
+
+              <h3 className="text-sm font-bold text-stone-800">
+                Progress Target
+              </h3>
+
+              <div className="mt-4 space-y-3">
+
+                {[
+                  {
+                    label: 'Berat Saat Ini',
+                    value: plan.weight_at_start
+                      ? `${plan.weight_at_start} kg`
+                      : '—',
+                  },
+                  {
+                    label: 'Target Berat',
+                    value: plan.target_weight_kg
+                      ? `${plan.target_weight_kg} kg`
+                      : '—',
+                  },
+                ].map(({ label, value }) => (
+                  <div
+                    key={label}
+                    className="rounded-2xl bg-white px-4 py-4 shadow-sm"
+                  >
+                    <p className="text-[10px] uppercase tracking-wide text-stone-400 font-semibold">
+                      {label}
+                    </p>
+
+                    <p className="mt-2 text-2xl font-black text-stone-800">
+                      {value}
+                    </p>
+                  </div>
+                ))}
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Footer */}
+          <div className="mt-5 flex gap-3">
+
+            <Button
+              variant="secondary"
+              fullWidth
+              className="h-11 rounded-2xl border-stone-200 text-sm hover:bg-stone-100"
+              onClick={() => {
+                setView('idle')
+                setData(INITIAL)
+                setStep(0)
+              }}
+            >
+              Tutup
+            </Button>
+
+            <Button
+              fullWidth
+              className="h-11 rounded-2xl bg-gradient-to-r from-blue-500 to-teal-500 text-sm shadow-lg hover:opacity-95"
+              onClick={() => navigate('/')}
+            >
+              Dashboard
+            </Button>
+
+          </div>
+
         </div>
       </div>
-    )
-  }
+    </div>
+  </div>
+)
+}
 
   // ─── Form 3 langkah ───────────────────────────────────────────────────────
   return (

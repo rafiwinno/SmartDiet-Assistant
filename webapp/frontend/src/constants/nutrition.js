@@ -15,11 +15,6 @@ export const ACTIVITY_LABELS = {
   very_active: 'Sangat aktif',
 }
 
-export const GOAL_LABELS = {
-  lose:     'Turunkan berat badan',
-  maintain: 'Pertahankan berat',
-  gain:     'Naikkan berat badan',
-}
 
 // Distribusi makro per goal (% dari total kalori)
 const MACRO_DIST = {
@@ -32,7 +27,7 @@ const MACRO_DIST = {
  // Hitung target makro (gram) dari calorie_target dan goal
  
 export function calcMacroTargets(calorieTarget, goal) {
-  const dist = MACRO_DIST[goal] || MACRO_DIST.maintain
+  const dist = MACRO_DIST.maintain
   return {
     protein: Math.round((calorieTarget * dist.protein) / 4),
     carbs:   Math.round((calorieTarget * dist.carbs)   / 4),

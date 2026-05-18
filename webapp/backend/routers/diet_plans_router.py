@@ -1,13 +1,6 @@
-
-# Endpoint untuk manajemen diet plan user
-
-# GET  /v1/diet-plans         — semua plan milik user
-# GET  /v1/diet-plans/active  — plan yang sedang aktif
-# POST /v1/diet-plans         — buat plan baru (deactivate plan lama otomatis)
-
+from datetime import datetime, date, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-from datetime import datetime
 
 from database import get_session
 from models import User, DietPlan, UserProfile
@@ -17,62 +10,52 @@ router = APIRouter()
 
 
 
-def _format_plan(plan: DietPlan) -> dict:
-    """Ubah model DietPlan menjadi dict response"""
-    # Hitung hari berjalan sejak plan dibuat
-    days_elapsed = (datetime.utcnow() - plan.created_at).days
+
+def _format_plan(plan: DietPlan, profile=None) -> dict:
+    days_elapsed  = (datetime.utcnow() - plan.created_at).days
+    estimated_end = (plan.created_at + timedelta(days=30)).strftime("%d %b %Y")
 
     return {
-        "id"             : plan.id,
-        "name"           : plan.name,
-        "calorie_target" : plan.calorie_target,
-        "activity_level" : plan.activity_level,
-        "weight_at_start": plan.weight_at_start,
-        "is_active"      : plan.is_active,
-        "created_at"     : plan.created_at.isoformat(),
-        "ended_at"       : plan.ended_at.isoformat() if plan.ended_at else None,
-        # ─── Untuk fitur "X/30 hari" ─────────────────────────────────────────
-        # days_elapsed dihitung otomatis dari created_at
-        # total_days defaultnya 30 — AI Engineer dapat mengganti ini nanti dengan:
-        # 1. Tambah kolom total_days ke tabel diet_plans di database
-        # 2. Tambah field total_days ke model DietPlan di models.py
-        # 3. Isi total_days saat buat plan dari kalkulasi AI
-        # 4. Kembalikan total_days di response ini
-        "days_elapsed"   : days_elapsed,
-        "total_days"     : 30,  # ← ganti ini saat AI sudah terintegrasi
+        "id"                  : plan.id,
+        "name"                : plan.name,
+        "calorie_target"      : plan.calorie_target,
+        "activity_level"      : plan.activity_level,
+        "weight_at_start"     : plan.weight_at_start,
+        "is_active"           : plan.is_active,
+        "created_at"          : plan.created_at.isoformat(),
+        "ended_at"            : plan.ended_at.isoformat() if plan.ended_at else None,
+        "days_elapsed"        : days_elapsed,
+        "total_days"          : 30,
+        "current_streak"      : plan.current_streak,
+        "longest_streak"      : plan.longest_streak,
+        "last_completed_date" : plan.last_completed_date.isoformat() if plan.last_completed_date else None,
+        "estimated_end_date"  : estimated_end,
+        # Only populated on create response — None on all other endpoints
+        "target_weight_kg"    : profile.target_weight_kg if profile else None,
+        "calorie_deficit"     : round(profile.tdee - profile.calorie_target)
+                                if profile and profile.tdee and profile.calorie_target
+                                else None,
     }
 
 
 @router.get("")
 def get_plans(
     current_user: User   = Depends(get_current_user),
-    session: Session     = Depends(get_session)
+    session:      Session = Depends(get_session)
 ):
-    """
-    GET /v1/diet-plans
-    Ambil semua plan milik user, diurutkan dari terbaru.
-    Dipakai oleh halaman History untuk menampilkan card plan.
-    """
     plans = session.exec(
         select(DietPlan)
         .where(DietPlan.user_id == current_user.id)
         .order_by(DietPlan.created_at.desc())
     ).all()
-
     return [_format_plan(p) for p in plans]
 
 
 @router.get("/active")
 def get_active_plan(
-    current_user: User = Depends(get_current_user),
-    session: Session   = Depends(get_session)
+    current_user: User    = Depends(get_current_user),
+    session:      Session = Depends(get_session)
 ):
-    """
-    GET /v1/diet-plans/active
-    Ambil plan yang sedang aktif.
-    Dipakai oleh Dashboard untuk cek apakah perlu tampilkan empty state.
-    Return 404 kalau tidak ada plan aktif.
-    """
     plan = session.exec(
         select(DietPlan)
         .where(DietPlan.user_id == current_user.id)
@@ -85,39 +68,69 @@ def get_active_plan(
     return _format_plan(plan)
 
 
-@router.post("", status_code=201)
-def create_plan(
-    current_user: User = Depends(get_current_user),
-    session: Session   = Depends(get_session)
+@router.post("/complete-day", status_code=200)
+def complete_day(
+    current_user: User    = Depends(get_current_user),
+    session:      Session = Depends(get_session)
 ):
     """
-    POST /v1/diet-plans
-    Buat plan baru dari data profil yang sudah tersimpan.
-
-    Yang terjadi:
-    1. Ambil profil user (calorie_target, goal, activity_level, weight_kg)
-    2. Nonaktifkan plan lama jika ada (is_active=False, ended_at=sekarang)
-    3. Buat plan baru dengan data dari profil
-    4. Return plan baru
+    POST /v1/diet-plans/complete-day
+    Mark today as completed for the active plan.
+    - Increments days_elapsed via last_completed_date tracking
+    - Updates current_streak and longest_streak
+    - Prevents double-completion on the same day
     """
-    # 1. Ambil profil user
+    plan = session.exec(
+        select(DietPlan)
+        .where(DietPlan.user_id == current_user.id)
+        .where(DietPlan.is_active == True)
+    ).first()
+
+    if not plan:
+        raise HTTPException(status_code=404, detail="Tidak ada plan aktif")
+
+    today = date.today()
+
+    # Prevent double completion on same day
+    if plan.last_completed_date == today:
+        raise HTTPException(status_code=400, detail="Hari ini sudah ditandai selesai")
+
+    yesterday = today - timedelta(days=1)
+
+    # Update streak
+    if plan.last_completed_date == yesterday:
+        # Consecutive day — increment streak
+        plan.current_streak += 1
+    else:
+        # Streak broken or first completion
+        plan.current_streak = 1
+
+    # Update longest streak
+    if plan.current_streak > plan.longest_streak:
+        plan.longest_streak = plan.current_streak
+
+    plan.last_completed_date = today
+
+    session.add(plan)
+    session.commit()
+    session.refresh(plan)
+
+    return _format_plan(plan)
+
+
+@router.post("")
+def create_plan(
+    current_user: User    = Depends(get_current_user),
+    session:      Session = Depends(get_session)
+):
     profile = session.exec(
         select(UserProfile).where(UserProfile.user_id == current_user.id)
     ).first()
 
     if not profile:
-        raise HTTPException(
-            status_code=400,
-            detail="Lengkapi profil terlebih dahulu sebelum membuat plan"
-        )
+        raise HTTPException(status_code=400, detail="Lengkapi profil terlebih dahulu")
 
-    if not profile.activity_level:
-        raise HTTPException(
-            status_code=400,
-            detail="Isi tingkat aktivitas di profil terlebih dahulu"
-        )
-
-    # 2. Nonaktifkan plan lama
+    # Deactivate old plan
     old_plan = session.exec(
         select(DietPlan)
         .where(DietPlan.user_id == current_user.id)
@@ -128,13 +141,11 @@ def create_plan(
         old_plan.is_active = False
         old_plan.ended_at  = datetime.utcnow()
 
-    # 3. Buat plan baru
     bulan_tahun = datetime.utcnow().strftime("%b %Y")
-    plan_name   = f"Plan — {bulan_tahun}"
 
     new_plan = DietPlan(
         user_id         = current_user.id,
-        name            = plan_name,
+        name            = f"Plan — {bulan_tahun}",
         calorie_target  = int(profile.calorie_target) if profile.calorie_target else None,
         activity_level  = profile.activity_level,
         weight_at_start = profile.weight_kg,
@@ -143,25 +154,20 @@ def create_plan(
     session.commit()
     session.refresh(new_plan)
 
-    return _format_plan(new_plan)
+    # Pass profile so create response includes target_weight + deficit
+    return _format_plan(new_plan, profile=profile)
 
 
 @router.get("/{plan_id}")
 def get_plan_detail(
-    plan_id: int,
-    current_user: User = Depends(get_current_user),
-    session: Session   = Depends(get_session)
+    plan_id:      int,
+    current_user: User    = Depends(get_current_user),
+    session:      Session = Depends(get_session)
 ):
-    """
-    GET /v1/diet-plans/{plan_id}
-    Detail satu plan berdasarkan ID.
-    Dipakai oleh halaman HistoryDetail.
-    """
     plan = session.get(DietPlan, plan_id)
 
     if not plan:
         raise HTTPException(status_code=404, detail="Plan tidak ditemukan")
-
     if plan.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Akses ditolak")
 

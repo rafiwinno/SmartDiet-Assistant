@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
-from datetime import datetime
+from datetime import datetime, date
 
 
 class User(SQLModel, table=True):
@@ -56,6 +56,9 @@ class DietPlan(SQLModel, table=True):
     is_active:       bool               = True
     created_at:      datetime           = Field(default_factory=datetime.utcnow)
     ended_at:        Optional[datetime] = None
+    current_streak:       int            = Field(default=0)
+    longest_streak:       int            = Field(default=0)
+    last_completed_date:  Optional[date] = Field(default=None)
 
     user:      Optional[User]  = Relationship(back_populates="diet_plans")
     meal_logs: List["MealLog"] = Relationship(back_populates="plan")

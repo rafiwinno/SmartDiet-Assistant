@@ -18,7 +18,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed top-0 left-0 w-56 h-screen bg-blue-700 flex flex-col px-4 py-6 z-50">
+    <aside className="fixed top-0 left-0 w-56 h-screen bg-gradient-to-br from-blue-800 via-blue-700 to-teal-700 flex flex-col px-4 py-6 z-50">
 
       {/* Logo — Smart tetap hijau, Diet putih */}
       <div className="mb-8 px-1.5">
