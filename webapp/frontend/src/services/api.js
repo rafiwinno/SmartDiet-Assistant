@@ -71,6 +71,14 @@ export async function saveProfile(profileData) {
     height_cm:        parseFloat(profileData.height),
     target_weight_kg: parseFloat(profileData.targetWeight),
     activity_level:   profileData.activityLevel,
+    goal:             (() => {
+      const w = parseFloat(profileData.weight)
+      const t = parseFloat(profileData.targetWeight)
+      if (!w || !t) return 'maintain'
+      if (t < w) return 'lose'
+      if (t > w) return 'gain'
+      return 'maintain'
+    })(),
     dietary:          profileData.dietary   || [],
     allergies:        profileData.allergies || [],
   };

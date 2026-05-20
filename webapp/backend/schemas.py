@@ -14,7 +14,12 @@ class Gender(str, Enum):
     male   = "male"
     female = "female"
 
-class MealType(str, Enum):
+class Goal(str, Enum):
+    lose     = "lose"
+    maintain = "maintain"
+    gain     = "gain"
+
+
     breakfast = "breakfast"
     lunch     = "lunch"
     dinner    = "dinner"
@@ -49,6 +54,7 @@ class ProfileInput(BaseModel):
     height_cm:        float
     target_weight_kg: float
     activity_level:   ActivityLevel
+    goal:             Optional[Goal]       = None
     dietary:          Optional[List[str]] = []
     allergies:        Optional[List[str]] = []
 
@@ -72,7 +78,7 @@ class ProfileResponse(BaseModel):
 class MealLogInput(BaseModel):
     food_id:    Optional[int] = None
     food_name:  str
-    meal_type:  MealType
+    # meal_type:  MealType
     quantity_g: float
     calories:   float
     protein_g:  float = 0

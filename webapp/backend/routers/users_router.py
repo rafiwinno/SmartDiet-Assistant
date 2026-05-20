@@ -54,6 +54,15 @@ def save_onboarding(
     session.commit()
     return {"message": "OK"}
 
+def infer_goal(weight_kg: float, target_weight_kg: float) -> str:
+    diff = target_weight_kg - weight_kg
+    if diff > 0:
+        return "gain"
+    elif diff < 0:
+        return "lose"
+    else:
+        return "maintain"
+    
 @router.put("/profile", response_model=ProfileResponse)
 def save_profile(
     data:    ProfileInput,
@@ -79,6 +88,7 @@ def save_profile(
         session.add(user)
 
     # Hitung BMR dengan data effective
+    inferred_goal = infer_goal(data.weight_kg, data.target_weight_kg)
     bmr            = calc_bmr(data.weight_kg, data.height_cm, effective_age, effective_gender)
     tdee           = bmr * ACTIVITY_MULTIPLIERS.get(data.activity_level, 1.2)
     calorie_target = round(tdee)

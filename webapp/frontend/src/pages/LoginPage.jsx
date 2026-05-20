@@ -63,7 +63,7 @@ export default function LoginPage() {
           <div className="flex flex-col gap-4">
             {mode === 'register' && (
               <div>
-                <FieldLabel required>Nama lengkap</FieldLabel>
+                <FieldLabel required>Username</FieldLabel>
                 <TextInput value={form.name} onChange={v => set('name', v)} placeholder="Nama kamu" />
               </div>
             )}

@@ -61,14 +61,14 @@ function Navbar({ onLogin }) {
       border-b border-stone-100 flex items-center justify-between px-16 h-16"
     >
       <span className="text-xl font-bold tracking-tight font-serif">
-        <span className="text-teal-600">Smart</span>
+        <span className="text-blue-600">Smart</span>
         <span className="text-slate-800">Diet</span>
       </span>
       <div className="flex items-center gap-4">
         <button
           onClick={onLogin}
           className="px-5 py-2 text-sm font-semibold text-white
-            bg-teal-600 hover:bg-teal-700 rounded-lg transition-all cursor-pointer border-none"
+            bg-blue-600 hover:bg-blue-700 rounded-lg transition-all cursor-pointer border-none"
         >
           Masuk / Daftar
         </button>
@@ -81,14 +81,14 @@ function HeroSection({ onLogin }) {
   return (
     <section
       className="min-h-screen flex items-center bg-gradient-to-br
-      from-teal-50 via-white to-emerald-50 pt-16"
+      from-blue-50 via-white to-emerald-50 pt-16"
     >
       <div className="max-w-7xl mx-auto px-16 w-full">
         <div className="grid grid-cols-2 gap-16 items-center min-h-[calc(100vh-64px)]">
           {/* Left — image */}
           <div className="relative">
             <div
-              className="absolute -top-8 -left-8 w-64 h-64 bg-teal-100
+              className="absolute -top-8 -left-8 w-64 h-64 bg-blue-100
               rounded-full opacity-50 blur-3xl"
             />
             <div
@@ -110,14 +110,14 @@ function HeroSection({ onLogin }) {
                     "items-center",
                     "justify-center",
                     "bg-gradient-to-br",
-                    "from-teal-50",
+                    "from-blue-50",
                     "to-emerald-100",
                   );
                   e.target.insertAdjacentHTML(
                     "afterend",
                     `<div class="text-center p-8">
                       <p class="text-6xl mb-4">🥗</p>
-                      <p class="text-teal-700 font-semibold text-lg">Ganti dengan gambarmu</p>
+                      <p class="text-blue-700 font-semibold text-lg">Ganti dengan gambarmu</p>
                       <p class="text-stone-400 text-sm mt-1">src: /images/hero-placeholder.png</p>
                     </div>`,
                   );
@@ -130,7 +130,7 @@ function HeroSection({ onLogin }) {
           <div className="flex flex-col gap-6">
             <h1 className="text-5xl font-bold text-slate-900 leading-tight font-serif">
               Makan Lebih Cerdas,{" "}
-              <span className="text-teal-600">Hidup Lebih Sehat</span>
+              <span className="text-blue-600">Hidup Lebih Sehat</span>
             </h1>
 
             <p className="text-lg text-stone-500 leading-relaxed">
@@ -143,7 +143,7 @@ function HeroSection({ onLogin }) {
               <button
                 onClick={onLogin}
                 className="px-8 py-3.5 text-base font-semibold text-white
-                  bg-teal-600 hover:bg-teal-700 rounded-xl transition-all cursor-pointer border-none"
+                  bg-blue-600 hover:bg-blue-700 rounded-xl transition-all cursor-pointer border-none"
               >
                 Mulai Sekarang — Gratis
               </button>
@@ -169,7 +169,7 @@ function HeroSection({ onLogin }) {
                 { value: '98%',     label: 'Kepuasan pengguna'  },
               ].map(stat => (
                 <div key={stat.value}>
-                  <p className="text-2xl font-bold text-teal-600 font-serif">{stat.value}</p>
+                  <p className="text-2xl font-bold text-blue-600 font-serif">{stat.value}</p>
                   <p className="text-xs text-stone-400 mt-0.5">{stat.label}</p>
                 </div>
               ))}
@@ -183,7 +183,7 @@ function HeroSection({ onLogin }) {
 
 function QuoteSection() {
   return (
-    <section className="bg-teal-600 py-20 px-8 text-center">
+    <section className="bg-blue-600 py-20 px-8 text-center">
       <div className="max-w-2xl mx-auto">
         <p className="text-2xl md:text-3xl font-semibold text-white leading-relaxed font-serif italic">
           "Kesehatan bukan tentang angka di timbangan — ini tentang membangun
@@ -211,7 +211,7 @@ function FeatureRow({ feature, index }) {
           <div className={`${imgSide} relative`}>
             <div
               className={`absolute -top-6 -left-6 w-48 h-48 rounded-full blur-2xl opacity-40
-              ${isEven ? "bg-teal-100" : "bg-emerald-100"}`}
+              ${isEven ? "bg-blue-100" : "bg-emerald-100"}`}
             />
             <div
               className="relative bg-white rounded-3xl overflow-hidden
@@ -228,7 +228,7 @@ function FeatureRow({ feature, index }) {
                     "items-center",
                     "justify-center",
                     "bg-gradient-to-br",
-                    isEven ? "from-teal-50" : "from-emerald-50",
+                    isEven ? "from-blue-50" : "from-emerald-50",
                     "to-white",
                   );
                   e.target.insertAdjacentHTML(
@@ -261,7 +261,7 @@ function FeaturesSection() {
   return (
     <div id="fitur">
       <div className="bg-white py-16 px-8 text-center border-b border-stone-100">
-        <p className="text-xs font-semibold text-teal-600 uppercase tracking-widest mb-3">
+        <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">
           Fitur utama
         </p>
         <h2 className="text-4xl font-bold text-slate-900 font-serif mb-4">
@@ -283,11 +283,11 @@ function ArticlesSection() {
   return (
     <section
       id="artikel"
-      className="bg-gradient-to-b from-teal-50 to-white py-24 px-8"
+      className="bg-gradient-to-b from-blue-50 to-white py-24 px-8"
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <p className="text-xs font-semibold text-teal-600 uppercase tracking-widest mb-3">
+          <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">
             Artikel
           </p>
           <h2 className="text-4xl font-bold text-slate-900 font-serif">
@@ -303,7 +303,7 @@ function ArticlesSection() {
                 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 cursor-pointer"
             >
               <div
-                className="h-44 bg-gradient-to-br from-teal-400 to-emerald-500
+                className="h-44 bg-gradient-to-br from-blue-400 to-emerald-500
                 flex items-center justify-center"
               >
                 <span className="text-6xl font-bold font-serif text-white/20">
@@ -338,7 +338,7 @@ function ArticlesSection() {
 
 function CTASection({ onLogin }) {
   return (
-    <section className="bg-teal-600 py-24 px-8 text-center">
+    <section className="bg-blue-600 py-24 px-8 text-center">
       <div className="max-w-xl mx-auto">
         <h2 className="text-4xl font-bold text-white font-serif mb-4 leading-tight">
           Mulai perjalanan dietmu hari ini
@@ -349,8 +349,8 @@ function CTASection({ onLogin }) {
         </p>
         <button
           onClick={onLogin}
-          className="px-10 py-4 text-base font-semibold text-teal-700
-            bg-white hover:bg-teal-50 rounded-xl transition-all cursor-pointer border-none"
+          className="px-10 py-4 text-base font-semibold text-blue-700
+            bg-white hover:bg-blue-50 rounded-xl transition-all cursor-pointer border-none"
         >
           Daftar Sekarang — Gratis
         </button>
@@ -365,7 +365,7 @@ function Footer() {
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <span className="text-lg font-bold font-serif">
-            <span className="text-teal-400">Smart</span>
+            <span className="text-blue-400">Smart</span>
             <span className="text-white">Diet</span>
           </span>
           <p className="text-xs text-white/25 mt-1.5">

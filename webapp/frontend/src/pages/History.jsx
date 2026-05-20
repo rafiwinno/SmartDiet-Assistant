@@ -3,13 +3,13 @@ import { useNavigate }         from 'react-router-dom'
 import Badge                   from '../components/ui/Badge'
 import { getPlans }            from '../services/api'
 
-const GOAL_LABEL = {
-  lose    : 'Turun berat badan',
-  maintain: 'Pertahankan berat',
-  gain    : 'Naik berat badan',
-}
+// const GOAL_LABEL = {
+//   lose    : 'Turun berat badan',
+//   maintain: 'Pertahankan berat',
+//   gain    : 'Naik berat badan',
+// }
 
-const GOAL_BADGE = { lose: 'blue', maintain: 'green', gain: 'amber' }
+// const GOAL_BADGE = { lose: 'blue', maintain: 'green', gain: 'amber' }
 
 function PlanCard({ plan, onClick }) {
   const createdAt = new Date(plan.created_at).toLocaleDateString('id-ID', {
@@ -42,7 +42,7 @@ function PlanCard({ plan, onClick }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 mb-3">
+      {/* <div className="flex items-center gap-3 mb-3">
         {plan.goal && (
           <Badge variant={GOAL_BADGE[plan.goal] || 'stone'}>
             {GOAL_LABEL[plan.goal] || plan.goal}
@@ -51,7 +51,7 @@ function PlanCard({ plan, onClick }) {
         {plan.calorie_target && (
           <span className="text-xs text-stone-400">{plan.calorie_target} kcal/hari</span>
         )}
-      </div>
+      </div> */}
 
       {/* Progress bar hari */}
       <div className="flex items-center gap-3">

@@ -1,8 +1,9 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Card   from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Badge  from "../components/ui/Badge";
-import { getCurrentUser } from "../services/api";
+import { getCurrentUser, getProfile, getPlans } from "../services/api";
 
 function BackButton({ onClick }) {
   return (
@@ -46,6 +47,9 @@ function MilestoneCard({ label, value, unit, desc, color = "text-green-600" }) {
 }
 
 function PlanHistoryRow({ plan, index }) {
+  const endedAt = plan.ended_at
+    ? new Date(plan.ended_at).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+    : "—";
   return (
     <div className="flex items-center gap-3 py-3 border-b border-stone-100 last:border-none">
       <div className="w-7 h-7 rounded-full bg-green-50 border border-green-200
@@ -53,9 +57,9 @@ function PlanHistoryRow({ plan, index }) {
         {index + 1}
       </div>
       <div className="flex-1">
-        <p className="text-sm font-medium text-stone-800">{plan.label}</p>
+        <p className="text-sm font-medium text-stone-800">{plan.name}</p>
         <p className="text-xs text-stone-400 mt-0.5">
-          {plan.duration} hari · selesai {plan.finishedAt}
+          {plan.days_elapsed ?? 30} hari · selesai {endedAt}
         </p>
       </div>
       <Badge variant="green">Selesai</Badge>
@@ -63,44 +67,42 @@ function PlanHistoryRow({ plan, index }) {
   );
 }
 
-export default function Account({
-  profile = {
-    name:           getCurrentUser()?.name,
-    email:          `${getCurrentUser()?.name}@gmail.com`,
-    age:            24,
-    gender:         "Laki-laki",
-    weight_kg:      68,
-    height_cm:      172,
-    activity_level: "Sedang",
-    goal:           "Turunkan berat badan",
-    calorie_target: 1800,
-  },
-  milestones = {
-    currentStreak:   5,
-    longestStreak:   12,
-    plansFinished:   2,
-    totalDaysLogged: 38,
-  },
-  planHistory = [
-    { label: "Program pertama", duration: 30, finishedAt: "12 Mar 2026" },
-    { label: "Program kedua",   duration: 41, finishedAt: "28 Apr 2026" },
-  ],
-}) {
+export default function Account() {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+  const [plans,   setPlans]   = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([getProfile(), getPlans()])
+      .then(([prof, planList]) => {
+        setProfile(prof);
+        setPlans(planList);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const user = getCurrentUser();
 
   const GENDER_MAP = { male: "Laki-laki", female: "Perempuan" };
-  const ACTIVITY_MAP = {
-    sedentary:   "Tidak aktif",
-    light:       "Ringan",
-    moderate:    "Sedang",
-    active:      "Aktif",
-    very_active: "Sangat aktif",
-  };
-  const GOAL_MAP = {
-    lose:     "Turunkan berat badan",
-    maintain: "Pertahankan berat",
-    gain:     "Naikkan berat badan",
-  };
+
+  // Milestone numbers derived from real plan data
+  const currentStreak   = plans.find(p => p.is_active)?.current_streak  ?? 0;
+  const longestStreak   = Math.max(0, ...plans.map(p => p.longest_streak ?? 0));
+  const plansFinished   = plans.filter(p => !p.is_active && p.ended_at).length;
+  const totalDaysLogged = plans.reduce((sum, p) => sum + (p.days_elapsed ?? 0), 0);
+
+  // Plan history: all inactive plans
+  const planHistory = plans.filter(p => !p.is_active && p.ended_at);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-sm text-stone-400">Memuat...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -117,37 +119,35 @@ export default function Account({
       <Card>
         <div className="flex flex-col items-center gap-3 py-2">
           <img
-            src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${profile.name}`}
+            src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${user?.name}`}
             alt="avatar"
             className="w-24 h-24 rounded-full bg-stone-100 border-4 border-white shadow-md"
           />
           <div className="text-center">
-            <p className="text-lg font-semibold text-stone-800">{profile.name}</p>
-            <p className="text-sm text-stone-400">{profile.email}</p>
+            <p className="text-lg font-semibold text-stone-800">{user?.name ?? "—"}</p>
           </div>
-          <Button variant="secondary" size="sm" onClick={() => navigate("/planner")}>
+          <Button variant="secondary" size="sm" onClick={() => navigate("/profile")}>
             Edit profil
           </Button>
         </div>
       </Card>
 
       {/* Data diri */}
-      <div>
-        <p className="text-[11px] font-medium uppercase tracking-widest text-stone-400 mb-2.5">
-          Data diri
-        </p>
-        <Card padding={false}>
-          <div className="px-5">
-            <InfoRow label="Usia"             value={profile.age        ? `${profile.age} tahun`          : null} />
-            <InfoRow label="Jenis kelamin"    value={GENDER_MAP[profile.gender]   ?? profile.gender}              />
-            <InfoRow label="Berat badan"      value={profile.weight_kg  ? `${profile.weight_kg} kg`        : null} />
-            <InfoRow label="Tinggi badan"     value={profile.height_cm  ? `${profile.height_cm} cm`        : null} />
-            <InfoRow label="Tingkat aktivitas" value={ACTIVITY_MAP[profile.activity_level] ?? profile.activity_level} />
-            <InfoRow label="Tujuan"           value={GOAL_MAP[profile.goal]       ?? profile.goal}                 />
-            <InfoRow label="Target kalori"    value={profile.calorie_target ? `${profile.calorie_target} kcal/hari` : null} />
-          </div>
-        </Card>
-      </div>
+      {profile && (
+        <div>
+          <p className="text-[11px] font-medium uppercase tracking-widest text-stone-400 mb-2.5">
+            Data diri
+          </p>
+          <Card padding={false}>
+            <div className="px-5">
+              <InfoRow label="Usia"          value={profile.age       ? `${profile.age} tahun` : null} />
+              <InfoRow label="Jenis kelamin" value={GENDER_MAP[profile.gender] ?? profile.gender}       />
+              <InfoRow label="Berat badan"   value={profile.weight_kg ? `${profile.weight_kg} kg` : null} />
+              <InfoRow label="Tinggi badan"  value={profile.height_cm ? `${profile.height_cm} cm` : null} />
+            </div>
+          </Card>
+        </div>
+      )}
 
       {/* Pencapaian */}
       <div>
@@ -155,10 +155,10 @@ export default function Account({
           Pencapaian
         </p>
         <div className="grid grid-cols-2 gap-3">
-          <MilestoneCard label="Streak terpanjang"   value={milestones.longestStreak}  unit="hari"    desc="Hari berturut-turut terbaik"    color="text-green-600"  />
-          <MilestoneCard label="Streak saat ini"     value={milestones.currentStreak}  unit="hari"    desc="Terus pertahankan!"             color="text-amber-500"  />
-          <MilestoneCard label="Program selesai"     value={milestones.plansFinished}  unit="program" desc="Total program yang dituntaskan" color="text-blue-500"   />
-          <MilestoneCard label="Total hari tercatat" value={milestones.totalDaysLogged} unit="hari"   desc="Sejak pertama kali bergabung"   color="text-purple-500" />
+          <MilestoneCard label="Streak terpanjang"   value={longestStreak}   unit="hari"    desc="Hari berturut-turut terbaik"    color="text-green-600"  />
+          <MilestoneCard label="Streak saat ini"     value={currentStreak}   unit="hari"    desc="Terus pertahankan!"             color="text-amber-500"  />
+          <MilestoneCard label="Program selesai"     value={plansFinished}   unit="program" desc="Total program yang dituntaskan" color="text-blue-500"   />
+          <MilestoneCard label="Total hari tercatat" value={totalDaysLogged} unit="hari"    desc="Sejak pertama kali bergabung"   color="text-purple-500" />
         </div>
       </div>
 
@@ -171,7 +171,7 @@ export default function Account({
           <Card padding={false}>
             <div className="px-5">
               {planHistory.map((plan, i) => (
-                <PlanHistoryRow key={i} plan={plan} index={i} />
+                <PlanHistoryRow key={plan.id} plan={plan} index={i} />
               ))}
             </div>
           </Card>

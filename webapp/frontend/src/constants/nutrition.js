@@ -1,4 +1,3 @@
-
 export const ACTIVITY_MULTIPLIERS = {
   sedentary:   1.2,
   light:       1.375,
@@ -27,7 +26,7 @@ const MACRO_DIST = {
  // Hitung target makro (gram) dari calorie_target dan goal
  
 export function calcMacroTargets(calorieTarget, goal) {
-  const dist = MACRO_DIST.maintain
+  const dist = MACRO_DIST[goal] ?? MACRO_DIST.maintain
   return {
     protein: Math.round((calorieTarget * dist.protein) / 4),
     carbs:   Math.round((calorieTarget * dist.carbs)   / 4),
