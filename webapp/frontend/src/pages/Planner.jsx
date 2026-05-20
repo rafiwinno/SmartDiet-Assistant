@@ -172,11 +172,12 @@ function StepDietary({ data, onChange }) {
 function StepSummary({ data }) {
   const actLabel =
     ACTIVITY_LEVELS.find((a) => a.value === data.activityLevel)?.label ?? "—";
-  const goalLabel = {
+  const GOAL_LABEL = {
     lose: "Turun berat badan",
     maintain: "Jaga berat badan",
     gain: "Naik berat badan",
   };
+  const goalKey = +data.targetWeight < +data.weight ? 'lose' : +data.targetWeight > +data.weight ? 'gain' : 'maintain'
   const rows = [
     { label: "Berat badan", value: data.weight ? `${data.weight} kg` : "—" },
     { label: "Tinggi badan", value: data.height ? `${data.height} cm` : "—" },
@@ -187,7 +188,7 @@ function StepSummary({ data }) {
     { label: "Tingkat aktivitas", value: actLabel },
     {
       label: "Tujuan diet",
-      value: goalLabel[deriveGoal(data.weight, data.targetWeight)],
+      value: GOAL_LABEL[goalKey],
     },
   ];
   return (
@@ -295,17 +296,9 @@ const INITIAL = {
   otherAllergies: "",
 };
 
-function deriveGoal(weight, targetWeight) {
-  const w = parseFloat(weight);
-  const t = parseFloat(targetWeight);
-  if (!w || !t) return "maintain";
-  if (t < w) return "lose";
-  if (t > w) return "gain";
-  return "maintain";
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Planner() {
+  const navigate = useNavigate()
   const [view, setView] = useState("idle"); // 'idle' | 'warning' | 'form' | 'success'
   const [step, setStep] = useState(0);
   const [data, setData] = useState(INITIAL);
@@ -436,13 +429,12 @@ export default function Planner() {
   }
 
   // ─── Sukses ───────────────────────────────────────────────────────────────
-  // ─── Sukses ───────────────────────────────────────────────────────────────
   if (view === "success" && result) {
     const plan = result.plan;
     const profile = result.profile;
 
     const macros = plan.calorie_target
-      ? calcMacroTargets(plan.calorie_target, plan.goal)
+      ? calcMacroTargets(plan.calorie_target)
       : { protein: "—", carbs: "—", fat: "—" };
 
     const startDate = new Date(plan.created_at).toLocaleDateString("id-ID", {
@@ -451,27 +443,7 @@ export default function Planner() {
       year: "numeric",
     });
 
-    const deficitColor = plan.calorie_deficit
-      ? plan.calorie_deficit > 0
-        ? "text-rose-500"
-        : "text-blue-600"
-      : "text-stone-400";
-
-    const deficitLabel = plan.calorie_deficit
-      ? plan.calorie_deficit > 0
-        ? `−${plan.calorie_deficit} kcal`
-        : `+${Math.abs(plan.calorie_deficit)} kcal`
-      : "—";
-
-    const ACTIVITY_LABEL = {
-      sedentary: "Tidak aktif",
-      light: "Ringan",
-      moderate: "Sedang",
-      active: "Aktif",
-      very_active: "Sangat aktif",
-    };
-
-    const goal = deriveGoal(data.weight, data.targetWeight);
+    const goal = +data.targetWeight < +data.weight ? 'lose' : +data.targetWeight > +data.weight ? 'gain' : 'maintain'
 
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
@@ -691,7 +663,7 @@ export default function Planner() {
                   <p className="mt-3 text-2xl font-black tracking-widest text-stone-800">
                     {
                       {
-                        lose: "Cutting",
+                        lose: "Lose Weight",
                         maintain: "Maintain",
                         gain: "Bulking",
                       }[goal]
