@@ -38,7 +38,12 @@ class UserProfile(SQLModel, table=True):
     bmr:  Optional[float] = None
     tdee: Optional[float] = None
 
+    goal:           Optional[str]   = None
     calorie_target: Optional[float] = None
+    protein_target: Optional[float] = None
+    fat_target:     Optional[float] = None
+    carbs_target:   Optional[float] = None
+    estimated_days: Optional[int]   = None
 
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -51,6 +56,10 @@ class DietPlan(SQLModel, table=True):
     user_id:         int                = Field(foreign_key="users.id")
     name:            str
     calorie_target:  Optional[int]      = None
+    protein_target:  Optional[float]    = None
+    fat_target:      Optional[float]    = None
+    carbs_target:    Optional[float]    = None
+    estimated_days:  Optional[int]      = None
     activity_level:  Optional[str]      = None
     weight_at_start: Optional[float]    = None
     is_active:       bool               = True

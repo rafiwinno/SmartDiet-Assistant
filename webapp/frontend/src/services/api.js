@@ -71,6 +71,14 @@ export async function saveProfile(profileData) {
     height_cm:        parseFloat(profileData.height),
     target_weight_kg: parseFloat(profileData.targetWeight),
     activity_level:   profileData.activityLevel,
+    goal:             (() => {
+      const w = parseFloat(profileData.weight)
+      const t = parseFloat(profileData.targetWeight)
+      if (!w || !t) return 'maintain'
+      if (t < w) return 'lose'
+      if (t > w) return 'gain'
+      return 'maintain'
+    })(),
     dietary:          profileData.dietary   || [],
     allergies:        profileData.allergies || [],
   };
@@ -105,6 +113,16 @@ export async function getPlanDetail(planId) {
 export async function createPlan() {
   const res = await api.post("/diet-plans");
   return res.data;
+}
+
+export async function generateMeal() {
+  const res = await api.post("/diet-plans/meal");
+  return res.data;
+}
+
+// Alias used by Dashboard for meal recommendations
+export async function getRecommendations() {
+  return generateMeal();
 }
 
 export async function completeDay() {

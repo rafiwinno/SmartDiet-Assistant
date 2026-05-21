@@ -7,25 +7,9 @@ from database import get_session
 from models import User, UserProfile
 from schemas import ProfileInput, ProfileResponse, OnboardingInput
 from auth import get_current_user
+from utils.ai import predict_nutrition
 
 router = APIRouter()
-
-
-def calc_bmr(weight_kg: float, height_cm: float, age: int, gender: str) -> float:
-    """Mifflin-St Jeor formula"""
-    if gender == "male":
-        return 10 * weight_kg + 6.25 * height_cm - 5 * age + 5
-    else:
-        return 10 * weight_kg + 6.25 * height_cm - 5 * age - 161
-
-
-ACTIVITY_MULTIPLIERS = {
-    "sedentary":   1.2,
-    "light":       1.375,
-    "moderate":    1.55,
-    "active":      1.725,
-    "very_active": 1.9,
-}
 
 
 @router.put("/onboarding")
@@ -54,17 +38,9 @@ def save_onboarding(
     session.commit()
     return {"message": "OK"}
 
-def infer_goal(weight_kg: float, target_weight_kg: float) -> str:
-    diff = target_weight_kg - weight_kg
-    if diff > 0:
-        return "gain"
-    elif diff < 0:
-        return "lose"
-    else:
-        return "maintain"
-    
+
 @router.put("/profile", response_model=ProfileResponse)
-def save_profile(
+async def save_profile(
     data:    ProfileInput,
     session: Session = Depends(get_session),
     user:    User    = Depends(get_current_user),
@@ -78,33 +54,63 @@ def save_profile(
         profile = UserProfile(user_id=user.id)
 
     # Pakai data baru kalau ada, kalau tidak pakai data existing
-    effective_name   = data.name   or user.name
-    effective_age    = data.age    or profile.age    or 25   
-    effective_gender = data.gender or profile.gender or "male"
+    effective_age      = data.age    or profile.age    or 25
+    effective_gender   = data.gender or profile.gender or "male"
+    effective_goal     = data.goal   or profile.goal   or "maintain"
 
     # Update name kalau dikirim
     if data.name:
         user.name = data.name
         session.add(user)
 
-    # Hitung BMR dengan data effective
-    inferred_goal = infer_goal(data.weight_kg, data.target_weight_kg)
-    bmr            = calc_bmr(data.weight_kg, data.height_cm, effective_age, effective_gender)
-    tdee           = bmr * ACTIVITY_MULTIPLIERS.get(data.activity_level, 1.2)
-    calorie_target = round(tdee)
-
-    profile.age              = effective_age
-    profile.gender           = effective_gender
-    profile.weight_kg        = data.weight_kg
-    profile.height_cm        = data.height_cm
+    # Temporarily write fields so predict_nutrition can read them off profile object
+    profile.age            = effective_age
+    profile.gender         = effective_gender
+    profile.goal           = effective_goal
+    profile.weight_kg      = data.weight_kg
+    profile.height_cm      = data.height_cm
     profile.target_weight_kg = data.target_weight_kg
-    profile.activity_level   = data.activity_level
-    profile.dietary          = json.dumps(data.dietary or [])
-    profile.allergies        = json.dumps(data.allergies or [])
-    profile.bmr              = round(bmr, 1)
-    profile.tdee             = round(tdee, 1)
-    profile.calorie_target   = calorie_target
-    profile.updated_at       = datetime.utcnow()
+    profile.activity_level = data.activity_level
+
+    # Call AI model for nutrition prediction
+    try:
+        ai = await predict_nutrition(profile)
+        daily = ai["daily_target"]
+        calorie_target = round(daily["calories"])
+        protein_target = round(daily["protein"], 1)
+        fat_target     = round(daily["fat"],     1)
+        carbs_target   = round(daily["carbs"],   1)
+        estimated_days = ai.get("estimated_days")
+    except HTTPException:
+        # Fallback to Mifflin-St Jeor if AI service is down
+        ACTIVITY_MULTIPLIERS = {
+            "sedentary":   1.2,
+            "light":       1.375,
+            "moderate":    1.55,
+            "active":      1.725,
+            "very_active": 1.9,
+        }
+        if effective_gender == "male":
+            bmr = 10 * data.weight_kg + 6.25 * data.height_cm - 5 * effective_age + 5
+        else:
+            bmr = 10 * data.weight_kg + 6.25 * data.height_cm - 5 * effective_age - 161
+        tdee           = bmr * ACTIVITY_MULTIPLIERS.get(data.activity_level, 1.2)
+        calorie_target = round(tdee)
+        protein_target = round(calorie_target * 0.30 / 4, 1)
+        fat_target     = round(calorie_target * 0.25 / 9, 1)
+        carbs_target   = round(calorie_target * 0.45 / 4, 1)
+        estimated_days = None
+        profile.bmr  = round(bmr, 1)
+        profile.tdee = round(tdee, 1)
+
+    profile.dietary        = json.dumps(data.dietary   or [])
+    profile.allergies      = json.dumps(data.allergies or [])
+    profile.calorie_target = calorie_target
+    profile.protein_target = protein_target
+    profile.fat_target     = fat_target
+    profile.carbs_target   = carbs_target
+    profile.estimated_days = estimated_days
+    profile.updated_at     = datetime.utcnow()
 
     session.add(profile)
     session.commit()
@@ -119,7 +125,7 @@ def save_profile(
         target_weight_kg = profile.target_weight_kg,
         gender           = profile.gender,
         activity_level   = profile.activity_level,
-        dietary          = json.loads(profile.dietary  or "[]"),
+        dietary          = json.loads(profile.dietary   or "[]"),
         allergies        = json.loads(profile.allergies or "[]"),
         bmr              = profile.bmr,
         tdee             = profile.tdee,
@@ -147,7 +153,7 @@ def get_profile(
         target_weight_kg = profile.target_weight_kg,
         gender           = profile.gender or "",
         activity_level   = profile.activity_level or "",
-        dietary          = json.loads(profile.dietary  or "[]"),
+        dietary          = json.loads(profile.dietary   or "[]"),
         allergies        = json.loads(profile.allergies or "[]"),
         bmr              = profile.bmr,
         tdee             = profile.tdee,
