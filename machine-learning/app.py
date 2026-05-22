@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import List
 
 import joblib
 import pandas as pd
@@ -26,16 +27,12 @@ target_scaler = joblib.load(
 )
 
 # =====================================================
-# LOAD FOOD DATASET
+# LOAD DATASET
 # =====================================================
 
 food_df = pd.read_csv(
     'nutrition_labeled.csv'
 )
-
-# =====================================================
-# CLEAN DATASET
-# =====================================================
 
 food_df = food_df.dropna()
 
@@ -58,7 +55,7 @@ food_df = food_df[
 ]
 
 # =====================================================
-# FASTAPI APP
+# FASTAPI
 # =====================================================
 
 app = FastAPI()
@@ -67,7 +64,7 @@ app = FastAPI()
 # REQUEST SCHEMA
 # =====================================================
 
-class UserInput(BaseModel):
+class NutritionInput(BaseModel):
 
     gender_encoded: int
 
@@ -82,6 +79,22 @@ class UserInput(BaseModel):
     height_cm: float
 
     age: int
+
+class MealPlanInput(BaseModel):
+    
+    calories: float
+    
+    protein: float
+    
+    fat: float
+    
+    carbs: float
+    
+    day: int
+    
+    dietary_preferences: List[str] = []
+    
+    allergies: List[str] = []
 
 # =====================================================
 # RECOMMENDATION SCORE
@@ -257,26 +270,42 @@ def assign_portion_grams(
         method='L-BFGS-B'
     )
 
-    optimized_portions = result.x
-
     top_foods['recommended_grams'] = (
 
-        optimized_portions
+        result.x
     )
 
     return top_foods
 
 # =====================================================
-# API ENDPOINT
+# FILTERING FOOD FUNCTION
+# =====================================================
+def filter_foods_by_preferences(data, dietary_preferences=None, allergies=None):
+    
+    dietary_preferences = dietary_preferences or []
+    
+    allergies = allergies or []
+
+    filtered = data.copy()
+
+    for pref in dietary_preferences:
+        if pref in filtered.columns:
+            filtered = filtered[filtered[pref] == True]
+
+    for allergy in allergies:
+        if allergy in filtered.columns:
+            filtered = filtered[filtered[allergy] == False]
+
+    return filtered
+
+# =====================================================
+# ENDPOINT 1
+# PREDICT NUTRITION
 # =====================================================
 
-@app.post('/predict-meal-plan')
+@app.post('/predict-nutrition')
 
-def predict_meal_plan(user: UserInput):
-
-    # =================================================
-    # INPUT DATAFRAME
-    # =================================================
+def predict_nutrition(user: NutritionInput):
 
     sample_user = pd.DataFrame([{
 
@@ -293,17 +322,9 @@ def predict_meal_plan(user: UserInput):
         'age': user.age
     }])
 
-    # =================================================
-    # FEATURE SCALING
-    # =================================================
-
     sample_scaled = feature_scaler.transform(
         sample_user
     )
-
-    # =================================================
-    # MODEL PREDICTION
-    # =================================================
 
     prediction_scaled = model.predict(
 
@@ -311,10 +332,6 @@ def predict_meal_plan(user: UserInput):
 
         verbose=0
     )
-
-    # =================================================
-    # INVERSE TRANSFORM
-    # =================================================
 
     prediction_real = (
 
@@ -329,10 +346,6 @@ def predict_meal_plan(user: UserInput):
         prediction_real[0]
     )
 
-    # =================================================
-    # GOAL TYPE
-    # =================================================
-
     if user.target_weight < user.weight_kg:
 
         goal_type = 'weight_loss'
@@ -344,10 +357,6 @@ def predict_meal_plan(user: UserInput):
     else:
 
         goal_type = 'maintain'
-
-    # =================================================
-    # ESTIMATED DAYS
-    # =================================================
 
     weight_difference = abs(
 
@@ -378,10 +387,6 @@ def predict_meal_plan(user: UserInput):
     else:
 
         estimated_days = 0
-
-    # =================================================
-    # CALORIE ADJUSTMENT
-    # =================================================
 
     total_calorie_change = (
 
@@ -435,10 +440,6 @@ def predict_meal_plan(user: UserInput):
         1200
     )
 
-    # =================================================
-    # MACRO DISTRIBUTION
-    # =================================================
-
     protein_ratio = 0.30
 
     fat_ratio = 0.25
@@ -466,153 +467,6 @@ def predict_meal_plan(user: UserInput):
         / 4
     )
 
-    # =================================================
-    # FOOD SCORING
-    # =================================================
-
-    scored_foods = (
-
-        calculate_recommendation_score(
-
-            food_df,
-
-            adjusted_calories,
-
-            adjusted_protein,
-
-            adjusted_fat,
-
-            adjusted_carbs
-        )
-    )
-
-    # =================================================
-    # MULTI DAY MEAL PLAN
-    # =================================================
-
-    meal_labels = [
-
-        'breakfast',
-
-        'lunch',
-
-        'dinner'
-    ]
-
-    multi_day_meal_plan = []
-
-    total_days = int(
-        round(estimated_days)
-    )
-
-    for day in range(total_days):
-
-        randomized_foods = (
-
-            scored_foods
-
-            .sort_values(
-                by='recommendation_score'
-            )
-
-            .head(50)
-
-            .sample(
-                n=6,
-                replace=False
-            )
-
-            .copy()
-        )
-
-        optimized_foods = (
-
-            assign_portion_grams(
-
-                randomized_foods,
-
-                adjusted_calories,
-
-                adjusted_protein,
-
-                adjusted_fat,
-
-                adjusted_carbs
-            )
-        )
-
-        optimized_foods['meal_time'] = [
-
-            meal_labels[
-                i % len(meal_labels)
-            ]
-
-            for i in range(
-                len(optimized_foods)
-            )
-        ]
-
-        daily_plan = {
-
-            'day': day + 1,
-
-            'breakfast': [],
-
-            'lunch': [],
-
-            'dinner': []
-        }
-
-        for _, row in optimized_foods.iterrows():
-
-            daily_plan[
-                row['meal_time']
-            ].append({
-
-                'food': row['food'],
-
-                'recommended_grams': int(
-                    round(
-                        row['recommended_grams']
-                    )
-                ),
-
-                'estimated_calories': float(
-
-                    round(
-
-                        (
-                            row['recommended_grams']
-                            *
-                            row['Calories (kcal per 100g)']
-                        )
-                        / 100,
-
-                        2
-                    )
-                ),
-
-                'protein_per_100g': float(
-                    row['Protein (g per 100g)']
-                ),
-
-                'fat_per_100g': float(
-                    row['Fat (g per 100g)']
-                ),
-
-                'carbs_per_100g': float(
-                    row['Carbohydrates (g per 100g)']
-                )
-            })
-
-        multi_day_meal_plan.append(
-            daily_plan
-        )
-
-    # =================================================
-    # RESPONSE
-    # =================================================
-
     return {
 
         'goal_type': goal_type,
@@ -638,10 +492,98 @@ def predict_meal_plan(user: UserInput):
             'carbs': float(
                 round(adjusted_carbs, 2)
             )
-        },
-
-        'multi_day_meal_plan': (
-
-            multi_day_meal_plan
-        )
+        }
     }
+
+# =====================================================
+# ENDPOINT 2
+# GENERATE SINGLE DAY MEAL PLAN
+# =====================================================
+
+@app.post('/generate-meal-plan')
+def generate_meal_plan(data: MealPlanInput):
+
+    filtered_foods = filter_foods_by_preferences(
+        food_df,
+        dietary_preferences=data.dietary_preferences,
+        allergies=data.allergies
+    )
+
+    if filtered_foods.empty:
+        return {
+            'day': data.day,
+            'applied_filters': {
+                'dietary_preferences': data.dietary_preferences,
+                'allergies': data.allergies
+            },
+            'message': 'Tidak ada makanan yang cocok dengan pantangan dan alergi yang dipilih.',
+            'breakfast': [],
+            'lunch': [],
+            'dinner': []
+        }
+
+    scored_foods = calculate_recommendation_score(
+        filtered_foods,
+        data.calories,
+        data.protein,
+        data.fat,
+        data.carbs
+    )
+
+    meal_labels = ['breakfast', 'lunch', 'dinner']
+
+    top_n = min(50, len(scored_foods))
+    sample_n = min(6, top_n)
+
+    randomized_foods = (
+        scored_foods
+        .sort_values(by='recommendation_score')
+        .head(top_n)
+        .sample(
+            n=sample_n,
+            replace=False,
+            random_state=data.day
+        )
+        .copy()
+    )
+
+    optimized_foods = assign_portion_grams(
+        randomized_foods,
+        data.calories,
+        data.protein,
+        data.fat,
+        data.carbs
+    )
+
+    optimized_foods['meal_time'] = [
+        meal_labels[i % len(meal_labels)]
+        for i in range(len(optimized_foods))
+    ]
+
+    daily_plan = {
+        'day': data.day,
+        'applied_filters': {
+            'dietary_preferences': data.dietary_preferences,
+            'allergies': data.allergies
+        },
+        'breakfast': [],
+        'lunch': [],
+        'dinner': []
+    }
+
+    for _, row in optimized_foods.iterrows():
+        daily_plan[row['meal_time']].append({
+            'food': row['food'],
+            'recommended_grams': int(round(row['recommended_grams'])),
+            'estimated_calories': float(
+                round(
+                    (row['recommended_grams'] * row['Calories (kcal per 100g)']) / 100,
+                    2
+                )
+            ),
+            'protein_per_100g': float(row['Protein (g per 100g)']),
+            'fat_per_100g': float(row['Fat (g per 100g)']),
+            'carbs_per_100g': float(row['Carbohydrates (g per 100g)'])
+        })
+
+    return daily_plan
