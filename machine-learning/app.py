@@ -512,10 +512,6 @@ def generate_meal_plan(data: MealPlanInput):
     if filtered_foods.empty:
         return {
             'day': data.day,
-            'applied_filters': {
-                'dietary_preferences': data.dietary_preferences,
-                'allergies': data.allergies
-            },
             'message': 'Tidak ada makanan yang cocok dengan pantangan dan alergi yang dipilih.',
             'breakfast': [],
             'lunch': [],
@@ -562,10 +558,6 @@ def generate_meal_plan(data: MealPlanInput):
 
     daily_plan = {
         'day': data.day,
-        'applied_filters': {
-            'dietary_preferences': data.dietary_preferences,
-            'allergies': data.allergies
-        },
         'breakfast': [],
         'lunch': [],
         'dinner': []
