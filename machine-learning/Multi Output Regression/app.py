@@ -511,11 +511,10 @@ def generate_meal_plan(data: MealPlanInput):
 
     if filtered_foods.empty:
         return {
-            'day': data.day,
-            'message': 'Tidak ada makanan yang cocok dengan pantangan dan alergi yang dipilih.',
             'breakfast': [],
             'lunch': [],
-            'dinner': []
+            'dinner': [],
+            'message': 'Tidak ada makanan yang cocok dengan pantangan dan alergi yang dipilih.'
         }
 
     scored_foods = calculate_recommendation_score(
@@ -556,15 +555,14 @@ def generate_meal_plan(data: MealPlanInput):
         for i in range(len(optimized_foods))
     ]
 
-    daily_plan = {
-        'day': data.day,
+    response = {
         'breakfast': [],
         'lunch': [],
         'dinner': []
     }
 
     for _, row in optimized_foods.iterrows():
-        daily_plan[row['meal_time']].append({
+        response[row['meal_time']].append({
             'food': row['food'],
             'recommended_grams': int(round(row['recommended_grams'])),
             'estimated_calories': float(
@@ -578,4 +576,4 @@ def generate_meal_plan(data: MealPlanInput):
             'carbs_per_100g': float(row['Carbohydrates (g per 100g)'])
         })
 
-    return daily_plan
+    return response
