@@ -1166,44 +1166,27 @@ def format_meal_items(
     for _, row in data.iterrows():
 
         items.append({
-
             'food': row['food'],
-
-            'meal_time': row['meal_time'],
-
-            'meal_category': row['meal_category'],
-
             'recommended_grams': int(
                 round(row['recommended_grams'])
             ),
-
             'estimated_calories': float(
-
                 round(
-
                     (
                         row['recommended_grams']
                         * row['Calories (kcal per 100g)']
                     ) / 100,
-
                     2
                 )
             ),
-
             'protein_per_100g': float(
                 row['Protein (g per 100g)']
             ),
-
             'fat_per_100g': float(
                 row['Fat (g per 100g)']
             ),
-
             'carbs_per_100g': float(
                 row['Carbohydrates (g per 100g)']
-            ),
-
-            'final_score': float(
-                round(row['final_score'], 2)
             )
         })
 
@@ -1223,11 +1206,14 @@ def generate_meal_plan(data: MealPlanInput):
         dietary_preferences=data.dietary_preferences,
 
         allergies=data.allergies
+
     )
 
     if filtered_foods.empty:
 
         return {
+
+            'day': data.day,
 
             'breakfast': [],
 
@@ -1239,6 +1225,7 @@ def generate_meal_plan(data: MealPlanInput):
                 'Tidak ada makanan yang cocok '
                 'dengan pantangan dan alergi yang dipilih.'
             )
+
         }
 
     scored_foods = calculate_recommendation_score(
@@ -1252,30 +1239,44 @@ def generate_meal_plan(data: MealPlanInput):
         data.fat,
 
         data.carbs
+
     )
 
     scored_foods = apply_food_penalty(
+        
         scored_foods
     )
 
     breakfast_foods = pick_meal_candidates(
+
         scored_foods,
+
         'breakfast',
+
         sample_n=2,
+
         top_n=40
     )
 
     lunch_foods = pick_meal_candidates(
+
         scored_foods,
+
         'lunch',
+
         sample_n=2,
+
         top_n=40
     )
 
     dinner_foods = pick_meal_candidates(
+
         scored_foods,
+
         'dinner',
+
         sample_n=2,
+
         top_n=40
     )
 
@@ -1290,6 +1291,7 @@ def generate_meal_plan(data: MealPlanInput):
         data.fat * 0.25,
 
         data.carbs * 0.25
+
     )
 
     lunch_foods = assign_portion_grams(
@@ -1303,6 +1305,7 @@ def generate_meal_plan(data: MealPlanInput):
         data.fat * 0.35,
 
         data.carbs * 0.35
+
     )
 
     dinner_foods = assign_portion_grams(
@@ -1316,14 +1319,17 @@ def generate_meal_plan(data: MealPlanInput):
         data.fat * 0.40,
 
         data.carbs * 0.40
+
     )
 
     return {
 
+        'day': data.day,
+
         'breakfast': format_meal_items(
             breakfast_foods
         ),
-
+        
         'lunch': format_meal_items(
             lunch_foods
         ),
@@ -1331,4 +1337,5 @@ def generate_meal_plan(data: MealPlanInput):
         'dinner': format_meal_items(
             dinner_foods
         )
+        
     }
