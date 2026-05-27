@@ -1324,8 +1324,6 @@ def generate_meal_plan(data: MealPlanInput):
 
     return {
 
-        'day': data.day,
-
         'breakfast': format_meal_items(
             breakfast_foods
         ),
