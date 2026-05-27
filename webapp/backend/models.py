@@ -143,7 +143,7 @@ class RecommendationItem(SQLModel, table=True):
 
     id:         Optional[int]   = Field(default=None, primary_key=True)
     option_id:  int             = Field(foreign_key="recommendation_options.id")
-    food_id:    int             = Field(foreign_key="foods.id")
+    food_id:    Optional[int]   = Field(default=None)
     meal_type:  str
     quantity_g: Optional[float] = None
     calories:   Optional[float] = None

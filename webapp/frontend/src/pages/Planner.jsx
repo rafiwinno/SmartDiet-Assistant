@@ -7,7 +7,8 @@ import TextInput from "../components/ui/TextInput";
 import OptionCard from "../components/ui/OptionCard";
 import TagToggle from "../components/ui/TagToggle";
 import Badge from "../components/ui/Badge";
-import { getActivePlan, saveProfile, createPlan } from "../services/api";
+import { getActivePlan, saveProfile, createPlan, getMealOptions } from "../services/api";
+import MealOptionsPopup from "../components/ui/MealOptionsPopup";
 import { calcMacroTargets } from "../constants/nutrition";
 
 const ACTIVITY_LEVELS = [
@@ -306,6 +307,7 @@ export default function Planner() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
+  const [mealPopup, setMealPopup] = useState(null);
 
   const update = (field, value) =>
     setData((prev) => ({ ...prev, [field]: value }));
@@ -340,10 +342,21 @@ export default function Planner() {
     try {
       // 1. Simpan profil & hitung BMR/TDEE
       const profileResult = await saveProfile(data);
-      // 2. Buat plan baru (backend otomatis nonaktifkan plan lama di sini)
+      // 2. Buat plan baru
       const planResult = await createPlan();
       setResult({ profile: profileResult, plan: planResult });
-      setView("success");
+
+      // 3. Ambil rekomendasi menu DULU sebelum tampilkan success
+      // Popup rekomendasi muncul lebih dulu, setelah user pilih baru success muncul
+      try {
+        const optData = await getMealOptions();
+        setMealPopup({ sessionId: optData.session_id, options: optData.options });
+        // view diset ke success SETELAH popup siap
+        setView("success");
+      } catch {
+        // AI gagal — langsung tampilkan success tanpa popup
+        setView("success");
+      }
     } catch (err) {
       const detail = err.response?.data?.detail;
       if (Array.isArray(detail)) {
@@ -431,7 +444,6 @@ export default function Planner() {
   // ─── Sukses ───────────────────────────────────────────────────────────────
   if (view === "success" && result) {
     const plan = result.plan;
-    const profile = result.profile;
 
     const macros = plan.calorie_target
       ? calcMacroTargets(plan.calorie_target)
@@ -446,7 +458,16 @@ export default function Planner() {
     const goal = +data.targetWeight < +data.weight ? 'lose' : +data.targetWeight > +data.weight ? 'gain' : 'maintain'
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <>
+        {mealPopup && (
+          <MealOptionsPopup
+            sessionId={mealPopup.sessionId}
+            options={mealPopup.options}
+            onClose={() => setMealPopup(null)}
+            onChosen={() => setMealPopup(null)}
+          />
+        )}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         {/* Modal */}
         <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-[0_20px_70px_rgba(0,0,0,0.22)] animate-in fade-in zoom-in-95 duration-300">
           {/* Background glows */}
@@ -698,6 +719,7 @@ export default function Planner() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
@@ -725,6 +747,14 @@ export default function Planner() {
         </div>
       )}
 
+      {mealPopup && (
+        <MealOptionsPopup
+          sessionId={mealPopup.sessionId}
+          options={mealPopup.options}
+          onClose={() => setMealPopup(null)}
+          onChosen={() => { setMealPopup(null); }}
+        />
+      )}
       <div className="flex items-center justify-between mt-5">
         <Button
           variant="secondary"

@@ -1,25 +1,13 @@
 import httpx
 from fastapi import HTTPException
 
-AI_BASE_URL = "http://replace-with-your-url"  # Set your AI service URL here
+AI_BASE_URL = "http://32.236.19.32:8001"
 
-GENDER_ENCODING = {
-    "male":   1,
-    "female": 0,
-}
-
-ACTIVITY_ENCODING = {
-    "sedentary":   0,
-    "light":       1,
-    "moderate":    2,
-    "active":      3,
-    "very_active": 4,
-}
-
-GOAL_ENCODING = {
-    "lose":     0,
-    "maintain": 1,
-    "gain":     2,
+# Mapping goal dari format sistem ke format AI
+GOAL_MAPPING = {
+    "lose":     "weight_loss",
+    "gain":     "weight_gain",
+    "maintain": "maintain",
 }
 
 
@@ -28,14 +16,19 @@ async def predict_nutrition(profile) -> dict:
     Call /predict-nutrition with the user's profile.
     Returns { goal_type, estimated_days, daily_target: { calories, protein, fat, carbs } }
     """
+    # Konversi Enum ke string kalau perlu
+    gender         = profile.gender.value         if hasattr(profile.gender,         "value") else (profile.gender         or "male")
+    activity_level = profile.activity_level.value if hasattr(profile.activity_level, "value") else (profile.activity_level or "moderate")
+    goal_raw       = profile.goal.value           if hasattr(profile.goal,           "value") else (profile.goal           or "maintain")
+
     payload = {
-        "gender_encoded":   GENDER_ENCODING.get(profile.gender          or "male",     1),
-        "activity_encoded": ACTIVITY_ENCODING.get(profile.activity_level or "moderate", 2),
-        "goal_encoded":     GOAL_ENCODING.get(profile.goal               or "maintain", 1),
-        "weight_kg":        profile.weight_kg,
-        "target_weight":    profile.target_weight_kg,
-        "height_cm":        profile.height_cm,
-        "age":              profile.age,
+        "gender":         gender,
+        "activity_level": activity_level,
+        "goal":           GOAL_MAPPING.get(goal_raw, "maintain"),
+        "weight_kg":      float(profile.weight_kg        or 70),
+        "target_weight":  float(profile.target_weight_kg or 70),
+        "height_cm":      float(profile.height_cm        or 170),
+        "age":            int(float(profile.age           or 25)),
     }
 
     try:
@@ -49,21 +42,39 @@ async def predict_nutrition(profile) -> dict:
         raise HTTPException(status_code=503, detail=f"AI service unreachable: {str(e)}")
 
 
-async def generate_meal_plan(calories: float, protein: float, fat: float, carbs: float, day: int) -> dict:
+async def generate_meal_plan(
+    calories:            float,
+    protein:             float,
+    fat:                 float,
+    carbs:               float,
+    day:                 int,
+    dietary_preferences: list = [],
+    allergies:           list = [],
+) -> dict:
     """
     Call /generate-meal-plan with macro targets and current plan day.
     Returns { day, breakfast: [...], lunch: [...], dinner: [...] }
+
+    Each meal item:
+    - food: str
+    - recommended_grams: float
+    - estimated_calories: float
+    - protein_per_100g: float
+    - fat_per_100g: float
+    - carbs_per_100g: float
     """
     payload = {
-        "calories": calories,
-        "protein":  protein,
-        "fat":      fat,
-        "carbs":    carbs,
-        "day":      day,
+        "calories":            calories,
+        "protein":             protein,
+        "fat":                 fat,
+        "carbs":               carbs,
+        "day":                 day,
+        "dietary_preferences": dietary_preferences,
+        "allergies":           allergies,
     }
 
     try:
-        async with httpx.AsyncClient(timeout=10) as client:
+        async with httpx.AsyncClient(timeout=30) as client:
             res = await client.post(f"{AI_BASE_URL}/generate-meal-plan", json=payload)
             res.raise_for_status()
             return res.json()

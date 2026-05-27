@@ -104,7 +104,6 @@ export async function getActivePlan() {
   return res.data;
 }
 
-/** Ambil detail satu plan berdasarkan ID (untuk HistoryDetail) */
 export async function getPlanDetail(planId) {
   const res = await api.get(`/diet-plans/${planId}`);
   return res.data;
@@ -154,4 +153,30 @@ export async function getMealHistory(date = null) {
 
 export async function deleteMeal(mealId) {
   await api.delete(`/meals/${mealId}`);
+}
+// ─── MEAL RECOMMENDATIONS ─────────────────────────────────────────────────────
+
+/**
+ * Minta 3 opsi rekomendasi menu dari AI
+ * Dipanggil setelah buat plan baru atau setelah selesai hari ini
+ * Returns: { session_id, options: [{ option_number, breakfast, lunch, dinner, total_calories }] }
+ */
+export async function getMealOptions() {
+  const res = await api.post("/diet-plans/meal-options");
+  return res.data;
+}
+
+/**
+ * Simpan pilihan user ke recommendation_sessions dan meal_logs
+ * @param {number} sessionId  
+ * @param {number} optionNumber 
+ * @param {object} optionData 
+ */
+export async function chooseMealOption(sessionId, optionNumber, optionData) {
+  const res = await api.post("/diet-plans/choose-meal", {
+    session_id:    sessionId,
+    option_number: optionNumber,
+    option_data:   optionData,
+  });
+  return res.data;
 }

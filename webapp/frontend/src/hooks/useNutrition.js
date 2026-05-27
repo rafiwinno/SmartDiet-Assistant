@@ -9,7 +9,7 @@ import { calcMacroTargets } from '../constants/nutrition'
 export function useNutrition() {
   const [profile,      setProfile]      = useState(null)
   const [macroTargets, setMacroTargets] = useState(null)
-  const [todayLogs,    setTodayLogs]    = useState([])
+  // const [todayLogs,    setTodayLogs]    = useState([])
   const [todaySummary, setTodaySummary] = useState(null)
   const [loading,      setLoading]      = useState(false)
   const [error,        setError]        = useState(null)

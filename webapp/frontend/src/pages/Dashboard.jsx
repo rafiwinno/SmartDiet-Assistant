@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import { useNavigate }         from 'react-router-dom'
 import Card                    from '../components/ui/Card'
 import Button                  from '../components/ui/Button'
-import { getCurrentUser, getDashboardData, completeDay } from '../services/api'
+import { getCurrentUser, getDashboardData, completeDay, getMealOptions, getMealHistory } from '../services/api'
 import { calcMacroTargets } from '../constants/nutrition'
+import MealOptionsPopup from '../components/ui/MealOptionsPopup'
+
 
 // ─── Local sub-components ─────────────────────────────────────────────────────
 
@@ -164,35 +166,6 @@ const MEAL_COLORS = {
   dinner:    { bg: 'bg-purple-50', border: 'border-purple-200', label: 'bg-purple-100 text-purple-700' },
 }
 
-// Mock recommendations — replace with API call when AI model is ready
-const MOCK_RECOMMENDATIONS = {
-  breakfast: {
-    totalCalories: 480,
-    items: [
-      { food_name: 'Oatmeal',     quantity_g: 80,  calories: 296, protein_g: 10.6, carbs_g: 53.6, fat_g: 5.6 },
-      { food_name: 'Telur rebus', quantity_g: 100, calories: 155, protein_g: 13,   carbs_g: 1.1,  fat_g: 11  },
-      { food_name: 'Pisang',      quantity_g: 100, calories: 89,  protein_g: 1.1,  carbs_g: 23,   fat_g: 0.3 },
-    ],
-  },
-  lunch: {
-    totalCalories: 650,
-    items: [
-      { food_name: 'Nasi merah',    quantity_g: 150, calories: 165, protein_g: 3.8, carbs_g: 35, fat_g: 1.3 },
-      { food_name: 'Ayam panggang', quantity_g: 200, calories: 330, protein_g: 56,  carbs_g: 0,  fat_g: 9   },
-      { food_name: 'Sayur tumis',   quantity_g: 100, calories: 55,  protein_g: 2,   carbs_g: 8,  fat_g: 2   },
-      { food_name: 'Tempe goreng',  quantity_g: 50,  calories: 100, protein_g: 9.5, carbs_g: 8,  fat_g: 3.8 },
-    ],
-  },
-  dinner: {
-    totalCalories: 520,
-    items: [
-      { food_name: 'Ikan bakar',    quantity_g: 200, calories: 220, protein_g: 44,  carbs_g: 0,   fat_g: 4   },
-      { food_name: 'Nasi merah',    quantity_g: 100, calories: 110, protein_g: 2.5, carbs_g: 23,  fat_g: 0.9 },
-      { food_name: 'Brokoli kukus', quantity_g: 150, calories: 51,  protein_g: 4.5, carbs_g: 9,   fat_g: 0.5 },
-      { food_name: 'Tahu goreng',   quantity_g: 100, calories: 139, protein_g: 9.5, carbs_g: 3.9, fat_g: 9.9 },
-    ],
-  },
-}
 
 function MealRecommendCard({ type, items = [], totalCalories }) {
   const [expanded, setExpanded] = useState(false)
@@ -282,11 +255,13 @@ function EmptyState() {
 export default function Dashboard() {
   const user = getCurrentUser()
 
-  const [plan,         setPlan]         = useState(null)
+  const [plan,          setPlan]          = useState(null)
   const [calorieTarget, setCalorieTarget] = useState(null)
   const [macroTargets,  setMacroTargets]  = useState(null)
-  const [loading,      setLoading]      = useState(true)
+  const [loading,       setLoading]       = useState(true)
   const [hasActivePlan, setHasActivePlan] = useState(false)
+  const [mealPopup,     setMealPopup]     = useState(null)
+  const [todayMeals,    setTodayMeals]    = useState({ breakfast: [], lunch: [], dinner: [] })
 
   const today = new Date().toLocaleDateString('id-ID', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -301,18 +276,35 @@ export default function Dashboard() {
         if (profile.calorie_target) {
           setMacroTargets(calcMacroTargets(profile.calorie_target))
         }
+        return getMealHistory(new Date().toISOString().split('T')[0])
+      })
+      .then(history => {
+        if (!history?.logs) return
+        const grouped = { breakfast: [], lunch: [], dinner: [] }
+        history.logs.forEach(log => {
+          if (grouped[log.meal_type]) grouped[log.meal_type].push(log)
+        })
+        setTodayMeals(grouped)
       })
       .catch(() => {
-        // No active plan or no profile — show empty state
         setHasActivePlan(false)
       })
       .finally(() => setLoading(false))
   }, [])
 
-  const handleFinishDay = async () => {
-    const updated = await completeDay()
-    setPlan(updated)   // re-render with new streak + days_elapsed
+const handleFinishDay = async () => {
+  const updated = await completeDay()
+  setPlan(updated)
+  try {
+    const data = await getMealOptions()
+    setMealPopup({ sessionId: data.session_id, options: data.options })
+  } catch (err) {
+    // Tambah ini sementara:
+    console.error('getMealOptions error:', err.response?.data || err.message)
   }
+}
+
+
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
@@ -351,20 +343,32 @@ export default function Dashboard() {
           <div>
             <SectionLabel>Rekomendasi menu hari ini ✦</SectionLabel>
             <p className="text-xs text-stone-400 mb-3">
-              Rekomendasi AI — akan diperbarui saat model tersedia
+              {Object.values(todayMeals).every(arr => arr.length === 0)
+                ? 'Belum ada menu dipilih untuk hari ini'
+                : 'Menu yang kamu pilih untuk hari ini'}
             </p>
             <div className="flex flex-col gap-3">
               {['breakfast', 'lunch', 'dinner'].map(type => (
                 <MealRecommendCard
                   key={type}
                   type={type}
-                  items={MOCK_RECOMMENDATIONS[type]?.items ?? []}
-                  totalCalories={MOCK_RECOMMENDATIONS[type]?.totalCalories ?? 0}
+                  items={todayMeals[type] ?? []}
+                  totalCalories={(todayMeals[type] ?? []).reduce((s, i) => s + (i.calories || 0), 0)}
                 />
               ))}
             </div>
           </div>
         </>
+      )}
+
+      {/* Popup rekomendasi menu */}
+      {mealPopup && (
+        <MealOptionsPopup
+          sessionId={mealPopup.sessionId}
+          options={mealPopup.options}
+          onClose={() => setMealPopup(null)}
+          onChosen={() => setMealPopup(null)}
+        />
       )}
     </div>
   )
