@@ -465,6 +465,7 @@ export default function Planner() {
             options={mealPopup.options}
             onClose={() => setMealPopup(null)}
             onChosen={() => setMealPopup(null)}
+            forToday={true}
           />
         )}
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">

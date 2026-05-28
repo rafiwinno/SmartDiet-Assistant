@@ -87,7 +87,7 @@ function MealSection({ type, items }) {
   )
 }
 
-export default function MealOptionsPopup({ sessionId, options, onClose, onChosen }) {
+export default function MealOptionsPopup({ sessionId, options, onClose, onChosen, forToday = false }) {
   const [activeTab, setActiveTab] = useState(0)
   const [loading,   setLoading]   = useState(false)
   const [error,     setError]     = useState('')
@@ -102,7 +102,7 @@ export default function MealOptionsPopup({ sessionId, options, onClose, onChosen
         breakfast: opt.breakfast,
         lunch:     opt.lunch,
         dinner:    opt.dinner,
-      })
+      }, forToday)
       onChosen(opt)
     } catch (err) {
       const d = err.response?.data?.detail

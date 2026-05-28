@@ -172,11 +172,12 @@ export async function getMealOptions() {
  * @param {number} optionNumber 
  * @param {object} optionData 
  */
-export async function chooseMealOption(sessionId, optionNumber, optionData) {
+export async function chooseMealOption(sessionId, optionNumber, optionData, forToday = false) {
   const res = await api.post("/diet-plans/choose-meal", {
     session_id:    sessionId,
     option_number: optionNumber,
     option_data:   optionData,
+    for_today:     forToday,
   });
   return res.data;
 }

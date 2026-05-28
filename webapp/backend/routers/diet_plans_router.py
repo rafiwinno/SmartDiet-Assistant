@@ -371,12 +371,23 @@ def choose_meal(
     rec_session.chosen_option_id = rec_option.id
     session.add(rec_session)
 
-    # Simpan ke meal_logs untuk tanggal besok
-    tomorrow  = (date.today() + timedelta(days=1)).isoformat()
+    # Simpan ke meal_logs — hari ini kalau bikin plan baru, besok kalau selesai hari ini
+    for_today = data.get("for_today", False)
+    log_date  = date.today().isoformat() if for_today                 else (date.today() + timedelta(days=1)).isoformat()
     items     = session.exec(
         select(RecommendationItem)
         .where(RecommendationItem.option_id == rec_option.id)
     ).all()
+
+    # Hapus meal_logs lama untuk tanggal ini agar tidak menumpuk
+    old_logs = session.exec(
+        select(MealLog)
+        .where(MealLog.user_id  == current_user.id)
+        .where(MealLog.log_date == log_date)
+    ).all()
+    for log in old_logs:
+        session.delete(log)
+    session.flush()
 
     # Ambil data option dari request body (berisi food name & makro)
     options_data = data.get("option_data", {})
@@ -396,13 +407,13 @@ def choose_meal(
                 protein_g  = macros["protein_g"],
                 fat_g      = macros["fat_g"],
                 carbs_g    = macros["carbs_g"],
-                log_date   = tomorrow,
+                log_date   = log_date,
             )
             session.add(log)
 
     session.commit()
 
-    return {"message": "Pilihan berhasil disimpan", "log_date": tomorrow}
+    return {"message": "Pilihan berhasil disimpan", "log_date": log_date}
 
 
 @router.get("/{plan_id}")

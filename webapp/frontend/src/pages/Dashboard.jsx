@@ -183,7 +183,7 @@ function MealRecommendCard({ type, items = [], totalCalories }) {
           <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${label}`}>
             {MEAL_TYPES[type]}
           </span>
-          <span className="text-sm text-stone-500">{totalCalories} kcal</span>
+          <span className="text-sm text-stone-500">{Math.round(totalCalories)} kcal</span>
         </div>
         <span className="text-stone-400 text-sm">{expanded ? '▲' : '▼'}</span>
       </button>
@@ -193,31 +193,18 @@ function MealRecommendCard({ type, items = [], totalCalories }) {
           {items.map((item, i) => (
             <div key={i}
               className="flex items-center justify-between py-2.5 border-b border-stone-100 last:border-none">
-              <div>
-                <p className="text-sm font-medium text-stone-800">{item.food_name}</p>
-                {item.notes && (
-                  <p className="text-xs text-stone-400 mt-0.5">{item.notes}</p>
-                )}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-stone-800 leading-snug">{item.food_name}</p>
+                <p className="text-xs text-stone-400 mt-0.5">
+                  P {((item.protein_g ?? 0)).toFixed(1)}g · K {((item.carbs_g ?? 0)).toFixed(1)}g · L {((item.fat_g ?? 0)).toFixed(1)}g
+                </p>
               </div>
-              <div className="text-right shrink-0 ml-4">
+              <div className="text-right shrink-0 ml-4 w-16">
                 <p className="text-sm font-semibold text-stone-700">{item.quantity_g}g</p>
-                <p className="text-xs text-stone-400">{item.calories} kcal</p>
+                <p className="text-xs text-stone-400">{Math.round(item.calories ?? 0)} kcal</p>
               </div>
             </div>
           ))}
-          {items.length > 0 && (
-            <div className="flex gap-4 pt-1">
-              {[
-                { label: 'P', value: items.reduce((s, i) => s + (i.protein_g ?? 0), 0).toFixed(1), color: 'text-orange-500' },
-                { label: 'C', value: items.reduce((s, i) => s + (i.carbs_g   ?? 0), 0).toFixed(1), color: 'text-amber-500'  },
-                { label: 'F', value: items.reduce((s, i) => s + (i.fat_g     ?? 0), 0).toFixed(1), color: 'text-blue-500'   },
-              ].map(({ label, value, color }) => (
-                <span key={label} className="text-xs text-stone-400">
-                  {label} <span className={`font-semibold ${color}`}>{value}g</span>
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       )}
     </div>
@@ -353,7 +340,7 @@ const handleFinishDay = async () => {
                   key={type}
                   type={type}
                   items={todayMeals[type] ?? []}
-                  totalCalories={(todayMeals[type] ?? []).reduce((s, i) => s + (i.calories || 0), 0)}
+                  totalCalories={Math.round((todayMeals[type] ?? []).reduce((s, i) => s + (i.calories || 0), 0))}
                 />
               ))}
             </div>
