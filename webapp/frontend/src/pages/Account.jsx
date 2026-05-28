@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate }  from "react-router-dom";
+import EditProfilePopup from "../components/ui/EditProfilePopup";
 import Card   from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Badge  from "../components/ui/Badge";
@@ -68,8 +69,10 @@ function PlanHistoryRow({ plan, index }) {
 }
 
 export default function Account() {
-  const navigate = useNavigate();
-  const [profile, setProfile] = useState(null);
+  const navigate               = useNavigate();
+  const [showEdit,     setShowEdit]     = useState(false);
+  const [profile,      setProfile]      = useState(null);
+  const [localProfile, setLocalProfile] = useState(null);
   const [plans,   setPlans]   = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -77,6 +80,7 @@ export default function Account() {
     Promise.all([getProfile(), getPlans()])
       .then(([prof, planList]) => {
         setProfile(prof);
+        setLocalProfile(prof);
         setPlans(planList);
       })
       .catch(() => {})
@@ -119,14 +123,14 @@ export default function Account() {
       <Card>
         <div className="flex flex-col items-center gap-3 py-2">
           <img
-            src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${user?.name}`}
+            src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${localProfile?.name || user?.name}`}
             alt="avatar"
             className="w-24 h-24 rounded-full bg-stone-100 border-4 border-white shadow-md"
           />
           <div className="text-center">
-            <p className="text-lg font-semibold text-stone-800">{user?.name ?? "—"}</p>
+            <p className="text-lg font-semibold text-stone-800">{localProfile?.name || user?.name || "—"}</p>
           </div>
-          <Button variant="secondary" size="sm" onClick={() => navigate("/profile")}>
+          <Button variant="secondary" size="sm" onClick={() => setShowEdit(true)}>
             Edit profil
           </Button>
         </div>
@@ -140,10 +144,10 @@ export default function Account() {
           </p>
           <Card padding={false}>
             <div className="px-5">
-              <InfoRow label="Usia"          value={profile.age       ? `${profile.age} tahun` : null} />
-              <InfoRow label="Jenis kelamin" value={GENDER_MAP[profile.gender] ?? profile.gender}       />
-              <InfoRow label="Berat badan"   value={profile.weight_kg ? `${profile.weight_kg} kg` : null} />
-              <InfoRow label="Tinggi badan"  value={profile.height_cm ? `${profile.height_cm} cm` : null} />
+              <InfoRow label="Usia"          value={localProfile?.age       ? `${localProfile.age} tahun` : null} />
+              <InfoRow label="Jenis kelamin" value={GENDER_MAP[localProfile?.gender] ?? localProfile?.gender}       />
+              <InfoRow label="Berat badan"   value={localProfile?.weight_kg ? `${localProfile.weight_kg} kg` : null} />
+              <InfoRow label="Tinggi badan"  value={localProfile?.height_cm ? `${localProfile.height_cm} cm` : null} />
             </div>
           </Card>
         </div>
@@ -176,6 +180,21 @@ export default function Account() {
             </div>
           </Card>
         </div>
+      )}
+      {showEdit && (
+        <EditProfilePopup
+          profile={localProfile}
+          onClose={() => setShowEdit(false)}
+          onSaved={(updated) => {
+            setLocalProfile(prev => ({ ...prev, ...updated }));
+            // Update localStorage agar nama sinkron di sidebar dan tempat lain
+            if (updated.name) {
+              const cur = JSON.parse(localStorage.getItem("user") || "{}");
+              localStorage.setItem("user", JSON.stringify({ ...cur, name: updated.name }));
+            }
+            setShowEdit(false);
+          }}
+        />
       )}
     </div>
   );

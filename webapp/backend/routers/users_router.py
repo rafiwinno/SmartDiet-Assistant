@@ -30,6 +30,11 @@ def save_onboarding(
     if not profile:
         profile = UserProfile(user_id=user.id)
 
+    # Update nama kalau dikirim (dari popup edit profil)
+    if data.name:
+        user.name = data.name
+        session.add(user)
+
     profile.age        = data.age
     profile.gender     = data.gender
     profile.updated_at = datetime.utcnow()

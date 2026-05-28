@@ -57,6 +57,15 @@ export function getCurrentUser() {
 
 // ─── PROFILE ──────────────────────────────────────────────────────────────────
 
+export async function updateBasicProfile({ name, age, gender }) {
+  const res = await api.put("/user/onboarding", {
+    name:   name   || undefined,
+    age:    parseInt(age),
+    gender: gender,
+  });
+  return res.data;
+}
+
 export async function saveOnboardingData({ age, gender }) {
   const res = await api.put("/user/onboarding", {
     age:    parseInt(age),
@@ -119,7 +128,6 @@ export async function generateMeal() {
   return res.data;
 }
 
-// Alias used by Dashboard for meal recommendations
 export async function getRecommendations() {
   return generateMeal();
 }
@@ -172,12 +180,11 @@ export async function getMealOptions() {
  * @param {number} optionNumber 
  * @param {object} optionData 
  */
-export async function chooseMealOption(sessionId, optionNumber, optionData, forToday = false) {
+export async function chooseMealOption(sessionId, optionNumber, optionData) {
   const res = await api.post("/diet-plans/choose-meal", {
     session_id:    sessionId,
     option_number: optionNumber,
     option_data:   optionData,
-    for_today:     forToday,
   });
   return res.data;
 }
