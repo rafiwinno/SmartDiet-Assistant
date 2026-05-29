@@ -4,16 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts'
 import Card  from '../components/ui/Card'
-import Badge from '../components/ui/Badge'
 import { getPlanDetail } from '../services/api'
-
-const GOAL_LABEL = {
-  lose    : 'Turun berat badan',
-  maintain: 'Pertahankan berat',
-  gain    : 'Naik berat badan',
-}
-
-const GOAL_BADGE = { lose: 'blue', maintain: 'green', gain: 'amber' }
 
 // ─── Data placeholder untuk chart ────────────────────────────────────────────
 // AI Engineer: ganti PLACEHOLDER_DATA dengan data real dari API saat integrasi.
@@ -125,7 +116,7 @@ export default function HistoryDetail() {
   if (loading) return <p className="text-sm text-stone-400 text-center py-12">Memuat...</p>
   if (!plan)   return null
 
-  const progress  = Math.min(plan.days_elapsed, plan.total_days)
+  const progress  = Math.min(plan.days_elapsed, plan.estimated_days)
   const createdAt = new Date(plan.created_at).toLocaleDateString('id-ID', {
     day: 'numeric', month: 'long', year: 'numeric',
   })
@@ -146,11 +137,6 @@ export default function HistoryDetail() {
           ? <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-200">Aktif</span>
           : <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-stone-100 text-stone-500">Selesai</span>
         }
-        {plan.goal && (
-          <Badge variant={GOAL_BADGE[plan.goal] || 'stone'}>
-            {GOAL_LABEL[plan.goal] || plan.goal}
-          </Badge>
-        )}
         {plan.calorie_target && (
           <span className="text-xs text-stone-400">{plan.calorie_target} kcal/hari</span>
         )}
@@ -160,13 +146,13 @@ export default function HistoryDetail() {
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-stone-800">Progress</p>
           <span className="text-sm font-semibold text-blue-500">
-            {progress}/{plan.total_days} hari
+            {progress}/{plan.estimated_days} hari
           </span>
         </div>
         <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
           <div
             className="h-full bg-blue-500 rounded-full transition-all"
-            style={{ width: `${(progress / plan.total_days) * 100}%` }}
+            style={{ width: `${(progress / plan.estimated_days) * 100}%` }}
           />
         </div>
         {/* AI Engineer: total_days saat ini default 30.

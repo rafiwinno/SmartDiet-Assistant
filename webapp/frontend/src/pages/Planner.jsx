@@ -9,7 +9,6 @@ import TagToggle from "../components/ui/TagToggle";
 import Badge from "../components/ui/Badge";
 import { getActivePlan, saveProfile, createPlan, getMealOptions } from "../services/api";
 import MealOptionsPopup from "../components/ui/MealOptionsPopup";
-import { calcMacroTargets } from "../constants/nutrition";
 
 const ACTIVITY_LEVELS = [
   {
@@ -445,8 +444,8 @@ export default function Planner() {
   if (view === "success" && result) {
     const plan = result.plan;
 
-    const macros = plan.calorie_target
-      ? calcMacroTargets(plan.calorie_target)
+    const macros = plan.protein_target
+      ? { protein: plan.protein_target, carbs: plan.carbs_target, fat: plan.fat_target }
       : { protein: "—", carbs: "—", fat: "—" };
 
     const startDate = new Date(plan.created_at).toLocaleDateString("id-ID", {
@@ -748,14 +747,6 @@ export default function Planner() {
         </div>
       )}
 
-      {mealPopup && (
-        <MealOptionsPopup
-          sessionId={mealPopup.sessionId}
-          options={mealPopup.options}
-          onClose={() => setMealPopup(null)}
-          onChosen={() => { setMealPopup(null); }}
-        />
-      )}
       <div className="flex items-center justify-between mt-5">
         <Button
           variant="secondary"

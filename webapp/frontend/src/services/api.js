@@ -128,10 +128,6 @@ export async function generateMeal() {
   return res.data;
 }
 
-export async function getRecommendations() {
-  return generateMeal();
-}
-
 export async function completeDay() {
   const res = await api.post('/diet-plans/complete-day')
   return res.data

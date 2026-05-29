@@ -3,7 +3,6 @@ import { useNavigate }         from 'react-router-dom'
 import Card                    from '../components/ui/Card'
 import Button                  from '../components/ui/Button'
 import { getCurrentUser, getDashboardData, completeDay, getMealOptions, getMealHistory } from '../services/api'
-import { calcMacroTargets } from '../constants/nutrition'
 import MealOptionsPopup from '../components/ui/MealOptionsPopup'
 
 
@@ -274,7 +273,11 @@ export default function Dashboard() {
         setHasActivePlan(true)
         setCalorieTarget(profile.calorie_target ?? 2000)
         if (profile.calorie_target) {
-          setMacroTargets(calcMacroTargets(profile.calorie_target))
+          setMacroTargets({
+            protein: plan.protein_target,
+            fat:     plan.fat_target,
+            carbs:   plan.carbs_target,
+          })
         }
         return getMealHistory(new Date().toISOString().split('T')[0])
       })

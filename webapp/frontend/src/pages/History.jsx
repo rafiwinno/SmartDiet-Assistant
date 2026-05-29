@@ -21,7 +21,7 @@ function PlanCard({ plan, onClick }) {
       })
     : null
 
-  const progress = Math.min(plan.days_elapsed, plan.total_days)
+  const progress = Math.min(plan.days_elapsed, plan.estimated_days)
 
   return (
     <button
@@ -58,11 +58,11 @@ function PlanCard({ plan, onClick }) {
         <div className="flex-1 h-1.5 bg-stone-100 rounded-full overflow-hidden">
           <div
             className="h-full bg-blue-500 rounded-full transition-all"
-            style={{ width: `${(progress / plan.total_days) * 100}%` }}
+            style={{ width: `${(progress / plan.estimated_days) * 100}%` }}
           />
         </div>
         <span className="text-xs text-stone-400 shrink-0">
-          {progress}/{plan.total_days} hari
+          {progress}/{plan.estimated_days}hari
         </span>
       </div>
 
