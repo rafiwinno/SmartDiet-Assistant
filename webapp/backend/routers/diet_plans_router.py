@@ -17,7 +17,7 @@ router = APIRouter()
 
 
 def _format_plan(plan: DietPlan, profile=None) -> dict:
-    days_elapsed  = (datetime.utcnow() - plan.created_at).days
+    days_elapsed  = plan.days_completed
     total_days    = plan.estimated_days or 30
     estimated_end = (plan.created_at + timedelta(days=total_days)).strftime("%d %b %Y")
 
@@ -119,7 +119,8 @@ def complete_day(
     if plan.current_streak > plan.longest_streak:
         plan.longest_streak = plan.current_streak
 
-    plan.last_completed_date = today
+    plan.days_completed      += 1
+    plan.last_completed_date  = today
 
     session.add(plan)
     session.commit()
@@ -203,8 +204,6 @@ async def get_meal_recommendation(
     if not plan:
         raise HTTPException(status_code=404, detail="Tidak ada plan aktif")
 
-    days_elapsed = (datetime.utcnow() - plan.created_at).days
-
     # PERUBAHAN: kirim dietary dan allergies ke AI
     dietary   = json.loads(profile.dietary   or "[]")
     allergies = json.loads(profile.allergies or "[]")
@@ -214,7 +213,7 @@ async def get_meal_recommendation(
         protein             = profile.protein_target or 0,
         fat                 = profile.fat_target     or 0,
         carbs               = profile.carbs_target   or 0,
-        day                 = days_elapsed + 1,
+        day                 = plan.days_completed + 1,
         dietary_preferences = dietary,
         allergies           = allergies,
     )
@@ -254,8 +253,7 @@ async def get_meal_options(
     if not plan:
         raise HTTPException(status_code=404, detail="Tidak ada plan aktif")
 
-    days_elapsed = (datetime.utcnow() - plan.created_at).days
-    day          = days_elapsed + 1
+    day      = plan.days_completed + 1
     dietary      = json.loads(profile.dietary   or "[]")
     allergies    = json.loads(profile.allergies or "[]")
 

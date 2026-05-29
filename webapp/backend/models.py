@@ -67,6 +67,7 @@ class DietPlan(SQLModel, table=True):
     ended_at:        Optional[datetime] = None
     current_streak:       int            = Field(default=0)
     longest_streak:       int            = Field(default=0)
+    days_completed:       int            = Field(default=0)
     last_completed_date:  Optional[date] = Field(default=None)
 
     user:      Optional[User]  = Relationship(back_populates="diet_plans")
