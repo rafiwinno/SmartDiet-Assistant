@@ -8,7 +8,7 @@ from datetime import date as date_type, datetime
 from typing import Optional
 
 from database import get_session
-from models import User, MealLog
+from models import User, MealLog, DietPlan
 from schemas import MealLogInput, MealLogResponse, MealHistoryResponse
 from auth import get_current_user
 
@@ -55,8 +55,15 @@ def log_meal(
       "log_date":   "2026-05-09"
     }
     """
+    active_plan = session.exec(
+        select(DietPlan)
+        .where(DietPlan.user_id == current_user.id)
+        .where(DietPlan.is_active == True)
+    ).first()
+
     meal = MealLog(
         user_id    = current_user.id,
+        plan_id    = active_plan.id if active_plan else None,
         food_id    = data.food_id,
         food_name  = data.food_name,
         meal_type  = data.meal_type.value,

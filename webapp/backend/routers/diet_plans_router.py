@@ -389,6 +389,13 @@ def choose_meal(
         session.delete(log)
     session.flush()
 
+    # Ambil active plan untuk plan_id
+    active_plan = session.exec(
+        select(DietPlan)
+        .where(DietPlan.user_id  == current_user.id)
+        .where(DietPlan.is_active == True)
+    ).first()
+
     # Ambil data option dari request body (berisi food name & makro)
     options_data = data.get("option_data", {})
     breakfast    = options_data.get("breakfast", [])
@@ -400,6 +407,7 @@ def choose_meal(
             macros = _calc_macros(item)
             log = MealLog(
                 user_id    = current_user.id,
+                plan_id    = active_plan.id if active_plan else None,
                 food_name  = item.get("food", "Unknown"),
                 meal_type  = meal_type,
                 quantity_g = item.get("recommended_grams", 0),
@@ -430,3 +438,51 @@ def get_plan_detail(
         raise HTTPException(status_code=403, detail="Akses ditolak")
 
     return _format_plan(plan)
+
+
+@router.get("/{plan_id}/stats")
+def get_plan_stats(
+    plan_id:      int,
+    current_user: User    = Depends(get_current_user),
+    session:      Session = Depends(get_session)
+):
+    plan = session.get(DietPlan, plan_id)
+
+    if not plan:
+        raise HTTPException(status_code=404, detail="Plan tidak ditemukan")
+    if plan.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Akses ditolak")
+
+    logs = session.exec(
+        select(MealLog)
+        .where(MealLog.plan_id == plan_id)
+        .order_by(MealLog.log_date)
+    ).all()
+
+    # Group by log_date, sum nutrients
+    grouped = {}
+    for log in logs:
+        d = log.log_date
+        if d not in grouped:
+            grouped[d] = { "calories": 0, "protein": 0, "carbs": 0, "fat": 0 }
+        grouped[d]["calories"] += log.calories   or 0
+        grouped[d]["protein"]  += log.protein_g  or 0
+        grouped[d]["carbs"]    += log.carbs_g    or 0
+        grouped[d]["fat"]      += log.fat_g      or 0
+
+    result = []
+    for date_str, totals in grouped.items():
+        try:
+            from datetime import datetime as dt
+            label = dt.strptime(date_str, "%Y-%m-%d").strftime("%d %b")
+        except Exception:
+            label = date_str
+        result.append({
+            "label":    label,
+            "calories": round(totals["calories"]),
+            "protein":  round(totals["protein"],  1),
+            "carbs":    round(totals["carbs"],     1),
+            "fat":      round(totals["fat"],       1),
+        })
+
+    return result

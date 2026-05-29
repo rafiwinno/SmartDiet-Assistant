@@ -118,6 +118,11 @@ export async function getPlanDetail(planId) {
   return res.data;
 }
 
+export async function getPlanStats(planId) {
+  const res = await api.get(`/diet-plans/${planId}/stats`);
+  return res.data;
+}
+
 export async function createPlan() {
   const res = await api.post("/diet-plans");
   return res.data;
