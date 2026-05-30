@@ -10,6 +10,33 @@ GOAL_MAPPING = {
     "maintain": "maintain",
 }
 
+DIETARY_MAPPING = {
+    "Vegetarian":    "is_vegetarian",
+    "Vegan":         "is_vegan",
+    "Halal":         "is_halal",
+    "Bebas gluten":  "is_gluten_free",
+    "Bebas laktosa": "is_lactose_free",
+    "Bebas kacang":  "is_nut_free",
+}
+
+ALLERGY_MAPPING = {
+    "Kacang tanah": "allergen_peanut",
+    "Susu":         "allergen_milk",
+    "Telur":        "allergen_egg",
+    "Ikan":         "allergen_fish",
+    "Udang":        "allergen_shellfish",
+    "Kedelai":      "allergen_soy",
+    "Gandum":       "allergen_wheat",
+}
+
+
+def encode_dietary(dietary: list) -> list:
+    return [DIETARY_MAPPING[d] for d in dietary if d in DIETARY_MAPPING]
+
+
+def encode_allergies(allergies: list) -> list:
+    return [ALLERGY_MAPPING[a] for a in allergies if a in ALLERGY_MAPPING]
+
 
 async def predict_nutrition(profile) -> dict:
     """
@@ -69,8 +96,8 @@ async def generate_meal_plan(
         "fat":                 fat,
         "carbs":               carbs,
         "day":                 day,
-        "dietary_preferences": dietary_preferences,
-        "allergies":           allergies,
+        "dietary_preferences": encode_dietary(dietary_preferences),
+        "allergies":           encode_allergies(allergies),
     }
 
     try:
