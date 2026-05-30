@@ -52,108 +52,50 @@ function CalorieTarget({ calories, macros }) {
   )
 }
 
-function DailyProgress({ plan, onFinishDay }) {
-  const [showConfirm, setShowConfirm] = useState(false)
-  const [completing,  setCompleting]  = useState(false)
-  const [error,       setError]       = useState('')
-
+function DailyProgress({ plan }) {
   const currentDay  = plan.days_elapsed ?? 0
   const totalDays   = plan.estimated_days || plan.total_days || 30
   const streak      = plan.current_streak
-  const alreadyDone = plan.last_completed_date === new Date().toISOString().split('T')[0]
-
-  const handleConfirm = async () => {
-    setCompleting(true)
-    setError('')
-    try {
-      await onFinishDay()
-      setShowConfirm(false)
-    } catch (err) {
-      setError(err.response?.data?.detail || 'Gagal menyelesaikan hari ini')
-    } finally {
-      setCompleting(false)
-    }
-  }
 
   return (
-    <>
-      <Card>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-stone-400 mb-1">
-              Progres Harian
-            </p>
-            <p className="text-2xl font-semibold text-stone-800 leading-none">
-              Hari ke-{currentDay + 1}
-              <span className="text-base font-normal text-stone-400 ml-1">
-                dari {totalDays}
+    <Card>
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs font-medium uppercase tracking-widest text-stone-400 mb-1">
+            Progres Harian
+          </p>
+          <p className="text-2xl font-semibold text-stone-800 leading-none">
+            Hari ke-{currentDay + 1}
+            <span className="text-base font-normal text-stone-400 ml-1">
+              dari {totalDays}
+            </span>
+          </p>
+          <p className="text-xs text-stone-400 mt-1.5">
+            {totalDays - currentDay} hari tersisa untuk mencapai target
+          </p>
+          {streak > 0 && (
+            <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1
+              bg-blue-100 border border-blue-500 rounded-full">
+              <span className="text-blue-600 text-xs font-semibold">
+                Streak {streak} hari 🔥
               </span>
-            </p>
-            <p className="text-xs text-stone-400 mt-1.5">
-              {totalDays - currentDay} hari tersisa untuk mencapai target
-            </p>
-            {streak > 0 && (
-              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1
-                bg-blue-100 border border-blue-500 rounded-full">
-                <span className="text-blue-600 text-xs font-semibold">
-                  Streak {streak} hari 🔥
-                </span>
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={() => setShowConfirm(true)}
-            disabled={currentDay >= totalDays || alreadyDone}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-l-sm
-              hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed
-              transition-all cursor-pointer"
-          >
-            {alreadyDone ? 'Selesai ✓' : 'Selesai Hari Ini'}
-          </button>
-        </div>
-
-        <div className="flex gap-1 mt-4 flex-wrap">
-          {Array.from({ length: totalDays }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 flex-1 rounded-full min-w-1 transition-all
-                ${i < currentDay   ? 'bg-blue-500'
-                : i === currentDay ? 'bg-blue-200'
-                :                    'bg-stone-100'}`}
-            />
-          ))}
-        </div>
-
-        {error && (
-          <p className="text-xs text-red-500 mt-2">{error}</p>
-        )}
-      </Card>
-
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
-            <p className="text-base font-semibold text-stone-800 mb-1">
-              Selesaikan hari ini?
-            </p>
-            <p className="text-sm text-stone-500 mb-5">
-              Kamu akan menandai hari ke-{currentDay + 1} sebagai selesai.
-              Progres akan bertambah menjadi hari ke-{currentDay + 1} dari {totalDays}.
-            </p>
-            <div className="flex gap-3">
-              <Button variant="secondary" fullWidth
-                onClick={() => setShowConfirm(false)}
-                disabled={completing}>
-                Batal
-              </Button>
-              <Button fullWidth onClick={handleConfirm} disabled={completing}>
-                {completing ? 'Menyimpan...' : 'Ya, selesai'}
-              </Button>
             </div>
-          </div>
+          )}
         </div>
-      )}
-    </>
+      </div>
+
+      <div className="flex gap-1 mt-4 flex-wrap">
+        {Array.from({ length: totalDays }).map((_, i) => (
+          <div
+            key={i}
+            className={`h-1.5 flex-1 rounded-full min-w-1 transition-all
+              ${i < currentDay   ? 'bg-blue-500'
+              : i === currentDay ? 'bg-blue-200'
+              :                    'bg-stone-100'}`}
+          />
+        ))}
+      </div>
+    </Card>
   )
 }
 
@@ -260,11 +202,24 @@ export default function Dashboard() {
   const [loading,       setLoading]       = useState(true)
   const [hasActivePlan, setHasActivePlan] = useState(false)
   const [mealPopup,     setMealPopup]     = useState(null)
+  const [loadingMeal,   setLoadingMeal]   = useState(false)
   const [todayMeals,    setTodayMeals]    = useState({ breakfast: [], lunch: [], dinner: [] })
 
   const today = new Date().toLocaleDateString('id-ID', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
+
+  const todayISO = new Date().toISOString().split('T')[0]
+
+  const fetchTodayMeals = async () => {
+    const history = await getMealHistory(todayISO)
+    if (!history?.logs) return
+    const grouped = { breakfast: [], lunch: [], dinner: [] }
+    history.logs.forEach(log => {
+      if (grouped[log.meal_type]) grouped[log.meal_type].push(log)
+    })
+    setTodayMeals(grouped)
+  }
 
   useEffect(() => {
     getDashboardData()
@@ -272,14 +227,14 @@ export default function Dashboard() {
         setPlan(plan)
         setHasActivePlan(true)
         setCalorieTarget(profile.calorie_target ?? 2000)
-        if (profile.calorie_target) {
+        if (plan?.protein_target) {
           setMacroTargets({
             protein: plan.protein_target,
             fat:     plan.fat_target,
             carbs:   plan.carbs_target,
           })
         }
-        return getMealHistory(new Date().toISOString().split('T')[0])
+        return getMealHistory(todayISO)
       })
       .then(history => {
         if (!history?.logs) return
@@ -295,23 +250,71 @@ export default function Dashboard() {
       .finally(() => setLoading(false))
   }, [])
 
-const handleFinishDay = async () => {
-  const updated = await completeDay()
-  setPlan(updated)
+  const hasPickedToday   = Object.values(todayMeals).some(arr => arr.length > 0)
+  const alreadyDoneToday = plan?.last_completed_date === new Date().toISOString().split('T')[0]
+
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [completing,  setCompleting]  = useState(false)
+  const [actionError, setActionError] = useState('')
+
+  const handleFinishDay = async () => {
+  setCompleting(true)
+  setActionError('')
+  try {
+    const updated = await completeDay()
+    setPlan(updated)
+    setShowConfirm(false)
+  } catch (err) {
+    setActionError(err.response?.data?.detail || 'Gagal menyelesaikan hari ini')
+  } finally {
+    setCompleting(false)
+  }
+}
+
+  const handleGetRecommendation = async () => {
+  setLoadingMeal(true)
   try {
     const data = await getMealOptions()
     setMealPopup({ sessionId: data.session_id, options: data.options })
   } catch (err) {
-    // Tambah ini sementara:
     console.error('getMealOptions error:', err.response?.data || err.message)
+  } finally {
+    setLoadingMeal(false)
   }
 }
+
+  const currentDay = plan?.days_elapsed ?? 0
+  const totalDays  = plan?.estimated_days || 30
+
+const smartButton = alreadyDoneToday
+  ? {
+      label: 'Selesai ✓',
+      disabled: true,
+      color:
+        'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed',
+      onClick: null,
+    }
+  : hasPickedToday
+  ? {
+      label: 'Selesai Hari Ini',
+      disabled: completing,
+      color:
+        'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md transition-all duration-200',
+      onClick: () => setShowConfirm(true),
+    }
+  : {
+      label: loadingMeal ? '⏳ Memuat...' : '🍽️ Rekomendasi Menu',
+      disabled: loadingMeal,
+      color:
+        'bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white shadow-md transition-all duration-200',
+      onClick: handleGetRecommendation,
+    }
 
 
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <p className="text-sm text-stone-400">Memuat dashboard...</p>
+      <p className="text-sm text-stone-400">Loading dashboard...</p>
     </div>
   )
 
@@ -328,10 +331,45 @@ const handleFinishDay = async () => {
 
       {!hasActivePlan ? <EmptyState /> : (
         <>
-          <DailyProgress
-            plan={plan}
-            onFinishDay={handleFinishDay}
-          />
+          <DailyProgress plan={plan} />
+
+          <button
+            onClick={smartButton.onClick}
+            disabled={smartButton.disabled}
+            className={`w-full py-3 rounded-xl text-sm font-semibold
+              transition-all disabled:opacity-50 disabled:cursor-not-allowed
+              ${smartButton.color}`}
+          >
+            {smartButton.label}
+          </button>
+
+          {actionError && (
+            <p className="text-xs text-red-500 -mt-2">{actionError}</p>
+          )}
+
+          {showConfirm && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
+              <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+                <p className="text-base font-semibold text-stone-800 mb-1">
+                  Selesaikan hari ini?
+                </p>
+                <p className="text-sm text-stone-500 mb-5">
+                  Kamu akan menandai hari ke-{currentDay + 1} sebagai selesai.
+                  Progres akan bertambah menjadi hari ke-{currentDay + 2} dari {totalDays}.
+                </p>
+                <div className="flex gap-3">
+                  <Button variant="secondary" fullWidth
+                    onClick={() => setShowConfirm(false)}
+                    disabled={completing}>
+                    Batal
+                  </Button>
+                  <Button fullWidth onClick={handleFinishDay} disabled={completing}>
+                    {completing ? 'Menyimpan...' : 'Ya, selesai'}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {calorieTarget && macroTargets && (
             <div>
@@ -370,7 +408,11 @@ const handleFinishDay = async () => {
           sessionId={mealPopup.sessionId}
           options={mealPopup.options}
           onClose={() => setMealPopup(null)}
-          onChosen={() => setMealPopup(null)}
+          onChosen={async () => {
+            setMealPopup(null)
+            await fetchTodayMeals()
+          }}
+          forToday={true}
         />
       )}
     </div>

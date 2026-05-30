@@ -85,7 +85,7 @@ export default function LoginPage() {
             )}
 
             <Button fullWidth disabled={loading} onClick={handleSubmit}>
-              {loading ? '⏳ Memproses...' : mode === 'login' ? 'Masuk' : 'Buat akun'}
+              {loading ? 'Memproses...' : mode === 'login' ? 'Masuk' : 'Buat akun'}
             </Button>
           </div>
         </Card>

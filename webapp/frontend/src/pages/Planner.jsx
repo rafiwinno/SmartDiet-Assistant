@@ -763,7 +763,7 @@ export default function Planner() {
           </Button>
         ) : (
           <Button disabled={loading} onClick={handleSave}>
-            {loading ? "⏳ Menyimpan..." : "Simpan & buat plan"}
+            {loading ? " ◈ AI Generating Plan..." : "Simpan & buat plan"}
           </Button>
         )}
       </div>
