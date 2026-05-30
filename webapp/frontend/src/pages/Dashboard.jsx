@@ -209,7 +209,7 @@ export default function Dashboard() {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
-  const todayISO = new Date().toISOString().split('T')[0]
+  const todayISO = new Date().toLocaleDateString('en-CA')
 
   const fetchTodayMeals = async () => {
     const history = await getMealHistory(todayISO, plan?.id)
@@ -251,7 +251,7 @@ export default function Dashboard() {
   }, [])
 
   const hasPickedToday   = Object.values(todayMeals).some(arr => arr.length > 0)
-  const alreadyDoneToday = plan?.last_completed_date === new Date().toISOString().split('T')[0]
+  const alreadyDoneToday = plan?.last_completed_date === new Date().toLocaleDateString('en-CA')
 
   const [showConfirm, setShowConfirm] = useState(false)
   const [completing,  setCompleting]  = useState(false)
@@ -289,8 +289,8 @@ export default function Dashboard() {
   const smartButton = alreadyDoneToday
   ? { label: 'Selesai ✓', disabled: true,  color: 'bg-stone-200 text-stone-400 cursor-not-allowed', onClick: null }
   : hasPickedToday
-  ? { label: 'Selesai Hari Ini', disabled: completing, color: 'rounded-2xl bg-gradient-to-r from-teal-500 to-blue-500 hover:opacity-75 transition-all text-white', onClick: () => setShowConfirm(true) }
-  : { label: loadingMeal ? 'AI Generating Meal...' : '🍽️ Rekomendasi Menu', disabled: loadingMeal, color: 'rounded-2xl bg-gradient-to-r from-blue-500 to-teal-500 hover:opacity-75 transition-all text-white', onClick: handleGetRecommendation }
+  ? { label: 'Selesai Hari Ini', disabled: completing, color: 'bg-green-500 hover:bg-green-600 text-white', onClick: () => setShowConfirm(true) }
+  : { label: loadingMeal ? '⏳ Memuat...' : '🍽️ Rekomendasi Menu', disabled: loadingMeal, color: 'bg-blue-500 hover:bg-blue-600 text-white', onClick: handleGetRecommendation }
 
 
 
@@ -330,8 +330,8 @@ export default function Dashboard() {
           )}
 
           {showConfirm && (
-            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6 animate-in fade-in duration-300">
-              <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ease-out">
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
+              <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
                 <p className="text-base font-semibold text-stone-800 mb-1">
                   Selesaikan hari ini?
                 </p>

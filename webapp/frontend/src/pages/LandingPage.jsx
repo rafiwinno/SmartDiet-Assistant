@@ -6,22 +6,22 @@ const FEATURES = [
   {
     title: "Rekomendasi Menu Harian",
     desc: "Dapatkan rekomendasi sarapan, makan siang, dan makan malam yang disesuaikan dengan kebutuhan kalori, pantangan, dan preferensi makanmu setiap hari.",
-    img: "/public/images/feature-recommendation.png",
+    img: "/images/feature-recommendation.png",
   },
   {
     title: "Kalkulasi Nutrisi Otomatis",
     desc: "BMR dan TDEE dihitung otomatis berdasarkan data tubuhmu. Target kalori harian dan makronutrien — protein, karbo, lemak — langsung tersedia tanpa perhitungan manual.",
-    img: "/public/images/feature-nutrition.png",
+    img: "/images/feature-nutrition.png",
   },
   {
     title: "Pelacak Progres & Streak",
     desc: "Pantau perjalananmu hari per hari. Sistem streak memotivasimu untuk tetap konsisten, dan progres harian membantumu melihat seberapa jauh kamu sudah melangkah.",
-    img: "/public/images/feature-progress.png",
+    img: "/images/feature-progress.png",
   },
   {
     title: "Database Makanan",
     desc: "Tersedia ribuan data makanan lengkap dengan kandungan protein, karbohidrat, dan lemak untuk bantu atur pola makanmu lebih mudah.",
-    img: "/public/images/feature-database.png",
+    img: "/images/feature-database.png",
   },
 ];
 
@@ -29,26 +29,32 @@ const ARTICLES = [
   {
     tag: "Nutrisi",
     tagClass: "bg-emerald-100 text-emerald-700",
-    title: "Mengenal Makronutrien: Protein, Karbo, dan Lemak",
-    desc: "Pelajari fungsi masing-masing makronutrien dan bagaimana keseimbangannya mempengaruhi kesehatan dan berat badanmu.",
+    title: "Isi Piringku, Panduan Kebutuhan Gizi Seimbang Harian",
+    desc: "Kita membutuhkan kecukupan nutrisi untuk hidup dan menjalankan aktivitas sehari-hari. Nutrisi ini didapatkan dari makanan sehari-hari, sehingga penting bagi kita untuk mengonsumsi menu makanan sehat yang mengandung gizi seimbang. Apa yang dimaksud dengan gizi seimbang?.",
     date: "12 April 2026",
     read: "5 menit",
+    img: "/images/artikel1.png",
+    link: "https://ayosehat.kemkes.go.id/isi-piringku-kebutuhan-gizi-harian-seimbang"
   },
   {
     tag: "Diet",
     tagClass: "bg-sky-100 text-sky-700",
-    title: "Defisit Kalori: Cara Aman Menurunkan Berat Badan",
-    desc: "Defisit kalori adalah kunci penurunan berat badan — tapi seberapa besar defisit yang aman dan efektif untuk tubuhmu?",
+    title: "Tips Pola Makan untuk Diet Sehat",
+    desc: "Diet kerap digunakan sebagai cara untuk mendapatkan berat badan ideal. Namun, pola makan untuk diet sehat bukan berarti harus dilakukan dengan melewatkan waktu makan. Untuk mengetahui cara tepat menjalani diet sehat, simak penjelasannya dalam artikel berikut.",
     date: "28 April 2026",
     read: "7 menit",
+    img: "/images/artikel2.png",
+    link: "https://www.alodokter.com/tips-pola-makan-untuk-diet-sehat"
   },
   {
     tag: "Gaya Hidup",
     tagClass: "bg-orange-100 text-orange-700",
-    title: "Membangun Kebiasaan Makan Sehat yang Bertahan Lama",
-    desc: "Bukan soal diet ketat — ini soal membangun sistem kebiasaan kecil yang berdampak besar pada kesehatan jangka panjang.",
+    title: "Pola Makan Sehat Bukan Sekadar Diet",
+    desc: "Banyak orang yang mengira bahwa pola makan sehat itu berupa diet ekstrem. Padahal diet ekstrem itu malah menyebabkan seseorang kekurangan gizi. Oleh karena itu, agar hidup tetap sehat, kita perlu tahu pola makan sehat dan seimbang.",
     date: "5 Mei 2026",
     read: "6 menit",
+    img: "/images/artikel3.png",
+    link: "https://www.ekahospital.com/better-healths/pola-makan-sehat-bukan-sekadar-diet"
   },
 ];
 
@@ -100,7 +106,7 @@ function HeroSection({ onLogin }) {
               shadow-2xl border border-stone-100 aspect-square w-96 h-96 mx-auto"
             >
               <img
-                src="/public/images/hero.jpg"
+                src="/images/hero.jpg"
                 alt="SmartDiet ilustrasi"
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -297,18 +303,20 @@ function ArticlesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {ARTICLES.map((a, i) => (
-            <div
+            <a
               key={i}
+              href={a.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white border border-stone-200 rounded-2xl overflow-hidden
                 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 cursor-pointer"
             >
-              <div
-                className="h-44 bg-gradient-to-br from-blue-400 to-emerald-500
-                flex items-center justify-center"
-              >
-                <span className="text-6xl font-bold font-serif text-white/20">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+              <div className="h-44 overflow-hidden">
+                <img
+                  src={a.img}
+                  alt={a.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="p-6">
                 <span
@@ -328,7 +336,7 @@ function ArticlesSection() {
                   <span>{a.read} baca</span>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

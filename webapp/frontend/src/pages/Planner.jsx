@@ -396,7 +396,7 @@ export default function Planner() {
                 "{existingPlan?.name}"
               </span>{" "}
               akan ditandai sebagai{" "}
-              <span className="font-medium text-red-500">tidak selesai</span>{" "}
+              <span className="font-medium text-red-500">selesai</span>{" "}
               dan tidak bisa diubah lagi.
             </p>
             <p className="text-sm text-stone-500 mb-5">

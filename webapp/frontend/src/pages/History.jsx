@@ -27,7 +27,7 @@ function PlanCard({ plan, onClick }) {
     <button
       onClick={onClick}
       className="w-full text-left bg-white border border-stone-200 rounded-2xl p-5
-        hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer group"
+        hover:border-teal-200 hover:shadow-sm transition-all cursor-pointer group"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
@@ -36,7 +36,7 @@ function PlanCard({ plan, onClick }) {
         </div>
         <div className="ml-3 shrink-0">
           {plan.is_active
-            ? <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-200">Aktif</span>
+            ? <span className="text-xs font-medium px-2 py-1 rounded-full bg-teal-50 text-teal-600 border border-teal-200">Aktif</span>
             : <span className="text-xs font-medium px-2 py-1 rounded-full bg-stone-100 text-stone-400">Selesai</span>
           }
         </div>
@@ -57,7 +57,7 @@ function PlanCard({ plan, onClick }) {
       <div className="flex items-center gap-3">
         <div className="flex-1 h-1.5 bg-stone-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-blue-500 rounded-full transition-all"
+            className="h-full bg-teal-500 rounded-full transition-all"
             style={{ width: `${(progress / plan.estimated_days) * 100}%` }}
           />
         </div>

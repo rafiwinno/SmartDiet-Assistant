@@ -8,10 +8,10 @@ import { getPlanDetail, getPlanStats } from '../services/api'
 
 
 const METRICS = [
-  { key: 'calories', label: 'Kalori',  unit: 'kcal', color: '#3b82f6' },
-  { key: 'protein',  label: 'Protein', unit: 'g',    color: '#ea580c' },
-  { key: 'carbs',    label: 'Karbo',   unit: 'g',    color: '#d97706' },
-  { key: 'fat',      label: 'Lemak',   unit: 'g',    color: '#7c3aed' },
+  { key: 'calories', label: 'Kalori',  unit: 'kcal', color: '#14b8a6' },
+  { key: 'protein',  label: 'Protein', unit: 'g',    color: '#0ea5e9' },
+  { key: 'carbs',    label: 'Karbo',   unit: 'g',    color: '#3b82f6' },
+  { key: 'fat',      label: 'Lemak',   unit: 'g',    color: '#0f766e' },
 ]
 
 function CustomTooltip({ active, payload, label }) {
@@ -120,7 +120,7 @@ export default function HistoryDetail() {
 
       <div className="flex items-center gap-2">
         {plan.is_active
-          ? <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-200">Aktif</span>
+          ? <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-teal-50 text-teal-600 border border-teal-200">Aktif</span>
           : <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-stone-100 text-stone-500">Selesai</span>
         }
         {plan.calorie_target && (
@@ -131,13 +131,13 @@ export default function HistoryDetail() {
       <Card>
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-stone-800">Progress</p>
-          <span className="text-sm font-semibold text-blue-500">
+          <span className="text-sm font-semibold text-teal-500">
             {progress}/{plan.estimated_days} hari
           </span>
         </div>
         <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-blue-500 rounded-full transition-all"
+            className="h-full bg-teal-500 rounded-full transition-all"
             style={{ width: `${(progress / plan.estimated_days) * 100}%` }}
           />
         </div>

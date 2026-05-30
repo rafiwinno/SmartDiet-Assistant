@@ -159,10 +159,10 @@ export default function Account() {
           Pencapaian
         </p>
         <div className="grid grid-cols-2 gap-3">
-          <MilestoneCard label="Streak terpanjang"   value={longestStreak}   unit="hari"    desc="Hari berturut-turut terbaik"    color="text-green-600"  />
-          <MilestoneCard label="Streak saat ini"     value={currentStreak}   unit="hari"    desc="Terus pertahankan!"             color="text-amber-500"  />
+          <MilestoneCard label="Streak terpanjang"   value={longestStreak}   unit="hari"    desc="Hari berturut-turut terbaik"    color="text-teal-600"  />
+          <MilestoneCard label="Streak saat ini"     value={currentStreak}   unit="hari"    desc="Terus pertahankan!"             color="text-blue-400"  />
           <MilestoneCard label="Program selesai"     value={plansFinished}   unit="program" desc="Total program yang dituntaskan" color="text-blue-500"   />
-          <MilestoneCard label="Total hari tercatat" value={totalDaysLogged} unit="hari"    desc="Sejak pertama kali bergabung"   color="text-purple-500" />
+          <MilestoneCard label="Total hari tercatat" value={totalDaysLogged} unit="hari"    desc="Sejak pertama kali bergabung"   color="text-teal-500" />
         </div>
       </div>
 
