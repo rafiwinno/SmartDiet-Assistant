@@ -212,7 +212,7 @@ export default function Dashboard() {
   const todayISO = new Date().toISOString().split('T')[0]
 
   const fetchTodayMeals = async () => {
-    const history = await getMealHistory(todayISO)
+    const history = await getMealHistory(todayISO, plan?.id)
     if (!history?.logs) return
     const grouped = { breakfast: [], lunch: [], dinner: [] }
     history.logs.forEach(log => {
@@ -234,7 +234,7 @@ export default function Dashboard() {
             carbs:   plan.carbs_target,
           })
         }
-        return getMealHistory(todayISO)
+        return getMealHistory(todayISO, plan.id)
       })
       .then(history => {
         if (!history?.logs) return
@@ -286,35 +286,17 @@ export default function Dashboard() {
   const currentDay = plan?.days_elapsed ?? 0
   const totalDays  = plan?.estimated_days || 30
 
-const smartButton = alreadyDoneToday
-  ? {
-      label: 'Selesai ✓',
-      disabled: true,
-      color:
-        'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed',
-      onClick: null,
-    }
+  const smartButton = alreadyDoneToday
+  ? { label: 'Selesai ✓', disabled: true,  color: 'bg-stone-200 text-stone-400 cursor-not-allowed', onClick: null }
   : hasPickedToday
-  ? {
-      label: 'Selesai Hari Ini',
-      disabled: completing,
-      color:
-        'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md transition-all duration-200',
-      onClick: () => setShowConfirm(true),
-    }
-  : {
-      label: loadingMeal ? '⏳ Memuat...' : '🍽️ Rekomendasi Menu',
-      disabled: loadingMeal,
-      color:
-        'bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white shadow-md transition-all duration-200',
-      onClick: handleGetRecommendation,
-    }
+  ? { label: 'Selesai Hari Ini', disabled: completing, color: 'rounded-2xl bg-gradient-to-r from-teal-500 to-blue-500 hover:opacity-75 transition-all text-white', onClick: () => setShowConfirm(true) }
+  : { label: loadingMeal ? 'AI Generating Meal...' : '🍽️ Rekomendasi Menu', disabled: loadingMeal, color: 'rounded-2xl bg-gradient-to-r from-blue-500 to-teal-500 hover:opacity-75 transition-all text-white', onClick: handleGetRecommendation }
 
 
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <p className="text-sm text-stone-400">Loading dashboard...</p>
+      <p className="text-sm text-stone-400">Memuat dashboard...</p>
     </div>
   )
 
@@ -348,8 +330,8 @@ const smartButton = alreadyDoneToday
           )}
 
           {showConfirm && (
-            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
-              <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6 animate-in fade-in duration-300">
+              <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ease-out">
                 <p className="text-base font-semibold text-stone-800 mb-1">
                   Selesaikan hari ini?
                 </p>

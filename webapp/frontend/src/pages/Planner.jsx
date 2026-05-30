@@ -156,14 +156,6 @@ function StepDietary({ data, onChange }) {
             />
           ))}
         </div>
-        <p className="text-xs text-stone-400 mt-3">Tidak ada dalam daftar?</p>
-        <div className="mt-1.5">
-          <TextInput
-            value={data.otherAllergies ?? ""}
-            onChange={(v) => onChange("otherAllergies", v)}
-            placeholder="Ketik alergi lainnya, pisahkan dengan koma"
-          />
-        </div>
       </div>
     </div>
   );
@@ -306,7 +298,7 @@ export default function Planner() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
-  const [mealPopup, setMealPopup] = useState(null);
+
 
   const update = (field, value) =>
     setData((prev) => ({ ...prev, [field]: value }));
@@ -344,18 +336,7 @@ export default function Planner() {
       // 2. Buat plan baru
       const planResult = await createPlan();
       setResult({ profile: profileResult, plan: planResult });
-
-      // 3. Ambil rekomendasi menu DULU sebelum tampilkan success
-      // Popup rekomendasi muncul lebih dulu, setelah user pilih baru success muncul
-      try {
-        const optData = await getMealOptions();
-        setMealPopup({ sessionId: optData.session_id, options: optData.options });
-        // view diset ke success SETELAH popup siap
-        setView("success");
-      } catch {
-        // AI gagal — langsung tampilkan success tanpa popup
-        setView("success");
-      }
+      setView("success");
     } catch (err) {
       const detail = err.response?.data?.detail;
       if (Array.isArray(detail)) {
@@ -403,8 +384,8 @@ export default function Planner() {
         <div className="mb-6">
           <h1 className="text-xl font-semibold text-stone-800">Planner</h1>
         </div>
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6 animate-in fade-in duration-300">
+          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ease-out">
             <div className="text-2xl mb-3">⚠️</div>
             <p className="text-base font-semibold text-stone-800 mb-2">
               Kamu masih punya plan aktif
@@ -458,15 +439,6 @@ export default function Planner() {
 
     return (
       <>
-        {mealPopup && (
-          <MealOptionsPopup
-            sessionId={mealPopup.sessionId}
-            options={mealPopup.options}
-            onClose={() => setMealPopup(null)}
-            onChosen={() => setMealPopup(null)}
-            forToday={true}
-          />
-        )}
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         {/* Modal */}
         <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-[0_20px_70px_rgba(0,0,0,0.22)] animate-in fade-in zoom-in-95 duration-300">
@@ -715,6 +687,7 @@ export default function Planner() {
                   Dashboard
                 </Button>
               </div>
+              <span className="flex flex-col items-center justify-center text-center"><p className="mt-5 text-xs leading-relaxed text-black/55">Silahkan Pilih Rekomendasi Makanan Hari Ini di Dashboard</p></span>
             </div>
           </div>
         </div>

@@ -113,9 +113,8 @@ export default function MealOptionsPopup({ sessionId, options, onClose, onChosen
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/50 flex items-end sm:items-center justify-center px-0 sm:px-4">
-      <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
-
+    <div className="fixed inset-0 z-[100] bg-black/50 flex items-end sm:items-center justify-center px-0 sm:px-4 animate-in fade-in duration-300">
+      <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[90vh] animate-in slide-in-from-bottom-4 fade-in duration-300 ease-out">
         {/* Header popup */}
         <div className="px-5 pt-5 pb-4 border-b border-stone-100 shrink-0">
           <div className="flex items-center justify-between mb-1">

@@ -91,6 +91,10 @@ def get_meal_history(
         default=None,
         description="Filter tanggal (format: 2026-05-09). Kosong = hari ini."
     ),
+    plan_id: Optional[int] = Query(
+        default=None,
+        description="Filter berdasarkan plan tertentu."
+    ),
     current_user: User = Depends(get_current_user),
     session: Session   = Depends(get_session)
 ):
@@ -115,13 +119,11 @@ def get_meal_history(
     # Kalau tidak ada parameter date, pakai hari ini
     filter_date = date or str(date_type.today())
 
-    # Ambil semua log user pada tanggal tersebut
-    logs = session.exec(
-        select(MealLog)
-        .where(MealLog.user_id == current_user.id)
-        .where(MealLog.log_date == filter_date)
-        .order_by(MealLog.logged_at)
-    ).all()
+    query = select(MealLog).where(MealLog.user_id == current_user.id).where(MealLog.log_date == filter_date)
+    if plan_id:
+        query = query.where(MealLog.plan_id == plan_id)
+
+    logs = session.exec(query.order_by(MealLog.logged_at)).all()
 
     # Hitung total nutrisi
     summary = {

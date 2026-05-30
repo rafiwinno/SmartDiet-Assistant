@@ -154,9 +154,11 @@ export async function logMeal(mealData) {
   return res.data;
 }
 
-export async function getMealHistory(date = null) {
-  const params = date ? { date } : {};
-  const res    = await api.get("/meals/history", { params });
+export async function getMealHistory(date = null, planId = null) {
+  const params = {}
+  if (date)   params.date    = date
+  if (planId) params.plan_id = planId
+  const res = await api.get("/meals/history", { params });
   return res.data;
 }
 
