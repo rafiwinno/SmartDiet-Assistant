@@ -92,6 +92,7 @@ def get_active_plan(
 
 @router.post("/complete-day", status_code=200)
 def complete_day(
+    data:         dict  = {},
     current_user: User    = Depends(get_current_user),
     session:      Session = Depends(get_session)
 ):
@@ -104,7 +105,8 @@ def complete_day(
     if not plan:
         raise HTTPException(status_code=404, detail="Tidak ada plan aktif")
 
-    today = date.today()
+    client_date = data.get("client_date") if isinstance(data, dict) else None
+    today       = date.fromisoformat(client_date) if client_date else date.today()
 
     if plan.last_completed_date == today:
         raise HTTPException(status_code=400, detail="Hari ini sudah ditandai selesai")
@@ -369,10 +371,17 @@ def choose_meal(
     rec_session.chosen_option_id = rec_option.id
     session.add(rec_session)
 
-    # Simpan ke meal_logs — hari ini kalau bikin plan baru, besok kalau selesai hari ini
-    for_today = data.get("for_today", False)
-    log_date  = date.today().isoformat() if for_today                 else (date.today() + timedelta(days=1)).isoformat()
-    items     = session.exec(
+    # Use client_date to avoid UTC/local timezone mismatch
+    for_today    = data.get("for_today", False)
+    client_today = data.get("client_date")
+    if client_today:
+        base_date = date.fromisoformat(client_today)
+    else:
+        base_date = date.today()
+
+    log_date = base_date.isoformat() if for_today else (base_date + timedelta(days=1)).isoformat()
+
+    items = session.exec(
         select(RecommendationItem)
         .where(RecommendationItem.option_id == rec_option.id)
     ).all()
@@ -395,10 +404,11 @@ def choose_meal(
     ).first()
 
     # Ambil data option dari request body (berisi food name & makro)
-    options_data = data.get("option_data", {})
-    breakfast    = options_data.get("breakfast", [])
-    lunch        = options_data.get("lunch",     [])
-    dinner       = options_data.get("dinner",    [])
+    options_data     = data.get("option_data", {})
+    breakfast        = options_data.get("breakfast", [])
+    lunch            = options_data.get("lunch",     [])
+    dinner           = options_data.get("dinner",    [])
+    grouped_response = { "breakfast": [], "lunch": [], "dinner": [] }
 
     for meal_type, meal_items in [("breakfast", breakfast), ("lunch", lunch), ("dinner", dinner)]:
         for item in meal_items:
@@ -416,10 +426,24 @@ def choose_meal(
                 log_date   = log_date,
             )
             session.add(log)
+            grouped_response[meal_type].append({
+                "food_name":  item.get("food", "Unknown"),
+                "meal_type":  meal_type,
+                "quantity_g": item.get("recommended_grams", 0),
+                "calories":   item.get("estimated_calories", 0),
+                "protein_g":  macros["protein_g"],
+                "fat_g":      macros["fat_g"],
+                "carbs_g":    macros["carbs_g"],
+                "log_date":   log_date,
+            })
 
     session.commit()
 
-    return {"message": "Pilihan berhasil disimpan", "log_date": log_date}
+    return {
+        "message":  "Pilihan berhasil disimpan",
+        "log_date": log_date,
+        "meals":    grouped_response,
+    }
 
 
 @router.get("/{plan_id}")

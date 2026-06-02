@@ -234,15 +234,16 @@ export default function Dashboard() {
             carbs:   plan.carbs_target,
           })
         }
-        return getMealHistory(todayISO, plan.id)
-      })
-      .then(history => {
-        if (!history?.logs) return
-        const grouped = { breakfast: [], lunch: [], dinner: [] }
-        history.logs.forEach(log => {
-          if (grouped[log.meal_type]) grouped[log.meal_type].push(log)
-        })
-        setTodayMeals(grouped)
+        getMealHistory(todayISO, plan.id)
+          .then(history => {
+            if (!history?.logs) return
+            const grouped = { breakfast: [], lunch: [], dinner: [] }
+            history.logs.forEach(log => {
+              if (grouped[log.meal_type]) grouped[log.meal_type].push(log)
+            })
+            setTodayMeals(grouped)
+          })
+          .catch(() => {})
       })
       .catch(() => {
         setHasActivePlan(false)
@@ -390,9 +391,9 @@ export default function Dashboard() {
           sessionId={mealPopup.sessionId}
           options={mealPopup.options}
           onClose={() => setMealPopup(null)}
-          onChosen={async () => {
+          onChosen={(meals) => {
             setMealPopup(null)
-            await fetchTodayMeals()
+            if (meals) setTodayMeals(meals)
           }}
           forToday={true}
         />
