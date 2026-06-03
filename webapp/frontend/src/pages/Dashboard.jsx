@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate }         from 'react-router-dom'
 import Card                    from '../components/ui/Card'
 import Button                  from '../components/ui/Button'
-import { getCurrentUser, getDashboardData, completeDay, getMealOptions, getMealHistory } from '../services/api'
+import { getCurrentUser, getDashboardData, completeDay, completePlan, getMealOptions, getMealHistory } from '../services/api'
 import MealOptionsPopup from '../components/ui/MealOptionsPopup'
 
 
@@ -201,8 +201,9 @@ export default function Dashboard() {
   const [macroTargets,  setMacroTargets]  = useState(null)
   const [loading,       setLoading]       = useState(true)
   const [hasActivePlan, setHasActivePlan] = useState(false)
-  const [mealPopup,     setMealPopup]     = useState(null)
-  const [loadingMeal,   setLoadingMeal]   = useState(false)
+  const [mealPopup,       setMealPopup]       = useState(null)
+  const [loadingMeal,     setLoadingMeal]     = useState(false)
+  const [showPlanComplete, setShowPlanComplete] = useState(false)
   const [todayMeals,    setTodayMeals]    = useState({ breakfast: [], lunch: [], dinner: [] })
 
   const today = new Date().toLocaleDateString('id-ID', {
@@ -265,6 +266,9 @@ export default function Dashboard() {
     const updated = await completeDay()
     setPlan(updated)
     setShowConfirm(false)
+    if (updated.days_elapsed >= updated.estimated_days) {
+      setShowPlanComplete(true)
+    }
   } catch (err) {
     setActionError(err.response?.data?.detail || 'Gagal menyelesaikan hari ini')
   } finally {
@@ -290,8 +294,8 @@ export default function Dashboard() {
   const smartButton = alreadyDoneToday
   ? { label: 'Selesai ✓', disabled: true,  color: 'bg-stone-200 text-stone-400 cursor-not-allowed', onClick: null }
   : hasPickedToday
-  ? { label: 'Selesai Hari Ini', disabled: completing, color: 'bg-green-500 hover:bg-green-600 text-white', onClick: () => setShowConfirm(true) }
-  : { label: loadingMeal ? '⏳ Memuat...' : '🍽️ Rekomendasi Menu', disabled: loadingMeal, color: 'bg-blue-500 hover:bg-blue-600 text-white', onClick: handleGetRecommendation }
+  ? { label: 'Selesai Hari Ini', disabled: completing, color: 'bg-gradient-to-r from-blue-400 to-teal-600 hover:opacity-85 text-white', onClick: () => setShowConfirm(true) }
+  : { label: loadingMeal ? '◈ AI Generating Meals...' : 'Rekomendasi Menu', disabled: loadingMeal, color: 'bg-gradient-to-r from-blue-500 to-teal-500 hover:opacity-85 text-white', onClick: handleGetRecommendation }
 
 
 
@@ -397,6 +401,35 @@ export default function Dashboard() {
           }}
           forToday={true}
         />
+      )}
+
+      {showPlanComplete && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-6">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm text-center">
+            <div className="text-5xl mb-4">🎉</div>
+            <h2 className="text-xl font-bold text-stone-800 mb-2">
+              Selamat! Program Selesai!
+            </h2>
+            <p className="text-sm text-stone-500 mb-2">
+              Kamu telah berhasil menyelesaikan program diet selama{' '}
+              <span className="font-semibold text-stone-700">{plan?.estimated_days} hari</span>.
+            </p>
+            <p className="text-sm text-stone-500 mb-6">
+              Streak terpanjangmu adalah{' '}
+              <span className="font-semibold text-blue-600">{plan?.longest_streak} hari 🔥</span>
+            </p>
+            <Button
+              fullWidth
+              onClick={async () => {
+                await completePlan()
+                setShowPlanComplete(false)
+                setHasActivePlan(false)
+              }}
+            >
+              Selesai
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   )

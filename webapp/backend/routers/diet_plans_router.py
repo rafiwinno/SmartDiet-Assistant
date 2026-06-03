@@ -131,6 +131,29 @@ def complete_day(
     return _format_plan(plan)
 
 
+@router.post("/complete-plan")
+def complete_plan(
+    current_user: User    = Depends(get_current_user),
+    session:      Session = Depends(get_session)
+):
+    plan = session.exec(
+        select(DietPlan)
+        .where(DietPlan.user_id == current_user.id)
+        .where(DietPlan.is_active == True)
+    ).first()
+
+    if not plan:
+        raise HTTPException(status_code=404, detail="Tidak ada plan aktif")
+
+    plan.is_active = False
+    plan.ended_at  = datetime.utcnow()
+
+    session.add(plan)
+    session.commit()
+
+    return {"message": "Plan berhasil diselesaikan"}
+
+
 @router.post("")
 async def create_plan(
     current_user: User    = Depends(get_current_user),

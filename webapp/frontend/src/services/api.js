@@ -140,6 +140,11 @@ export async function completeDay() {
   return res.data
 }
 
+export async function completePlan() {
+  const res = await api.post('/diet-plans/complete-plan')
+  return res.data
+}
+
 export async function getDashboardData() {
   // Fetch active plan + profile in parallel
   const [plan, profile] = await Promise.all([
