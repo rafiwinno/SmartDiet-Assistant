@@ -2,7 +2,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.082,0.086,0.018,2.8,0.073,margarine with yoghurt,0.027,88.0,0.0,0.0,9.8,0.058,margarine with yoghurt,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.4,0.005,0.065,10.2,3.7,sunflower seed butter,0.7,99.0,1.7,0.9,8.8,2.8,sunflower seed butter,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,hazelnut oil,0.0,120.0,0.0,0.0,13.6,0.0,hazelnut oil,True,True,True,True,True,False,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,0.0,menhaden fish oil,0.0,1966.0,0.0,0.0,218.0,0.0,menhaden fish oil,False,False,True,True,True,True,False,False,False,True,False,False,False
 0.0,0.0,0.0,0.0,0.0,cod liver fish oil,0.0,123.0,0.0,0.0,13.6,0.0,cod liver fish oil,False,False,True,True,True,True,False,False,False,True,False,False,False
 0.0,0.0,0.0,0.0,0.0,sardine oil,0.0,123.0,0.0,0.0,13.6,0.0,sardine oil,False,False,True,True,True,True,False,False,False,True,False,False,False
 0.0,0.0,0.0,0.0,0.0,cupu assu oil,0.0,120.0,0.0,0.0,13.6,0.0,cupu assu oil,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -18,7 +17,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.036,0.001,0.1,0.068,0.017,margarine with salt,0.0,100.0,0.0,0.0,11.3,0.031,margarine with salt,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.076,0.084,0.091,0.059,0.018,margarine,0.0,102.0,0.0,0.0,11.5,0.037,margarine,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,salmon fish oil,0.0,123.0,0.0,0.0,13.6,0.0,salmon fish oil,False,False,True,True,True,True,False,False,False,True,False,False,False
-0.0,0.0,0.0,0.0,0.0,nutmeg butter oil,0.0,1927.0,0.0,0.0,218.0,0.0,nutmeg butter oil,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.017,0.037,55.5,3.0,almond butter,0.6,98.0,0.7,1.6,8.9,3.4,almond butter,True,False,True,True,False,False,False,True,False,False,False,False,False
 0.0,0.0,0.0,0.0,1.0,sour cream shoprite,0.0,60.0,0.014,0.0,5.0,0.0,sour cream shoprite,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,ucuhuba butter oil,0.0,120.0,0.0,0.0,13.6,0.0,ucuhuba butter oil,True,False,True,True,False,True,False,True,False,False,False,False,False
@@ -31,12 +29,10 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.0,0.0,0.0,duck fat,0.0,44.0,0.0,0.0,5.0,0.0,duck fat,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,mutton tallow,0.0,45.0,0.0,0.0,5.0,0.0,mutton tallow,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,grapeseed oil,0.0,120.0,0.0,0.0,13.6,0.0,grapeseed oil,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,0.0,sheanut oil,0.0,1927.0,0.0,0.0,218.0,0.0,sheanut oil,True,True,True,True,True,False,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,almond oil,0.0,120.0,0.0,0.0,13.6,0.0,almond oil,True,True,True,True,True,False,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.1,0.0,sunflower oil,0.0,120.0,0.0,0.0,13.6,0.0,sunflower oil,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.099,0.071,6.9,4.4,cashew butter,0.8,94.0,0.8,0.3,7.9,2.8,cashew butter,True,False,True,True,False,False,False,True,False,False,False,False,False
 0.0,0.0,0.0,0.088,0.0,canola oil,0.0,124.0,0.0,0.0,14.0,0.0,canola oil,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,0.0,babassu oil,0.0,1927.0,0.0,0.0,218.0,0.0,babassu oil,True,True,True,True,True,True,False,False,False,True,False,False,False
 0.0,0.0,0.0,0.0,0.0,teaseed oil,0.0,120.0,0.0,0.0,13.6,0.0,teaseed oil,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,avocado oil,0.0,124.0,0.0,0.0,14.0,0.0,avocado oil,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,vegetable palm kernel oil,0.0,117.0,0.0,0.0,13.6,0.0,vegetable palm kernel oil,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -47,7 +43,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.0,0.0,0.0,peanut oil,0.004,119.0,0.0,0.0,13.5,0.0,peanut oil,True,True,True,True,True,False,True,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,poppyseed oil,0.0,120.0,0.0,0.0,13.6,0.0,poppyseed oil,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.1,0.0,flaxseed oil,0.0,120.0,0.0,0.0,13.6,0.086,flaxseed oil,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,0.0,tomatoseed oil,0.0,1927.0,0.0,0.0,218.0,0.0,tomatoseed oil,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,wheat germ oil,0.0,120.0,0.0,0.0,13.6,0.0,wheat germ oil,True,True,True,False,True,True,False,False,False,False,False,False,True
 0.0,0.0,0.0,0.0,0.0,sesame oil,0.0,40.0,0.0,0.0,4.5,0.0,sesame oil,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,corn granola oil,0.0,124.0,0.0,0.0,14.0,0.0,corn granola oil,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -84,7 +79,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.081,0.091,21.0,37.2,whole wheat spaghetti cooked,1.5,174.0,1.1,6.3,0.8,7.5,whole wheat spaghetti cooked,True,True,True,False,True,True,False,False,False,False,False,False,True
 0.3,0.062,0.4,191.3,24.7,waffle,1.7,218.0,0.0,0.0,10.6,5.9,waffle,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.0,0.038,0.004,12.5,8.3,baked taco shell,0.2,61.0,0.2,0.9,2.7,0.8,baked taco shell,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.1,0.6,24.5,112.0,puff pastry,6.4,1367.0,1.8,3.7,94.3,18.1,puff pastry,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.034,0.068,0.2,0.054,30.2,blueberry muffin,0.063,214.0,17.9,0.6,9.2,2.6,blueberry muffin,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.0,0.1,0.8,197.6,77.7,bread crumbs,5.2,427.0,6.7,4.9,5.7,14.4,bread crumbs,True,True,False,False,True,True,False,False,False,False,False,False,False
 0.0,0.019,0.1,16.1,15.0,warm cinnamon roll mcdonalds,0.5,113.0,7.0,0.5,5.1,2.0,warm cinnamon roll mcdonalds,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -249,7 +243,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.0,0.0,0.0,baked chips lays,0.0,130.0,0.0,0.0,2.0,0.0,baked chips lays,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.073,0.062,0.2,0.068,17.2,corn chips,0.021,162.0,0.031,1.2,10.0,1.9,corn chips,True,True,True,True,True,True,False,False,False,False,False,False,False
 1.6,0.036,0.2,36.2,18.5,nacho cheese tortilla chips low fat,1.4,90.0,0.8,1.8,1.0,2.4,nacho cheese tortilla chips low fat,True,False,True,True,False,True,False,True,False,False,False,False,False
-3.4,0.014,1.5,259.4,111.3,corn chips barbecue,3.0,1036.0,0.0,10.3,64.7,13.9,corn chips barbecue,True,True,True,True,True,True,False,False,False,False,False,False,False
 1.8,0.028,0.024,109.1,50.5,corn chips unsalted,1.5,490.0,1.2,3.9,29.4,5.8,corn chips unsalted,True,True,True,True,True,True,False,False,False,False,False,False,False
 21.1,0.1,1.5,79.5,190.1,potato chips fat free,8.1,860.0,8.4,17.0,1.4,21.9,potato chips fat free,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,2.1,sweet chilli kettle baked chips,0.0,99.0,0.4,0.0,2.2,2.0,sweet chilli kettle baked chips,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -259,16 +252,12 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 92.0,0.0,0.8,122.4,98.1,potato chips cheese,3.1,843.0,0.0,8.8,46.2,14.5,potato chips cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.0,0.041,0.9,1.2,yuca cassava chips,0.099,9.0,0.006,0.002,0.4,0.054,yuca cassava chips,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.095,0.052,0.1,45.0,22.6,tortilla chips low fat,0.5,117.0,0.2,1.5,1.6,3.1,tortilla chips low fat,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,1.0,265.3,124.2,ranch flavor tortilla chips,2.7,992.0,6.0,7.9,48.8,14.2,ranch flavor tortilla chips,True,True,True,True,True,True,False,False,False,False,False,False,False
 9.3,0.045,0.021,7.2,15.9,potato chips,0.5,161.0,0.007,1.4,10.4,2.1,potato chips,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.092,0.006,0.077,0.014,20.3,tortilla chips,0.2,142.0,0.2,1.6,6.2,2.1,tortilla chips,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.088,0.05,16.5,15.9,sweet potato chips,0.6,149.0,2.5,2.5,9.1,0.8,sweet potato chips,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.038,0.023,0.2,0.002,18.2,nacho cheese tortilla chips,0.071,156.0,0.8,1.5,8.2,2.2,nacho cheese tortilla chips,True,False,True,True,False,True,False,True,False,False,False,False,False
 1.4,0.002,0.3,14.7,17.1,vegetable chips,0.4,134.0,1.1,1.3,6.6,1.5,vegetable chips,True,True,True,True,True,True,False,False,False,False,False,False,False
-2.0,0.022,1.8,351.9,143.2,taco flavor tortilla chips,4.6,1090.0,0.0,12.0,54.9,17.9,taco flavor tortilla chips,True,True,True,True,True,True,False,False,False,False,False,False,False
-67.1,0.2,1.3,99.0,104.5,potato chips barbecue,3.8,970.0,14.0,8.7,64.2,15.2,potato chips barbecue,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.039,0.2,0.3,0.051,20.5,pita chips,0.065,137.0,1.4,1.1,4.6,3.5,pita chips,True,True,True,True,True,True,False,False,False,False,False,False,False
-73.9,0.1,1.1,142.6,102.0,potato chips sour cream and onion,3.2,1051.0,0.0,10.3,67.1,16.0,potato chips sour cream and onion,True,False,True,True,False,True,False,True,False,False,False,False,False
 16.7,0.094,49.4,354.2,53.6,adobo fresco,9.2,780.0,5.8,3.7,60.2,5.8,adobo fresco,True,True,True,True,True,True,False,False,False,False,False,False,False
 4.5,0.093,0.003,1.4,0.6,chili pepper sauce red,0.051,3.0,0.4,0.1,0.089,0.1,chili pepper sauce red,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.2,8.2,1.0,creamy ranch sauce mcdonalds,0.039,132.0,1.0,0.0,14.7,0.3,creamy ranch sauce mcdonalds,True,False,True,True,False,True,False,True,False,False,False,False,False
@@ -692,7 +681,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 32.0,0.027,0.025,17.9,4.4,vegetable salad,0.9,22.0,0.0,0.0,0.054,1.7,vegetable salad,True,True,True,True,True,True,False,False,False,False,False,False,False
 11.6,0.032,0.1,24.7,2.5,vegetable salad with chicken,0.7,70.0,0.0,0.0,1.5,11.6,vegetable salad with chicken,False,False,True,True,True,True,False,False,False,False,False,False,False
 25.0,0.038,1.3,47.5,27.9,potato salad,1.6,358.0,0.0,3.3,20.5,6.7,potato salad,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.2,1.9,506.4,80.5,taco salad taco bell,9.4,906.0,0.0,16.0,48.9,35.7,taco salad taco bell,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.042,0.015,0.022,0.079,1.7,iceberg lettuce,0.033,8.0,1.1,0.7,0.045,0.5,iceberg lettuce,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.2,0.096,0.067,0.0,2.0,cornsalad,0.092,12.0,0.0,0.0,0.2,1.1,cornsalad,True,True,True,True,True,True,False,False,False,False,False,False,False
 2.0,0.046,0.8,37.5,40.5,potato salad with egg,1.3,393.0,12.4,3.3,23.5,4.9,potato salad with egg,True,False,True,True,True,True,False,False,True,False,False,False,False
@@ -729,7 +717,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.5,0.061,0.2,76.5,34.5,chocolate pudding,1.9,213.0,25.8,0.0,6.9,3.1,chocolate pudding,True,True,True,True,True,True,False,False,False,False,False,False,False
 1.2,0.071,0.4,148.5,30.2,lemon pudding,0.058,173.0,0.0,0.0,4.4,4.1,lemon pudding,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.3,0.084,0.3,73.5,33.9,vanilla pudding,0.1,195.0,25.5,0.0,5.7,2.2,vanilla pudding,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,19.3,profeel proteiinirahka valio,0.0,140.0,0.2,0.0,0.4,175.0,profeel proteiinirahka valio,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.039,0.095,16.6,0.7,cottage cheese creamed,0.071,20.0,0.5,0.0,0.9,2.2,cottage cheese creamed,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,zaziki milfina,0.0,51.0,0.0,0.0,4.4,0.0,zaziki milfina,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.005,0.9,137.9,6.1,cottage cheese low fat,0.3,163.0,6.1,0.0,2.3,28.0,cottage cheese low fat,True,False,True,True,False,True,False,True,False,False,False,False,False
@@ -753,7 +740,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.0,0.0,0.0,chocolate rasberry protein mini proteinfx,0.0,102.0,0.0,0.0,2.9,0.0,chocolate rasberry protein mini proteinfx,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.2,gushers fruit gushers,0.0,360.0,0.0,0.0,6.0,0.0,gushers fruit gushers,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.035,0.043,28.5,0.4,egg fried,0.9,90.0,0.2,0.0,6.8,6.3,egg fried,True,False,True,True,True,True,False,False,True,False,False,False,False
-0.0,0.0,0.0,0.0,120.9,glucerna abbott,0.0,1010.0,49.8,12.8,35.6,0.0,glucerna abbott,True,True,True,True,True,True,False,False,False,False,False,False,False
 15.1,0.0,0.073,0.0,7.2,sports drink,0.1,26.0,0.0,0.0,0.0,0.0,sports drink,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,5.0,peanut butter cookie protein syntha 6,0.0,200.0,0.0,0.0,6.0,0.0,peanut butter cookie protein syntha 6,True,False,True,False,False,False,True,True,False,False,False,False,False
 0.0,0.0,0.0,0.0,14.2,hanfprotein pulver rohkostqualitat veganz,0.0,107.0,0.057,0.0,3.1,0.0,hanfprotein pulver rohkostqualitat veganz,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -887,7 +873,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.05,0.049,87.8,2.1,sesame seeds dried,1.3,52.0,0.031,1.1,4.5,1.6,sesame seeds dried,True,True,True,True,True,True,False,False,False,False,False,False,False
 2.0,0.095,0.04,10.8,8.8,breadfruit seeds,1.1,57.0,0.0,1.6,1.7,2.2,breadfruit seeds,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.004,0.066,0.07,0.022,0.01,pinyon pine nuts dried,0.007,1.0,0.0,0.005,0.073,0.083,pinyon pine nuts dried,True,True,True,True,True,False,False,False,False,False,False,False,False
-1.1,0.018,0.086,21.6,17.7,pine nuts dried,7.5,909.0,4.8,5.0,92.3,18.5,pine nuts dried,True,True,True,True,True,False,False,False,False,False,False,False,False
 0.023,0.015,0.035,26.3,3.0,flaxseeds,0.6,55.0,0.2,2.8,4.3,1.9,flaxseeds,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.055,0.042,22.1,9.7,safflower seed kernels dried,1.4,146.0,0.0,0.0,10.9,4.6,safflower seed kernels dried,True,True,True,True,True,True,False,False,False,False,False,False,False
 6.9,0.087,0.037,129.2,33.8,pistachio nuts raw,4.8,691.0,9.4,12.7,55.8,24.9,pistachio nuts raw,True,True,True,True,True,False,False,False,False,False,False,False,False
@@ -970,7 +955,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.042,0.2,196.0,0.6,gouda cheese,0.06,100.0,0.6,0.0,7.7,7.0,gouda cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,pepper jack cheese lucerne,0.0,75.0,0.0,2.5,6.0,5.0,pepper jack cheese lucerne,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.066,0.2,190.5,0.9,caraway cheese,0.2,106.0,0.0,0.0,8.3,7.1,caraway cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
-0.0,0.076,1.4,908.0,96.8,gjetost cheese,1.2,1058.0,0.0,0.0,67.0,21.9,gjetost cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.072,0.3,280.0,0.8,tilsit cheese,0.01,136.0,0.0,0.0,10.4,9.8,tilsit cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.011,0.1,84.3,0.009,goat cheese,0.5,103.0,0.031,0.0,8.4,6.1,goat cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.059,0.2,202.2,0.8,brick cheese,0.1,111.0,0.2,0.0,8.9,7.0,brick cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
@@ -1036,7 +1020,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 10.7,0.04,0.4,35.9,25.0,vegetable egg roll,1.5,153.0,5.3,2.2,3.6,5.2,vegetable egg roll,True,False,True,True,True,True,False,False,True,False,False,False,False
 0.0,0.004,0.3,16.2,1.1,ham cheese roll,0.3,67.0,0.0,0.0,5.2,3.8,ham cheese roll,True,False,False,True,False,True,False,True,False,False,False,False,False
 0.1,0.003,1.1,160.5,43.8,biscuit with ham,2.7,386.0,2.2,0.8,18.4,13.4,biscuit with ham,True,True,False,False,True,True,False,False,False,False,False,False,False
-15.9,0.069,1.5,248.4,122.0,lemon chicken,8.4,1440.0,55.2,7.0,74.9,68.6,lemon chicken,False,False,True,True,True,True,False,False,False,False,False,False,False
 19.4,0.1,0.6,120.5,49.5,hummus,3.8,435.0,0.7,9.8,21.1,12.0,hummus,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.1,0.096,0.6,243.8,24.3,croissant with egg cheese,2.2,368.0,0.0,0.0,24.7,12.8,croissant with egg cheese,True,False,True,False,False,True,False,True,True,False,False,False,False
 4.6,0.028,1.3,218.1,33.8,enchirito with cheese beef beans,2.4,344.0,0.0,0.0,16.1,17.9,enchirito with cheese beef beans,False,False,True,True,False,True,False,True,False,False,False,False,False
@@ -1106,7 +1089,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.082,0.2,15.0,18.5,wonton wrappers,1.1,93.0,0.0,0.6,0.5,3.1,wonton wrappers,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.3,0.1,1.0,422.6,69.9,hushpuppies,4.6,512.0,3.1,4.3,20.5,11.7,hushpuppies,True,True,True,True,True,True,False,False,False,False,False,False,False
 3.0,0.1,1.2,63.4,57.3,chicken pot pie,1.8,598.0,7.2,3.0,34.6,14.6,chicken pot pie,False,False,True,True,True,True,False,False,False,False,False,False,False
-8.6,0.049,2.3,64.2,128.3,general tsos chicken,6.2,1578.0,62.1,4.8,87.5,69.0,general tsos chicken,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.7,0.2,1.0,229.4,57.8,burrito with beans cheese,4.4,379.0,3.2,7.8,11.2,13.6,burrito with beans cheese,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.0,0.026,0.4,80.8,7.7,vegetarian fillets,1.7,247.0,0.7,5.2,15.3,19.6,vegetarian fillets,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.035,1.1,82.6,34.1,biscuit with egg sausage,3.1,505.0,1.5,0.3,33.6,18.0,biscuit with egg sausage,True,False,True,False,True,True,False,False,True,False,False,False,False
@@ -1259,7 +1241,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.3,0.0,0.8,123.7,31.5,cheeseburger burger king,3.3,380.0,6.0,3.7,19.7,19.4,cheeseburger burger king,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.7,0.095,0.7,198.7,33.1,cheeseburger mcdonalds,2.8,313.0,7.4,1.3,14.0,15.4,cheeseburger mcdonalds,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.5,0.5,0.9,0.054,41.0,double cheeseburger,0.2,643.0,9.5,2.1,36.9,37.0,double cheeseburger,True,False,True,True,False,True,False,True,False,False,False,False,False
-0.4,0.7,1.1,0.094,51.4,double hamburger,0.4,942.0,13.2,5.2,58.6,52.1,double hamburger,True,True,False,True,True,True,False,False,False,False,False,False,False
 6.4,0.0,0.8,74.0,44.6,premium grilled chicken classic sandwich mcdonalds,3.0,366.0,10.0,2.8,8.6,28.3,premium grilled chicken classic sandwich mcdonalds,False,False,True,True,True,True,False,False,False,False,False,False,False
 4.4,0.1,1.0,224.8,39.7,big n tasty with cheese mcdonalds,4.4,573.0,9.5,3.2,36.0,27.2,big n tasty with cheese mcdonalds,True,False,True,True,False,True,False,True,False,False,False,False,False
 9.8,0.0,1.0,211.9,44.3,premium grilled chicken club sandwich mcdonalds,3.1,493.0,6.4,2.7,18.0,38.3,premium grilled chicken club sandwich mcdonalds,False,False,True,True,True,True,False,False,False,False,False,False,False
@@ -1270,7 +1251,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.076,0.043,6.7,0.0,beef sandwich steak raw,1.0,173.0,0.0,0.0,15.1,9.2,beef sandwich steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 1.1,0.4,0.6,0.04,28.7,cheeseburger,0.1,292.0,5.9,1.6,13.2,15.0,cheeseburger,True,False,True,True,False,True,False,True,False,False,False,False,False
 9.9,0.0,1.0,76.8,44.3,premium grilled chicken ranch blt sandwich mcdonalds,3.0,412.0,10.5,2.8,10.9,33.7,premium grilled chicken ranch blt sandwich mcdonalds,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.8,0.1,1.5,311.2,53.9,double whopper with cheese burger king,21.1,1061.0,14.4,6.4,68.1,57.7,double whopper with cheese burger king,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.9,0.1,1.0,254.0,44.0,big mac mcdonalds,4.4,563.0,8.7,3.5,32.8,25.9,big mac mcdonalds,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.8,1.3,2.2,0.023,79.9,sandwich with cold cuts,0.5,833.0,12.4,4.7,39.3,41.1,sandwich with cold cuts,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.4,0.073,0.6,160.8,35.4,filet o fish mcdonalds,2.1,378.0,4.9,1.9,19.6,15.1,filet o fish mcdonalds,False,False,True,True,True,True,False,False,False,True,False,False,False
@@ -1286,7 +1266,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.6,0.2,1.4,259.1,52.8,whopper burger king,6.3,790.0,13.0,3.2,48.4,35.4,whopper burger king,True,True,True,True,True,True,False,False,False,False,False,False,False
 3.6,0.1,1.3,74.2,55.4,sandwich with tuna salad,2.6,584.0,0.0,0.0,28.0,29.7,sandwich with tuna salad,False,False,True,True,True,True,False,False,False,True,False,False,False
 0.4,0.075,1.3,91.5,52.2,original chicken sandwich burger king,3.6,569.0,6.0,4.8,29.2,24.2,original chicken sandwich burger king,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.7,0.2,1.1,130.9,51.4,double whopper burger king,10.5,942.0,13.2,5.2,58.6,52.1,double whopper burger king,True,True,True,True,True,True,False,False,False,False,False,False,False
 9.7,0.0,1.2,233.7,57.4,premium crispy chicken club sandwich mcdonalds,3.4,635.0,12.7,3.0,29.9,39.1,premium crispy chicken club sandwich mcdonalds,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.2,0.5,0.0,28.8,hamburger mcdonalds,0.049,251.0,5.7,1.2,9.6,12.3,hamburger mcdonalds,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.9,0.0,0.7,159.3,36.0,pepperoni pizza dominos,2.6,308.0,4.2,2.4,12.6,12.7,pepperoni pizza dominos,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -1633,7 +1612,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.2,0.015,0.053,3.2,2.4,loquats,0.007,9.0,0.0,0.3,0.071,0.09,loquats,True,True,True,True,True,True,False,False,False,False,False,False,False
 118.4,0.1,0.1,93.1,105.8,mammy apple mamey,5.9,431.0,0.0,25.4,4.2,4.2,mammy apple mamey,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.098,0.086,0.039,0.078,19.0,nance,0.037,82.0,9.3,8.4,1.3,0.7,nance,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,0.0,coconut whole coconut,0.0,3336.0,0.0,0.0,71.5,0.0,coconut whole coconut,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.097,0.066,0.044,0.0,9.9,prickly pear,0.051,42.0,0.0,3.7,0.5,0.8,prickly pear,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.038,0.067,0.029,0.086,1.6,lychee,0.022,6.0,1.5,0.1,0.016,0.024,lychee,True,True,True,True,True,True,False,False,False,False,False,False,False
 3.8,0.032,0.044,9.6,7.1,naranjilla lulo pulp,0.4,30.0,4.5,1.3,0.3,0.5,naranjilla lulo pulp,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -1643,7 +1621,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.074,0.0,0.072,0.03,4.2,passion fruit,0.015,17.0,2.0,1.9,0.1,0.4,passion fruit,True,True,True,True,True,True,False,False,False,False,False,False,False
 25.0,0.08,0.08,35.7,33.9,sapodilla,1.4,141.0,0.0,9.0,1.9,0.7,sapodilla,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.005,0.067,0.094,0.0,12.0,pummelo,0.097,48.0,0.0,1.3,0.06,1.0,pummelo,True,True,True,True,True,True,False,False,False,False,False,False,False
-13.1,0.1,0.022,55.6,60.5,coconut meat,9.6,1405.0,24.7,35.7,133.0,13.2,coconut meat,False,False,True,True,True,True,False,False,False,False,False,False,False
 46.4,0.001,0.024,31.5,37.9,soursop,1.4,149.0,30.5,7.4,0.7,2.3,soursop,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.014,0.097,0.004,0.06,15.7,papaya,0.017,62.0,11.3,2.5,0.4,0.7,papaya,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.076,0.039,0.088,0.0,0.4,acerola cherry,0.007,2.0,0.0,0.077,0.052,0.079,acerola cherry,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -1781,16 +1758,12 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.062,0.094,0.096,0.025,9.9,yellow snap beans cooked,0.1,44.0,4.5,4.1,0.4,2.4,yellow snap beans cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.2,0.4,0.059,0.0,36.1,yardlong beans cooked,0.4,202.0,0.0,6.5,0.8,14.2,yardlong beans cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.077,0.4,4.0,0.2,bacon beef steak,0.5,146.0,0.2,0.0,12.5,8.2,bacon beef steak,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.014,0.3,49.9,0.0,lamb foreshank raw,7.6,912.0,0.0,0.0,60.7,85.8,lamb foreshank raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.1,1.0,0.2,bacon,0.1,106.0,0.2,0.0,10.2,3.3,bacon,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.084,0.2,56.1,0.0,lamb rib cooked,4.1,915.0,0.0,0.0,76.0,53.9,lamb rib cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.033,0.3,36.3,0.0,lamb shank raw,7.8,912.0,0.0,0.0,61.2,84.3,lamb shank raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.7,0.032,0.1,2.0,4.0,scrapple,0.5,60.0,0.063,0.052,3.9,2.3,scrapple,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.095,0.041,0.1,0.058,3.0,chicken nuggets,0.091,61.0,0.039,0.2,4.1,3.2,chicken nuggets,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.062,0.3,68.9,0.0,ground lamb cooked,5.6,886.0,0.0,0.0,61.5,77.5,ground lamb cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.013,0.2,40.0,0.0,lamb meat cooked,4.8,678.0,0.0,0.0,45.0,63.8,lamb meat cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.2,0.041,179.5,33.7,meat extender,10.6,275.0,0.0,15.4,2.6,33.5,meat extender,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.055,0.3,40.8,0.0,lamb leg raw,7.5,1043.0,0.0,0.0,77.4,81.2,lamb leg raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.003,0.089,12.8,0.0,lamb loin cooked,1.2,202.0,0.0,0.0,14.8,16.1,lamb loin cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.063,0.3,11.4,7.7,chicken patty,0.6,172.0,0.0,0.2,11.7,8.9,chicken patty,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.085,0.2,26.9,0.0,lamb shank roasted,5.3,605.0,0.0,0.0,33.5,71.0,lamb shank roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
@@ -1799,13 +1772,9 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.1,0.093,0.079,1.3,1.0,poultry salad,0.097,26.0,0.0,0.0,1.8,1.5,poultry salad,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.012,0.05,4.5,0.0,ground lamb raw,0.4,80.0,0.0,0.0,6.6,4.7,ground lamb raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.003,0.003,4.2,0.0,lamb loin raw,0.5,88.0,0.0,0.0,7.5,4.6,lamb loin raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.027,0.3,45.4,0.0,lamb sirloin raw,7.3,1234.0,0.0,0.0,100.3,76.8,lamb sirloin raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.2,6.5,0.4,sausage patty mcdonalds,0.3,115.0,0.1,0.0,11.2,4.3,sausage patty mcdonalds,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.026,0.1,29.6,0.0,lamb foreshank cooked,3.2,360.0,0.0,0.0,19.9,42.0,lamb foreshank cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.084,0.5,3.6,4.8,ham salad,0.3,97.0,0.0,0.0,7.0,3.9,ham salad,True,True,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.044,0.3,68.0,0.0,lamb rib raw,6.3,1687.0,0.0,0.0,156.0,65.9,lamb rib raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.035,0.3,72.6,0.0,lamb shoulder raw,6.8,1198.0,0.0,0.0,97.3,75.2,lamb shoulder raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.016,0.3,54.4,0.0,lamb meat raw,7.3,1102.0,0.0,0.0,84.6,79.6,lamb meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.041,0.2,54.5,0.0,lamb shoulder cooked,5.2,750.0,0.0,0.0,53.5,62.5,lamb shoulder cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.07,2.8,0.027,mutton cooked,1.3,66.0,0.0,0.0,3.1,9.5,mutton cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.058,0.2,29.2,0.0,lamb leg cooked,5.2,684.0,0.0,0.0,43.7,67.7,lamb leg cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
@@ -1816,39 +1785,29 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.075,0.01,6.7,0.0,beef rib roasted,1.6,238.0,0.0,0.0,19.1,15.4,beef rib roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.016,0.3,49.9,0.0,veal sirloin raw,3.5,689.0,0.0,0.0,35.4,86.5,veal sirloin raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.6,0.1,0.1,0.019,0.8,beef top loin filet grilled,0.2,323.0,0.0,0.0,19.0,37.0,beef top loin filet grilled,False,False,True,True,True,True,False,False,False,False,False,False,False
-1.5,0.3,0.3,0.044,0.0,beef under blade steak cooked,0.5,983.0,0.0,0.0,46.7,140.8,beef under blade steak cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.085,0.2,21.8,0.0,mock tender steak raw,4.8,244.0,0.0,0.0,8.3,42.2,mock tender steak raw,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.6,0.007,0.1,0.052,0.0,ground beef cooked,0.1,375.0,0.0,0.0,24.8,35.5,ground beef cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.071,0.3,108.9,0.0,ground beef raw,7.4,1506.0,0.0,0.0,136.1,65.1,ground beef raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,10.5,beef diced asda,0.0,48.0,0.054,0.0,0.7,0.0,beef diced asda,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.082,0.4,59.0,0.0,veal rib raw,3.9,735.0,0.0,0.0,40.9,85.5,veal rib raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.005,0.029,4.2,0.0,ground veal raw,0.2,41.0,0.0,0.0,1.9,5.5,ground veal raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-2.4,0.2,0.2,0.0,0.0,t bone steak cooked,0.2,1049.0,0.0,0.0,74.1,89.3,t bone steak cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.064,0.3,22.7,0.0,veal leg round raw,3.6,531.0,0.0,0.0,14.0,95.2,veal leg round raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.016,0.3,145.9,0.0,beef top sirloin steak raw,9.0,1222.0,0.0,0.0,77.3,123.4,beef top sirloin steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.8,0.2,0.1,0.047,0.0,beef plate steak grilled,0.4,508.0,0.0,0.0,35.6,47.1,beef plate steak grilled,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.03,0.2,50.8,0.0,ground veal cooked,3.0,514.0,0.0,0.0,22.6,72.9,ground veal cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.067,0.2,21.8,0.0,veal leg round cooked,3.6,574.0,0.0,0.0,17.2,98.4,veal leg round cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.095,0.2,27.2,0.0,porterhouse steak raw,8.8,1170.0,0.0,0.0,91.1,81.6,porterhouse steak raw,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.075,0.4,90.7,0.0,veal shank raw,3.4,513.0,0.0,0.0,15.8,86.9,veal shank raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.089,0.2,25.5,0.0,veal breast cooked,2.2,753.0,0.0,0.0,47.5,76.3,veal breast cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.057,0.2,2.5,0.0,corned beef canned,0.4,53.0,0.0,0.0,3.1,5.7,corned beef canned,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.036,0.1,30.1,0.0,rib eye steak grilled,6.0,680.0,0.0,0.0,47.7,62.4,rib eye steak grilled,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,veal shoulder raw,0.0,0.0,0.0,0.0,0.0,0.0,veal shoulder raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.007,0.2,27.2,0.0,t bone steak raw,9.5,1052.0,0.0,0.0,76.3,85.7,t bone steak raw,True,True,True,True,True,True,False,False,False,False,False,False,False
 1.1,0.1,0.6,0.0,0.0,sirloin steak,0.2,324.0,0.0,0.0,14.1,49.5,sirloin steak,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.025,0.028,6.8,0.0,mock tender steak cooked,2.6,137.0,0.0,0.0,4.9,21.9,mock tender steak cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.032,0.011,14.4,0.0,beef round steak cooked,5.2,385.0,0.0,0.0,12.1,64.8,beef round steak cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.04,0.3,45.4,0.0,chuck blade roast raw,9.3,1125.0,0.0,0.0,88.0,77.8,chuck blade roast raw,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.082,0.2,28.7,0.0,beef shoulder steak raw,6.0,349.0,0.0,0.0,17.3,48.2,beef shoulder steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.016,0.002,6.0,0.0,beef top blade cooked,2.3,184.0,0.0,0.0,10.0,21.9,beef top blade cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.094,0.2,1.7,0.006,corned beef cooked,0.4,53.0,0.0,0.0,4.0,3.8,corned beef cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.079,0.3,95.3,0.0,beef round steak raw,8.4,753.0,0.0,0.0,36.0,100.1,beef round steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.043,0.014,10.2,0.0,beef shoulder steak grilled,2.5,155.0,0.0,0.0,5.8,24.0,beef shoulder steak grilled,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.017,0.3,53.8,0.0,chuck eye steak raw,8.1,856.0,0.0,0.0,62.8,72.4,chuck eye steak raw,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.045,0.2,31.8,0.0,beef bottom round steak cooked,13.0,980.0,0.0,0.0,35.1,155.8,beef bottom round steak cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.069,0.085,6.0,0.0,porterhouse steak cooked,2.5,235.0,0.0,0.0,16.4,20.4,porterhouse steak cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.061,0.3,62.9,0.0,beef under blade steak raw,12.6,1235.0,0.0,0.0,80.8,126.8,beef under blade steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.089,0.2,16.0,0.9,beef plate steak raw,9.1,617.0,0.0,0.0,46.8,47.8,beef plate steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.013,0.095,4.5,0.0,beef meat canned,1.0,111.0,0.0,0.0,7.9,9.2,beef meat canned,False,False,True,True,True,True,False,False,False,False,False,False,False
 5.4,0.067,0.2,0.9,0.2,beef breakfast strips raw,0.3,92.0,0.0,0.0,8.8,2.8,beef breakfast strips raw,False,False,True,True,True,True,False,False,False,False,False,False,False
@@ -1868,12 +1827,9 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.049,0.2,66.9,0.0,veal shoulder cooked,2.7,435.0,0.0,0.0,19.4,61.2,veal shoulder cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.087,0.032,37.7,0.0,beef tenderloin steak raw,2.3,405.0,0.0,0.0,29.8,32.2,beef tenderloin steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.018,0.2,64.0,0.0,veal shank cooked,2.4,371.0,0.0,0.0,12.0,61.2,veal shank cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.036,0.3,27.2,0.0,beef brisket raw,7.7,1139.0,0.0,0.0,86.5,83.6,beef brisket raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.2,0.031,0.8,7.1,0.3,pastrami beef,1.6,104.0,0.08,0.0,4.1,15.5,pastrami beef,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.05,0.054,7.6,0.0,beef flank steak raw,0.4,47.0,0.0,0.0,2.3,6.0,beef flank steak raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.075,0.055,35.4,0.0,beef top sirloin steak cooked,3.1,430.0,0.0,0.0,25.2,47.7,beef top sirloin steak cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.3,31.8,0.0,veal breast raw,2.4,943.0,0.0,0.0,66.9,79.2,veal breast raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.017,0.2,36.3,0.0,beef rib raw,7.8,1433.0,0.0,0.0,123.8,73.8,beef rib raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.093,0.4,4.0,2.2,beef jerky,1.1,82.0,1.8,0.4,5.1,6.6,beef jerky,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.02,0.3,1.0,0.2,beef breakfast strips cooked,0.4,51.0,0.0,0.0,3.9,3.5,beef breakfast strips cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.069,0.3,30.5,2.6,pork olive loaf,0.2,66.0,0.0,0.0,4.6,3.3,pork olive loaf,False,False,False,True,True,True,False,False,False,False,False,False,False
@@ -1909,9 +1865,7 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.9,0.3,0.025,0.044,0.0,ground emu cooked,0.3,178.0,0.0,0.0,5.1,31.0,ground emu cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.034,0.067,4.3,0.0,ostrich leg raw,2.0,94.0,0.0,0.0,1.5,19.0,ostrich leg raw,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.011,0.086,4.3,0.0,ostrich strip raw,3.6,108.0,0.0,0.0,2.4,20.1,ostrich strip raw,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.05,0.2,23.6,0.0,emu fillet cooked,18.0,607.0,0.0,0.0,9.1,123.2,emu fillet cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.1,0.005,5.1,0.0,ostrich tenderloin raw,4.1,105.0,0.0,0.0,2.7,18.8,ostrich tenderloin raw,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.042,0.5,25.0,0.0,emu drums cooked,30.2,649.0,0.0,0.0,8.4,134.7,emu drums cooked,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.087,0.099,33.4,0.0,green turtle raw,0.4,25.0,0.0,0.0,0.1,5.6,green turtle raw,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.015,0.2,35.0,0.0,ground bison cooked,8.0,448.0,0.0,0.0,21.6,63.6,ground bison cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.084,0.4,59.0,0.0,goat meat raw,12.8,494.0,0.0,0.0,10.5,93.4,goat meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
@@ -1948,7 +1902,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.4,0.1,0.079,0.0,0.5,chicken liver cooked,0.2,76.0,0.0,0.0,2.8,11.3,chicken liver cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 46.2,0.089,0.1,27.7,0.0,lamb pancreas cooked,4.9,541.0,0.0,0.0,34.9,52.7,lamb pancreas cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 138.0,0.022,0.2,24.2,0.0,veal spleen cooked,25.4,445.0,0.0,0.0,10.0,83.1,veal spleen cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-13.4,0.2,0.2,26.9,8.5,lamb liver cooked,27.8,739.0,0.0,0.0,29.6,102.7,lamb liver cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 2.8,0.045,0.031,7.7,0.0,turkey gizzard cooked,1.7,70.0,0.0,0.0,2.1,11.9,turkey gizzard cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 76.7,0.062,0.2,38.4,0.0,lamp spleen cooked,114.1,460.0,0.0,0.0,14.1,78.1,lamp spleen cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.6,0.091,0.046,4.2,0.0,turkey heart cooked,1.4,35.0,0.0,0.0,1.5,5.0,turkey heart cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
@@ -1969,13 +1922,10 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.7,0.1,0.046,0.043,3.0,veal liver cooked,12.0,154.0,0.0,0.0,5.0,22.7,veal liver cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 23.7,0.069,0.2,24.0,0.0,pork lungs cooked,49.2,297.0,0.0,0.0,9.3,49.8,pork lungs cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 102.0,0.032,0.2,21.0,0.0,veal lungs cooked,10.8,312.0,0.0,0.0,7.9,56.2,veal lungs cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-115.1,0.058,0.4,38.1,0.0,beef thymus cooked,5.7,1215.0,0.0,0.0,95.2,83.2,beef thymus cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 1.1,0.079,0.2,6.7,1.0,ham,0.3,46.0,0.3,0.4,2.5,4.6,ham,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.7,10.7,0.0,pork meat cooked,0.7,283.0,0.0,0.0,14.1,14.1,pork meat cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.09,0.05,0.034,0.097,0.1,bacon roasted,0.096,43.0,0.0,0.0,3.3,3.0,bacon roasted,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,1.0,153.7,0.0,pork top loin roasts raw,11.6,3644.0,0.0,0.0,182.8,468.4,pork top loin roasts raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.014,0.076,0.4,2.0,0.0,pork blade roll raw,0.2,76.0,0.0,0.0,6.2,4.7,pork blade roll raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.9,332.0,0.0,pork backribs raw,8.1,2399.0,0.0,0.0,174.9,204.2,pork backribs raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.022,0.2,83.2,0.0,pork spareribs cooked,3.3,703.0,0.0,0.0,53.6,51.4,pork spareribs cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.09,0.035,4.2,0.029,pork stomach cooked,0.3,44.0,0.0,0.0,2.1,6.1,pork stomach cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.3,0.013,0.5,3.3,4.0,honey smoked ham cooked,0.2,67.0,0.0,0.0,1.3,9.9,honey smoked ham cooked,True,False,False,True,True,True,False,False,False,False,False,False,False
@@ -1984,14 +1934,10 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.061,28.2,0.0,pork country style ribs raw,1.1,242.0,0.0,0.0,15.1,24.8,pork country style ribs raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.061,0.7,5.2,1.1,ham patties,0.7,205.0,0.0,0.0,18.3,8.3,ham patties,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.014,0.046,0.0,0.0,pork feet cooked,0.3,67.0,0.0,0.0,4.5,6.2,pork feet cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
-2.2,0.005,0.2,68.9,0.0,ground pork cooked,4.0,930.0,0.0,0.0,65.0,80.4,ground pork cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 1.1,0.9,0.065,0.0,0.0,pork centre loin chops cooked,0.1,328.0,0.0,0.0,17.4,40.2,pork centre loin chops cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.071,0.1,13.6,0.0,pork leg cap steak cooked,1.9,307.0,0.0,0.0,8.6,53.5,pork leg cap steak cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.2,78.9,0.0,pork blade chops raw,1.9,376.0,0.0,0.0,15.4,55.8,pork blade chops raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.3,30.3,0.0,pork tenderloin raw,4.9,606.0,0.0,0.0,17.8,104.3,pork tenderloin raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.6,81.1,0.0,pork sirloin chops raw,5.0,1090.0,0.0,0.0,23.3,205.5,pork sirloin chops raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.004,0.2,16.2,0.0,pork leg cap steak raw,1.9,284.0,0.0,0.0,7.8,50.0,pork leg cap steak raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-1.8,0.002,0.2,86.2,0.0,pork carcass raw,3.1,1706.0,0.0,0.0,159.1,63.1,pork carcass raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 34.7,0.002,0.3,38.9,0.0,pork splean cooked,66.5,446.0,0.0,0.0,9.6,84.3,pork splean cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.008,0.3,2.0,1.2,chopped ham,0.2,50.0,0.0,0.0,2.9,4.6,chopped ham,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.1,37.8,0.0,pork centre loin chops raw,1.3,338.0,0.0,0.0,18.0,41.2,pork centre loin chops raw,False,False,False,True,True,True,False,False,False,False,False,False,False
@@ -2006,30 +1952,20 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 1.8,0.084,0.2,73.4,0.0,pork boston roast cooked,3.8,705.0,0.0,0.0,49.4,60.5,pork boston roast cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.07,0.4,2.4,0.3,canadian style bacon grilled,0.2,43.0,0.0,0.0,2.0,5.7,canadian style bacon grilled,False,False,False,True,True,True,False,False,False,False,False,False,False
 18.4,0.064,0.7,2.3,0.0,ham steak,0.6,70.0,0.0,0.0,2.4,11.1,ham steak,True,True,False,True,True,True,False,False,False,False,False,False,False
-0.5,0.072,0.064,9.1,0.0,pork backfat,0.8,3683.0,0.0,0.0,402.3,13.2,pork backfat,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.084,0.09,0.2,0.047,0.1,bacon baked,0.054,44.0,0.0,0.0,3.5,2.9,bacon baked,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,2.3,329.4,0.0,pork arm picnic raw,15.6,5298.0,0.0,0.0,343.4,513.6,pork arm picnic raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.011,0.8,1.7,0.0,salt pork raw,0.1,212.0,0.0,0.0,22.8,1.4,salt pork raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.1,2.2,360.3,0.0,pork arm picnic cooked,20.7,5292.0,0.0,0.0,322.7,560.3,pork arm picnic cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.7,0.7,0.064,0.0,0.0,pork top loin chops cooked,0.1,270.0,0.0,0.0,11.2,39.4,pork top loin chops cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.9,0.055,0.033,17.5,0.0,ground pork raw,1.1,329.0,0.0,0.0,26.5,21.1,ground pork raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-3.2,0.077,0.3,68.0,0.0,pork shoulder raw,4.8,1070.0,0.0,0.0,81.6,77.9,pork shoulder raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.099,0.078,0.0,0.0,pork chitterlings cooked,0.056,66.0,0.0,0.0,5.8,3.5,pork chitterlings cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.02,0.2,1.6,0.1,pork breakfast strips cooked,0.2,52.0,0.0,0.0,4.1,3.3,pork breakfast strips cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
-12.0,0.032,3.7,26.3,1.4,pork blade roll roasted,3.3,1079.0,0.0,0.0,88.3,65.0,pork blade roll roasted,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.002,0.093,38.5,0.0,pork tail cooked,2.2,1089.0,0.0,0.0,98.5,46.8,pork tail cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.1,48.5,0.0,pork centre rib roasts raw,1.2,275.0,0.0,0.0,9.7,44.0,pork centre rib roasts raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-3.8,4.1,0.7,0.0,0.0,pork centre rib roasts roasted,0.7,1942.0,0.0,0.0,114.9,211.3,pork centre rib roasts roasted,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.094,0.3,2.1,0.4,minced ham,0.2,55.0,0.0,0.0,4.3,3.4,minced ham,True,True,False,True,True,True,False,False,False,False,False,False,False
 19.6,0.033,1.3,11.2,0.6,ham roasted,1.9,316.0,0.0,0.0,21.3,28.7,ham roasted,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.7,0.013,0.003,21.1,0.0,pork loin raw,0.9,232.0,0.0,0.0,14.7,23.1,pork loin raw,False,False,False,True,True,True,False,False,False,False,False,False,False
-3.6,4.0,0.8,0.0,0.0,pork backribs roasted,0.9,2564.0,0.0,0.0,188.9,202.0,pork backribs roasted,False,False,False,True,True,True,False,False,False,False,False,False,False
-1.4,0.088,0.1,22.7,0.0,pork belly raw,2.4,2350.0,0.0,0.0,240.5,42.4,pork belly raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.021,1.5,8.4,0.046,ham raw,1.2,266.0,0.0,0.0,18.2,23.8,ham raw,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.022,0.4,2.0,0.6,ham extra lean,0.3,45.0,0.0,0.0,2.3,5.1,ham extra lean,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.061,4.3,145.2,0.029,pork feet pickled,1.4,635.0,0.0,0.0,45.5,52.8,pork feet pickled,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.7,0.065,0.001,32.4,0.0,pork shoulder cooked,1.8,394.0,0.0,0.0,28.9,31.4,pork shoulder cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
-5.9,4.6,0.4,0.0,0.0,pork top loin roasts roasted,0.7,1628.0,0.0,0.0,74.8,224.3,pork top loin roasts roasted,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.1,0.0,0.5,8.5,0.0,pork skin,0.2,154.0,0.0,0.0,8.9,17.3,pork skin,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.049,29.2,0.0,pork country style ribs cooked,1.2,235.0,0.0,0.0,15.2,22.8,pork country style ribs cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.6,59.0,0.6,pork blade steak raw,3.8,664.0,0.0,0.0,43.7,67.6,pork blade steak raw,False,False,False,True,True,True,False,False,False,False,False,False,False
@@ -2037,42 +1973,33 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.5,0.066,0.077,18.7,0.0,pork loin cooked,1.0,213.0,0.0,0.0,12.1,24.2,pork loin cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.2,20.0,0.2,pork ears cooked,1.7,184.0,0.0,0.0,12.0,17.7,pork ears cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
 3.9,0.019,0.3,43.9,0.0,pork tongue cooked,11.5,626.0,0.0,0.0,43.0,55.7,pork tongue cooked,False,False,False,True,True,True,False,False,False,False,False,False,False
-0.0,0.0,1.1,194.6,0.0,pork spareribs raw,11.8,3593.0,0.0,0.0,303.5,200.6,pork spareribs raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.034,0.6,5.4,1.0,ham patties grilled,1.0,205.0,0.0,0.0,18.5,8.0,ham patties grilled,True,True,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.08,0.028,15.7,0.0,chicken skin roasted,1.7,508.0,0.0,0.0,45.6,22.8,chicken skin roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.2,1.3,294.3,0.0,turkey breast raw,27.2,3554.0,0.0,0.0,158.9,495.6,turkey breast raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.073,0.047,21.7,0.0,ground turkey raw,1.2,169.0,0.0,0.0,8.7,22.4,ground turkey raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.071,0.086,2.5,0.0,chicken wing cooked,0.2,52.0,0.0,0.0,3.5,4.8,chicken wing cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.054,0.9,6.8,4.1,turkey roast roasted,2.2,209.0,0.0,0.0,7.8,28.8,turkey roast roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
-42.4,0.064,0.3,96.0,0.0,pheasant meat raw,9.2,1448.0,0.0,0.0,74.3,181.6,pheasant meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.9,0.084,0.043,7.7,0.0,chicken back raw,0.6,188.0,0.0,0.0,17.0,8.3,chicken back raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.035,0.091,6.5,0.0,chicken back cooked,0.4,93.0,0.0,0.0,6.5,8.0,chicken back cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.089,0.4,28.4,13.8,chicken leg fried,2.2,431.0,0.0,0.5,25.5,34.4,chicken leg fried,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.4,0.3,399.2,0.9,chicken feet cooked,4.1,975.0,0.0,0.0,66.2,88.0,chicken feet cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.071,0.5,9.0,10.9,turkey steak fried,1.4,179.0,0.0,0.0,10.8,9.1,turkey steak fried,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.051,1.2,126.3,5.5,turkey taco meat cooked,3.3,271.0,0.0,0.0,13.9,30.7,turkey taco meat cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.7,0.053,0.3,31.0,0.6,chicken leg raw,2.4,736.0,0.0,0.0,54.9,56.3,chicken leg raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-14.7,0.039,0.6,101.2,0.0,chicken meat raw,8.3,1978.0,0.0,0.0,138.6,171.1,chicken meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.078,0.085,10.3,0.0,chicken neck cooked,0.9,94.0,0.0,0.0,6.9,7.5,chicken neck cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.065,0.2,12.2,6.0,chicken drumstick fried,1.0,193.0,0.0,0.2,11.3,15.8,chicken drumstick fried,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.089,0.042,5.8,0.08,quail egg,0.3,14.0,0.048,0.0,1.0,1.2,quail egg,True,False,True,True,True,True,False,False,True,False,False,False,False
 0.0,0.073,0.041,15.4,0.0,duck meat cooked,3.8,472.0,0.0,0.0,39.7,26.6,duck meat cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.5,0.005,0.039,0.024,0.0,chicken wing roasted,0.092,216.0,0.0,0.0,14.3,20.2,chicken wing roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
-10.4,0.098,0.2,68.0,0.0,quail meat cooked,20.1,1028.0,0.0,0.0,63.9,113.7,quail meat cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.039,0.089,18.2,0.0,goose meat cooked,4.0,427.0,0.0,0.0,30.7,35.2,goose meat cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.092,0.058,8.1,0.0,chicken breast cooked,0.6,114.0,0.0,0.0,4.5,17.3,chicken breast cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.05,0.027,9.0,0.0,chicken neck raw,1.0,149.0,0.0,0.0,13.1,7.0,chicken neck raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.09,0.1,44.8,1.0,duck egg,2.7,130.0,0.7,0.0,9.6,9.0,duck egg,False,False,True,True,True,True,False,False,True,False,False,False,False
 21.8,0.088,0.1,10.9,0.0,pheasant breast raw,2.9,484.0,0.0,0.0,11.8,88.7,pheasant breast raw,True,True,True,True,True,True,False,False,False,False,False,False,False
-35.5,0.2,0.8,139.5,0.0,duck meat raw,30.4,5123.0,0.0,0.0,498.8,145.7,duck meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 10.3,0.054,0.1,23.9,0.0,squab meat raw,7.0,585.0,0.0,0.0,47.4,36.8,squab meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.039,0.1,13.3,0.1,chicken drumstick raw,0.8,211.0,0.0,0.0,12.4,23.4,chicken drumstick raw,False,False,False,True,True,True,False,False,False,False,False,False,False
 0.0,0.083,0.2,21.0,0.031,turkey meat roasted,1.6,284.0,0.0,0.0,11.1,42.8,turkey meat roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.082,0.1,19.1,0.0,chicken breast raw,1.3,299.0,0.0,0.0,16.1,36.3,chicken breast raw,False,False,True,True,True,True,False,False,False,False,False,False,False
 1.4,0.3,0.2,0.044,0.0,ground chicken cooked,0.2,474.0,0.0,0.0,27.4,58.4,ground chicken cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.095,0.1,44.6,0.0,turkey wing cooked,2.7,426.0,0.0,0.0,23.1,50.9,turkey wing cooked,False,False,True,True,True,True,False,False,False,False,False,False,False
-68.8,0.094,1.2,196.6,0.0,goose meat raw,41.0,6077.0,0.0,0.0,550.7,259.8,goose meat raw,False,False,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.1,1.1,362.9,0.0,turkey breast roasted,24.2,3266.0,0.0,0.0,128.0,496.1,turkey breast roasted,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.062,0.044,1.2,0.2,chicken fajita strips,0.097,13.0,0.0,0.0,0.5,1.7,chicken fajita strips,False,False,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,0.0,crispy chicken strips tyson,0.0,145.0,0.0,0.0,6.0,0.0,crispy chicken strips tyson,False,False,True,True,True,True,False,False,False,False,False,False,False
 3.8,0.02,0.1,330.2,20.4,eggnog,0.5,224.0,20.4,0.0,10.6,11.6,eggnog,True,False,True,True,True,True,False,False,True,False,False,False,False
@@ -2146,7 +2073,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.4,0.0,89.1,saccharin sweetener,0.058,360.0,85.2,0.0,0.0,0.9,saccharin sweetener,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.024,0.038,2.3,0.2,egg white raw,0.045,17.0,0.2,0.0,0.063,3.6,egg white raw,True,False,True,True,True,True,False,False,True,False,False,False,False
 0.0,0.0,0.008,0.6,4.6,turbinado sugar,0.018,18.0,4.6,0.0,0.0,0.0,turbinado sugar,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.0,0.026,0.9,13.9,313.7,vanilla frosting,0.7,1931.0,291.5,0.0,75.0,0.0,vanilla frosting,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.0,0.0,0.0,89.1,aspartame sweetener,0.022,365.0,80.7,0.0,0.0,2.2,aspartame sweetener,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.048,0.08,31.4,0.4,egg raw,1.0,80.0,0.2,0.0,5.3,7.0,egg raw,True,False,True,True,True,True,False,False,True,False,False,False,False
 10.5,0.026,0.1,20.4,225.8,pineapple topping,0.4,860.0,71.4,1.4,0.3,0.3,pineapple topping,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -2156,7 +2082,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.016,0.06,11.8,0.047,egg dried,0.2,30.0,0.05,0.0,2.2,2.4,egg dried,True,False,True,True,True,True,False,False,True,False,False,False,False
 2.9,0.03,0.099,1.3,13.9,strawberry topping,0.014,53.0,5.7,0.1,0.096,0.014,strawberry topping,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.038,0.002,0.081,1.2,1.6,bakers yeast dry,0.051,13.0,0.0,1.1,0.3,1.6,bakers yeast dry,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.2,0.2,0.051,390.4,108.5,almond paste,3.6,1040.0,82.3,10.9,63.0,20.4,almond paste,True,True,True,True,True,False,False,False,False,False,False,False,False
 0.0,0.0,0.009,0.2,1.8,cream of tartar,0.1,8.0,0.0,0.01,0.0,0.0,cream of tartar,True,False,True,True,False,True,False,True,False,False,False,False,False
 0.2,0.2,1.5,54.4,120.7,popover dry mix,5.0,631.0,0.0,0.0,7.3,17.7,popover dry mix,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.2,0.017,0.2,92.3,6.2,egg substitute powder,0.9,126.0,6.2,0.0,3.7,15.7,egg substitute powder,True,False,True,True,True,True,False,False,True,False,False,False,False
@@ -2194,7 +2119,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.035,0.033,49.2,84.7,buckwheat flour,4.9,402.0,3.1,12.0,3.7,15.1,buckwheat flour,True,True,True,False,True,True,False,False,False,False,False,False,True
 0.2,0.083,0.3,39.0,63.7,pecan pie,1.8,503.0,0.0,0.0,27.1,6.0,pecan pie,True,True,True,True,True,False,False,False,False,False,False,False,False
 2.1,0.02,0.3,8.8,46.4,apple pie,1.4,331.0,0.0,0.0,15.6,3.0,apple pie,True,True,True,True,True,True,False,False,False,False,False,False,False
-0.2,0.071,0.9,73.9,88.4,vanilla wafer pie crust,2.9,935.0,12.9,0.2,63.7,6.5,vanilla wafer pie crust,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.0,0.1,0.9,58.2,117.4,chocolate pie crust,7.8,881.0,47.9,4.9,40.8,11.1,chocolate pie crust,True,True,True,True,True,True,False,False,False,False,False,False,False
 1.2,0.082,0.02,10.7,29.2,apple strudel,0.3,195.0,18.3,1.6,8.0,2.3,apple strudel,True,True,True,True,True,True,False,False,False,False,False,False,False
 1.0,0.079,0.2,58.0,30.2,chocolate snack cake,1.8,200.0,18.9,1.6,8.0,1.8,chocolate snack cake,True,True,True,False,True,True,False,False,False,False,False,False,False
@@ -2216,7 +2140,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 1.6,0.093,0.3,21.6,45.1,danish pastry with fruit,1.4,335.0,0.0,0.0,15.9,4.8,danish pastry with fruit,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.1,0.058,0.3,100.8,70.8,white cake with coconut frosting,1.3,399.0,64.3,1.1,11.5,4.9,white cake with coconut frosting,True,True,True,False,True,True,False,False,False,False,False,False,False
 2.6,0.035,0.3,70.1,28.7,danish pastry with cheese,1.8,353.0,0.0,0.0,24.6,5.8,danish pastry with cheese,True,False,True,False,False,True,False,True,False,False,False,False,False
-0.0,0.1,0.9,53.1,117.7,graham cracker pie crust,4.8,917.0,33.2,3.5,45.4,9.3,graham cracker pie crust,True,True,False,False,True,True,False,False,False,False,False,False,False
 1.0,0.073,0.3,10.3,49.2,blueberry pie,1.8,360.0,0.0,0.0,17.5,4.0,blueberry pie,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.064,0.2,39.7,37.6,yellow cake with vanilla frosting,0.7,239.0,0.0,0.2,9.3,2.2,yellow cake with vanilla frosting,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.0,0.004,0.1,2.3,10.9,pie crust,0.7,121.0,0.045,0.4,8.0,1.5,pie crust,True,True,True,True,True,True,False,False,False,False,False,False,False
@@ -2231,7 +2154,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.1,0.037,0.2,96.2,42.3,white cake,1.1,264.0,26.3,0.6,9.2,4.0,white cake,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.015,0.036,0.3,34.2,48.4,coffeecake with chocolate frosting,0.5,298.0,0.0,1.8,9.7,4.5,coffeecake with chocolate frosting,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.0,0.068,0.05,0.9,8.0,popcorn cake,0.2,38.0,0.001,0.3,0.3,1.0,popcorn cake,True,True,True,False,True,True,False,False,False,False,False,False,False
-19.0,0.3,2.8,889.5,390.2,banana cream pie,12.3,3190.0,143.0,8.3,161.3,52.2,banana cream pie,True,False,True,True,False,True,False,True,False,False,False,False,False
 9.1,0.053,0.076,5.4,12.3,baked apple pie mcdonalds,0.6,91.0,4.9,0.6,4.4,0.9,baked apple pie mcdonalds,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.076,0.1,26.5,36.4,sponge cake,1.0,187.0,0.0,0.0,2.7,4.6,sponge cake,True,True,True,False,True,True,False,False,False,False,False,False,False
 0.1,0.086,0.2,99.3,36.0,yellow cake,1.1,245.0,0.0,0.5,9.9,3.6,yellow cake,True,True,True,False,True,True,False,False,False,False,False,False,False
@@ -2305,7 +2227,6 @@ Vitamin C (mg per 100g),Vitamin B11 (mg per 100g),Sodium (mg per 100g),Calcium (
 0.0,0.0,0.0,0.0,0.5,dar vida swiss original,0.0,116.0,0.0,0.0,3.1,0.0,dar vida swiss original,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.016,0.053,123.5,50.0,teff cooked,5.2,255.0,0.0,7.1,1.6,9.8,teff cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.059,0.031,41.5,134.0,couscous dry,1.9,650.0,0.0,8.7,1.1,22.1,couscous dry,True,True,True,False,True,True,False,False,False,False,False,False,False
-0.0,0.0,0.0,0.0,0.0,weetabix weetabix,0.0,2078.0,0.0,0.0,11.5,0.0,weetabix weetabix,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.022,0.082,21.9,25.1,oat bran cooked,1.9,88.0,0.0,5.7,1.9,7.0,oat bran cooked,True,True,True,True,True,True,False,False,False,False,False,False,False
 0.0,0.066,0.053,11.8,33.5,buckwheat cooked,1.3,155.0,1.5,4.5,1.0,5.7,buckwheat cooked,True,True,True,False,True,True,False,False,False,False,False,False,True
 0.0,0.044,0.076,1.7,16.8,millet puffed,0.6,74.0,0.1,0.6,0.7,2.7,millet puffed,True,True,True,True,True,True,False,False,False,False,False,False,False
