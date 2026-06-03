@@ -8,7 +8,7 @@ from datetime import date as date_type, datetime
 from typing import Optional
 
 from database import get_session
-from models import User, MealLog
+from models import User, MealLog, DietPlan
 from schemas import MealLogInput, MealLogResponse, MealHistoryResponse
 from auth import get_current_user
 
@@ -55,8 +55,15 @@ def log_meal(
       "log_date":   "2026-05-09"
     }
     """
+    active_plan = session.exec(
+        select(DietPlan)
+        .where(DietPlan.user_id == current_user.id)
+        .where(DietPlan.is_active == True)
+    ).first()
+
     meal = MealLog(
         user_id    = current_user.id,
+        plan_id    = active_plan.id if active_plan else None,
         food_id    = data.food_id,
         food_name  = data.food_name,
         meal_type  = data.meal_type.value,
@@ -84,6 +91,10 @@ def get_meal_history(
         default=None,
         description="Filter tanggal (format: 2026-05-09). Kosong = hari ini."
     ),
+    plan_id: Optional[int] = Query(
+        default=None,
+        description="Filter berdasarkan plan tertentu."
+    ),
     current_user: User = Depends(get_current_user),
     session: Session   = Depends(get_session)
 ):
@@ -108,13 +119,11 @@ def get_meal_history(
     # Kalau tidak ada parameter date, pakai hari ini
     filter_date = date or str(date_type.today())
 
-    # Ambil semua log user pada tanggal tersebut
-    logs = session.exec(
-        select(MealLog)
-        .where(MealLog.user_id == current_user.id)
-        .where(MealLog.log_date == filter_date)
-        .order_by(MealLog.logged_at)
-    ).all()
+    query = select(MealLog).where(MealLog.user_id == current_user.id).where(MealLog.log_date == filter_date)
+    if plan_id:
+        query = query.where(MealLog.plan_id == plan_id)
+
+    logs = session.exec(query.order_by(MealLog.logged_at)).all()
 
     # Hitung total nutrisi
     summary = {

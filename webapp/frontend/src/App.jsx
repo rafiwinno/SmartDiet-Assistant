@@ -13,7 +13,6 @@ import OnboardingPopup from "./components/ui/OnboardingPopup";
 import Card            from "./components/ui/Card";
 import Button          from "./components/ui/Button";
 import { isLoggedIn, getProfile } from "./services/api";
-import { useNutrition }           from "./hooks/useNutrition";
 import { useEffect }              from "react";
 
 // ─── OnboardingGate ───────────────────────────────────────────────────────────

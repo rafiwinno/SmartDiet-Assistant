@@ -39,7 +39,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <p className="text-3xl font-semibold tracking-tight">
-            <span className="text-green-500">Smart</span>
+            <span className="text-blue-500">Smart</span>
             <span className="text-stone-800">Diet</span>
           </p>
           <p className="text-sm text-stone-400 mt-1">AI Meal Planning Assistant</p>
@@ -85,7 +85,7 @@ export default function LoginPage() {
             )}
 
             <Button fullWidth disabled={loading} onClick={handleSubmit}>
-              {loading ? '⏳ Memproses...' : mode === 'login' ? 'Masuk' : 'Buat akun'}
+              {loading ? 'Memproses...' : mode === 'login' ? 'Masuk' : 'Buat akun'}
             </Button>
           </div>
         </Card>

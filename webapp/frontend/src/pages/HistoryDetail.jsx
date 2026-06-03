@@ -4,39 +4,14 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts'
 import Card  from '../components/ui/Card'
-import Badge from '../components/ui/Badge'
-import { getPlanDetail } from '../services/api'
+import { getPlanDetail, getPlanStats } from '../services/api'
 
-const GOAL_LABEL = {
-  lose    : 'Turun berat badan',
-  maintain: 'Pertahankan berat',
-  gain    : 'Naik berat badan',
-}
-
-const GOAL_BADGE = { lose: 'blue', maintain: 'green', gain: 'amber' }
-
-// ─── Data placeholder untuk chart ────────────────────────────────────────────
-// AI Engineer: ganti PLACEHOLDER_DATA dengan data real dari API saat integrasi.
-// Caranya:
-// 1. Buat endpoint GET /v1/diet-plans/{planId}/stats di backend
-// 2. Return array { label, calories, protein, carbs, fat } per hari
-// 3. Ganti baris setChartData(PLACEHOLDER_DATA) di useEffect di bawah
-//    dengan: const data = await getPlanStats(planId); setChartData(data)
-const PLACEHOLDER_DATA = [
-  { label: 'Sen', calories: 1820, protein: 88,  carbs: 220, fat: 52 },
-  { label: 'Sel', calories: 2100, protein: 102, carbs: 260, fat: 61 },
-  { label: 'Rab', calories: 1650, protein: 75,  carbs: 195, fat: 44 },
-  { label: 'Kam', calories: 1480, protein: 72,  carbs: 190, fat: 38 },
-  { label: 'Jum', calories: 1950, protein: 95,  carbs: 240, fat: 57 },
-  { label: 'Sab', calories: 2200, protein: 110, carbs: 275, fat: 65 },
-  { label: 'Min', calories: 1780, protein: 85,  carbs: 215, fat: 49 },
-]
 
 const METRICS = [
-  { key: 'calories', label: 'Kalori',  unit: 'kcal', color: '#3b82f6' },
-  { key: 'protein',  label: 'Protein', unit: 'g',    color: '#ea580c' },
-  { key: 'carbs',    label: 'Karbo',   unit: 'g',    color: '#d97706' },
-  { key: 'fat',      label: 'Lemak',   unit: 'g',    color: '#7c3aed' },
+  { key: 'calories', label: 'Kalori',  unit: 'kcal', color: '#14b8a6' },
+  { key: 'protein',  label: 'Protein', unit: 'g',    color: '#0ea5e9' },
+  { key: 'carbs',    label: 'Karbo',   unit: 'g',    color: '#3b82f6' },
+  { key: 'fat',      label: 'Lemak',   unit: 'g',    color: '#0f766e' },
 ]
 
 function CustomTooltip({ active, payload, label }) {
@@ -94,7 +69,7 @@ export default function HistoryDetail() {
 
   const [plan,       setPlan]       = useState(null)
 
-  const [chartData,  setChartData]  = useState(PLACEHOLDER_DATA)
+  const [chartData,  setChartData]  = useState([])
   const [activeKeys, setActiveKeys] = useState(['calories'])
   const [loading,    setLoading]    = useState(true)
 
@@ -104,9 +79,9 @@ export default function HistoryDetail() {
       .catch(() => navigate('/history'))
       .finally(() => setLoading(false))
 
-    // AI Engineer: uncomment baris di bawah saat data real sudah tersedia
-    // getPlanStats(planId).then(data => setChartData(data))
-  // FIX: tambah navigate ke dependency array
+    getPlanStats(parseInt(planId))
+      .then(data => setChartData(data))
+      .catch(() => {})
   }, [planId, navigate])
 
   const toggleMetric = key => {
@@ -117,15 +92,17 @@ export default function HistoryDetail() {
     )
   }
 
-  const averages = METRICS.reduce((acc, m) => {
-    acc[m.key] = Math.round(chartData.reduce((s, d) => s + d[m.key], 0) / chartData.length)
-    return acc
-  }, {})
+  const averages = chartData.length > 0
+    ? METRICS.reduce((acc, m) => {
+        acc[m.key] = Math.round(chartData.reduce((s, d) => s + d[m.key], 0) / chartData.length)
+        return acc
+      }, {})
+    : METRICS.reduce((acc, m) => { acc[m.key] = '—'; return acc }, {})
 
   if (loading) return <p className="text-sm text-stone-400 text-center py-12">Memuat...</p>
   if (!plan)   return null
 
-  const progress  = Math.min(plan.days_elapsed, plan.total_days)
+  const progress  = Math.min(plan.days_elapsed, plan.estimated_days)
   const createdAt = new Date(plan.created_at).toLocaleDateString('id-ID', {
     day: 'numeric', month: 'long', year: 'numeric',
   })
@@ -143,14 +120,9 @@ export default function HistoryDetail() {
 
       <div className="flex items-center gap-2">
         {plan.is_active
-          ? <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-200">Aktif</span>
+          ? <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-teal-50 text-teal-600 border border-teal-200">Aktif</span>
           : <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-stone-100 text-stone-500">Selesai</span>
         }
-        {plan.goal && (
-          <Badge variant={GOAL_BADGE[plan.goal] || 'stone'}>
-            {GOAL_LABEL[plan.goal] || plan.goal}
-          </Badge>
-        )}
         {plan.calorie_target && (
           <span className="text-xs text-stone-400">{plan.calorie_target} kcal/hari</span>
         )}
@@ -159,27 +131,30 @@ export default function HistoryDetail() {
       <Card>
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-stone-800">Progress</p>
-          <span className="text-sm font-semibold text-blue-500">
-            {progress}/{plan.total_days} hari
+          <span className="text-sm font-semibold text-teal-500">
+            {progress}/{plan.estimated_days} hari
           </span>
         </div>
         <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-blue-500 rounded-full transition-all"
-            style={{ width: `${(progress / plan.total_days) * 100}%` }}
+            className="h-full bg-teal-500 rounded-full transition-all"
+            style={{ width: `${(progress / plan.estimated_days) * 100}%` }}
           />
         </div>
-        {/* AI Engineer: total_days saat ini default 30.
-            Untuk mengganti: tambah kolom total_days di tabel diet_plans,
-            isi saat membuat plan, dan backend akan return nilai tersebut
-            di field total_days pada response GET /diet-plans/{id} */}
       </Card>
 
       <div className="grid grid-cols-2 gap-3">
-        {METRICS.map(m => (
-          <StatCard key={m.key} label={`Rata-rata ${m.label}`}
-            avg={averages[m.key]} unit={m.unit} color={m.color} />
-        ))}
+        {chartData.length > 0
+          ? METRICS.map(m => (
+              <StatCard key={m.key} label={`Rata-rata ${m.label}`}
+                avg={averages[m.key]} unit={m.unit} color={m.color} />
+            ))
+          : <div className="col-span-2">
+              <Card>
+                <p className="text-sm text-stone-400 text-center py-2">Belum ada data untuk ditampilkan</p>
+              </Card>
+            </div>
+        }
       </div>
 
       <Card>
@@ -199,18 +174,23 @@ export default function HistoryDetail() {
         </div>
 
         {/* Hanya BarChart */}
-        <ResponsiveContainer width="100%" height={240}>
-          <BarChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f4" />
-            <XAxis dataKey="label" tick={{ fontSize: 11, fill: '#a8a29e' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#a8a29e' }} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} />
-            {METRICS.filter(m => activeKeys.includes(m.key)).map(m => (
-              <Bar key={m.key} dataKey={m.key} name={m.label}
-                fill={m.color} radius={[4, 4, 0, 0]} maxBarSize={32} />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+        {chartData.length > 0
+          ? <ResponsiveContainer width="100%" height={240}>
+              <BarChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f4" />
+                <XAxis dataKey="label" tick={{ fontSize: 11, fill: '#a8a29e' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: '#a8a29e' }} axisLine={false} tickLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                {METRICS.filter(m => activeKeys.includes(m.key)).map(m => (
+                  <Bar key={m.key} dataKey={m.key} name={m.label}
+                    fill={m.color} radius={[4, 4, 0, 0]} maxBarSize={32} />
+                ))}
+              </BarChart>
+            </ResponsiveContainer>
+          : <div className="flex items-center justify-center h-[240px]">
+              <p className="text-sm text-stone-400">Belum ada data untuk ditampilkan</p>
+            </div>
+        }
       </Card>
 
     </div>

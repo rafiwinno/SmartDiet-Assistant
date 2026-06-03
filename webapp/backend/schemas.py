@@ -118,5 +118,6 @@ class FoodResponse(BaseModel):
 # ─── ONBOARDING ────────────────────────────────────────────────────────────────────
 
 class OnboardingInput(BaseModel):
+    name:   Optional[str] = None  
     age:    int
     gender: Gender

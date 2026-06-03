@@ -7,8 +7,8 @@ import TextInput from "../components/ui/TextInput";
 import OptionCard from "../components/ui/OptionCard";
 import TagToggle from "../components/ui/TagToggle";
 import Badge from "../components/ui/Badge";
-import { getActivePlan, saveProfile, createPlan } from "../services/api";
-import { calcMacroTargets } from "../constants/nutrition";
+import { getActivePlan, saveProfile, createPlan, getMealOptions } from "../services/api";
+import MealOptionsPopup from "../components/ui/MealOptionsPopup";
 
 const ACTIVITY_LEVELS = [
   {
@@ -28,7 +28,6 @@ const ACTIVITY_LEVELS = [
 
 const DIETARY_RESTRICTIONS = [
   "Vegetarian",
-  "Vegan",
   "Halal",
   "Bebas gluten",
   "Bebas laktosa",
@@ -155,14 +154,6 @@ function StepDietary({ data, onChange }) {
               onClick={() => toggle("allergies", item)}
             />
           ))}
-        </div>
-        <p className="text-xs text-stone-400 mt-3">Tidak ada dalam daftar?</p>
-        <div className="mt-1.5">
-          <TextInput
-            value={data.otherAllergies ?? ""}
-            onChange={(v) => onChange("otherAllergies", v)}
-            placeholder="Ketik alergi lainnya, pisahkan dengan koma"
-          />
         </div>
       </div>
     </div>
@@ -307,6 +298,7 @@ export default function Planner() {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
 
+
   const update = (field, value) =>
     setData((prev) => ({ ...prev, [field]: value }));
 
@@ -340,7 +332,7 @@ export default function Planner() {
     try {
       // 1. Simpan profil & hitung BMR/TDEE
       const profileResult = await saveProfile(data);
-      // 2. Buat plan baru (backend otomatis nonaktifkan plan lama di sini)
+      // 2. Buat plan baru
       const planResult = await createPlan();
       setResult({ profile: profileResult, plan: planResult });
       setView("success");
@@ -391,8 +383,8 @@ export default function Planner() {
         <div className="mb-6">
           <h1 className="text-xl font-semibold text-stone-800">Planner</h1>
         </div>
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6 animate-in fade-in duration-300">
+          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ease-out">
             <div className="text-2xl mb-3">⚠️</div>
             <p className="text-base font-semibold text-stone-800 mb-2">
               Kamu masih punya plan aktif
@@ -403,7 +395,7 @@ export default function Planner() {
                 "{existingPlan?.name}"
               </span>{" "}
               akan ditandai sebagai{" "}
-              <span className="font-medium text-red-500">tidak selesai</span>{" "}
+              <span className="font-medium text-red-500">selesai</span>{" "}
               dan tidak bisa diubah lagi.
             </p>
             <p className="text-sm text-stone-500 mb-5">
@@ -431,10 +423,9 @@ export default function Planner() {
   // ─── Sukses ───────────────────────────────────────────────────────────────
   if (view === "success" && result) {
     const plan = result.plan;
-    const profile = result.profile;
 
-    const macros = plan.calorie_target
-      ? calcMacroTargets(plan.calorie_target)
+    const macros = plan.protein_target
+      ? { protein: plan.protein_target, carbs: plan.carbs_target, fat: plan.fat_target }
       : { protein: "—", carbs: "—", fat: "—" };
 
     const startDate = new Date(plan.created_at).toLocaleDateString("id-ID", {
@@ -446,7 +437,8 @@ export default function Planner() {
     const goal = +data.targetWeight < +data.weight ? 'lose' : +data.targetWeight > +data.weight ? 'gain' : 'maintain'
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         {/* Modal */}
         <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-[0_20px_70px_rgba(0,0,0,0.22)] animate-in fade-in zoom-in-95 duration-300">
           {/* Background glows */}
@@ -529,7 +521,7 @@ export default function Planner() {
                   },
                   {
                     label: "Durasi",
-                    value: "30 Hari",
+                    value: `${plan.estimated_days} Hari`,
                   },
                   {
                     label: "Selesai",
@@ -694,10 +686,12 @@ export default function Planner() {
                   Dashboard
                 </Button>
               </div>
+              <span className="flex flex-col items-center justify-center text-center"><p className="mt-5 text-xs leading-relaxed text-black/55">Silahkan Pilih Rekomendasi Makanan Hari Ini di Dashboard</p></span>
             </div>
           </div>
         </div>
       </div>
+      </>
     );
   }
 
@@ -741,7 +735,7 @@ export default function Planner() {
           </Button>
         ) : (
           <Button disabled={loading} onClick={handleSave}>
-            {loading ? "⏳ Menyimpan..." : "Simpan & buat plan"}
+            {loading ? " ◈ AI Generating Plan..." : "Simpan & buat plan"}
           </Button>
         )}
       </div>

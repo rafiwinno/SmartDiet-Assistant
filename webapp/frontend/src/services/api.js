@@ -57,6 +57,15 @@ export function getCurrentUser() {
 
 // ─── PROFILE ──────────────────────────────────────────────────────────────────
 
+export async function updateBasicProfile({ name, age, gender }) {
+  const res = await api.put("/user/onboarding", {
+    name:   name   || undefined,
+    age:    parseInt(age),
+    gender: gender,
+  });
+  return res.data;
+}
+
 export async function saveOnboardingData({ age, gender }) {
   const res = await api.put("/user/onboarding", {
     age:    parseInt(age),
@@ -104,9 +113,13 @@ export async function getActivePlan() {
   return res.data;
 }
 
-/** Ambil detail satu plan berdasarkan ID (untuk HistoryDetail) */
 export async function getPlanDetail(planId) {
   const res = await api.get(`/diet-plans/${planId}`);
+  return res.data;
+}
+
+export async function getPlanStats(planId) {
+  const res = await api.get(`/diet-plans/${planId}/stats`);
   return res.data;
 }
 
@@ -120,13 +133,15 @@ export async function generateMeal() {
   return res.data;
 }
 
-// Alias used by Dashboard for meal recommendations
-export async function getRecommendations() {
-  return generateMeal();
+export async function completeDay() {
+  const res = await api.post('/diet-plans/complete-day', {
+    client_date: new Date().toLocaleDateString('en-CA'),
+  })
+  return res.data
 }
 
-export async function completeDay() {
-  const res = await api.post('/diet-plans/complete-day')
+export async function completePlan() {
+  const res = await api.post('/diet-plans/complete-plan')
   return res.data
 }
 
@@ -146,12 +161,42 @@ export async function logMeal(mealData) {
   return res.data;
 }
 
-export async function getMealHistory(date = null) {
-  const params = date ? { date } : {};
-  const res    = await api.get("/meals/history", { params });
+export async function getMealHistory(date = null, planId = null) {
+  const params = {}
+  if (date)   params.date    = date
+  if (planId) params.plan_id = planId
+  const res = await api.get("/meals/history", { params });
   return res.data;
 }
 
 export async function deleteMeal(mealId) {
   await api.delete(`/meals/${mealId}`);
+}
+// ─── MEAL RECOMMENDATIONS ─────────────────────────────────────────────────────
+
+/**
+ * Minta 3 opsi rekomendasi menu dari AI
+ * Dipanggil setelah buat plan baru atau setelah selesai hari ini
+ * Returns: { session_id, options: [{ option_number, breakfast, lunch, dinner, total_calories }] }
+ */
+export async function getMealOptions() {
+  const res = await api.post("/diet-plans/meal-options");
+  return res.data;
+}
+
+/**
+ * Simpan pilihan user ke recommendation_sessions dan meal_logs
+ * @param {number} sessionId  
+ * @param {number} optionNumber 
+ * @param {object} optionData 
+ */
+export async function chooseMealOption(sessionId, optionNumber, optionData, forToday = false) {
+  const res = await api.post("/diet-plans/choose-meal", {
+    session_id:    sessionId,
+    option_number: optionNumber,
+    option_data:   optionData,
+    for_today:     forToday,
+    client_date:   new Date().toLocaleDateString('en-CA'),
+  });
+  return res.data;
 }

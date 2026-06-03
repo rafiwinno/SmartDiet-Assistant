@@ -67,6 +67,7 @@ class DietPlan(SQLModel, table=True):
     ended_at:        Optional[datetime] = None
     current_streak:       int            = Field(default=0)
     longest_streak:       int            = Field(default=0)
+    days_completed:       int            = Field(default=0)
     last_completed_date:  Optional[date] = Field(default=None)
 
     user:      Optional[User]  = Relationship(back_populates="diet_plans")
@@ -143,7 +144,7 @@ class RecommendationItem(SQLModel, table=True):
 
     id:         Optional[int]   = Field(default=None, primary_key=True)
     option_id:  int             = Field(foreign_key="recommendation_options.id")
-    food_id:    int             = Field(foreign_key="foods.id")
+    food_id:    Optional[int]   = Field(default=None)
     meal_type:  str
     quantity_g: Optional[float] = None
     calories:   Optional[float] = None
