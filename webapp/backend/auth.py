@@ -20,7 +20,7 @@ load_dotenv()
 
 SECRET_KEY        = os.getenv("JWT_SECRET_KEY", "fallback-secret-key")
 ALGORITHM         = "HS256"
-TOKEN_EXPIRE_DAYS = 7
+TOKEN_EXPIRE_DAYS = 1
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security    = HTTPBearer()

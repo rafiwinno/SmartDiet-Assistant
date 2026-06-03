@@ -98,12 +98,12 @@ export default function MealOptionsPopup({ sessionId, options, onClose, onChosen
     setLoading(true)
     setError('')
     try {
-      await chooseMealOption(sessionId, opt.option_number, {
+      const result = await chooseMealOption(sessionId, opt.option_number, {
         breakfast: opt.breakfast,
         lunch:     opt.lunch,
         dinner:    opt.dinner,
       }, forToday)
-      onChosen(opt)
+      onChosen(result.meals)
     } catch (err) {
       const d = err.response?.data?.detail
       setError(Array.isArray(d) ? 'Gagal menyimpan pilihan.' : (d || 'Gagal menyimpan pilihan.'))

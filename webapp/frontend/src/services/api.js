@@ -134,7 +134,14 @@ export async function generateMeal() {
 }
 
 export async function completeDay() {
-  const res = await api.post('/diet-plans/complete-day')
+  const res = await api.post('/diet-plans/complete-day', {
+    client_date: new Date().toLocaleDateString('en-CA'),
+  })
+  return res.data
+}
+
+export async function completePlan() {
+  const res = await api.post('/diet-plans/complete-plan')
   return res.data
 }
 
@@ -189,6 +196,7 @@ export async function chooseMealOption(sessionId, optionNumber, optionData, forT
     option_number: optionNumber,
     option_data:   optionData,
     for_today:     forToday,
+    client_date:   new Date().toLocaleDateString('en-CA'),
   });
   return res.data;
 }

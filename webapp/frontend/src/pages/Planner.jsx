@@ -28,7 +28,6 @@ const ACTIVITY_LEVELS = [
 
 const DIETARY_RESTRICTIONS = [
   "Vegetarian",
-  "Vegan",
   "Halal",
   "Bebas gluten",
   "Bebas laktosa",
@@ -522,7 +521,7 @@ export default function Planner() {
                   },
                   {
                     label: "Durasi",
-                    value: "30 Hari",
+                    value: `${plan.estimated_days} Hari`,
                   },
                   {
                     label: "Selesai",
