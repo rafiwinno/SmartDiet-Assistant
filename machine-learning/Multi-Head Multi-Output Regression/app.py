@@ -160,7 +160,7 @@ def map_meal_category(food_name: str) -> str:
 # =====================================================
 
 food_df = pd.read_csv(
-    'nutrition_labeled.csv'
+    'nutrition_final.csv'
 )
 
 food_df = food_df.dropna().reset_index(
@@ -513,6 +513,37 @@ def calculate_tdee(
     return (
         bmr * activity_map[activity_level]
     )
+    
+    
+# =====================================================
+# FEATURE ENGINEERING
+# =====================================================
+
+def create_features(df: pd.DataFrame) -> pd.DataFrame:
+
+    df = df.copy()
+
+    df['bmi'] = (
+
+        df['weight_kg']
+
+        /
+
+        ((df['height_cm'] / 100) ** 2)
+
+    )
+
+    df['tdee_bmr_ratio'] = (
+
+        df['tdee']
+
+        /
+
+        df['bmr']
+
+    )
+
+    return df
 
 # =====================================================
 # ENDPOINT 1
@@ -621,6 +652,10 @@ def predict_nutrition(user: NutritionInput):
 
         'tdee': tdee
     }])
+    
+    sample_user = create_features(
+        sample_user
+    )
 
     sample_scaled = preprocessor.transform(
         sample_user
