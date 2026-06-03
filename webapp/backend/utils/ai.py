@@ -1,7 +1,9 @@
 import httpx
 from fastapi import HTTPException
+from dotenv import load_dotenv
+import os
 
-AI_BASE_URL = "http://32.236.19.32:8001"
+AI_BASE_URL = os.getenv("AI_URL")
 
 # Mapping goal dari format sistem ke format AI
 GOAL_MAPPING = {
