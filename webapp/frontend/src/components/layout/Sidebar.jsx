@@ -14,7 +14,7 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/landing");
+    navigate("/");
   };
 
   return (

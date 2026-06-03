@@ -48,7 +48,7 @@ function OnboardingGate({ children }) {
 
 // ─── ProtectedRoute ────────────
 function ProtectedRoute({ children }) {
-  return isLoggedIn() ? children : <Navigate to="/landing" replace />;
+  return isLoggedIn() ? children : <Navigate to="/" replace />;
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
@@ -56,7 +56,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login"   element={<LoginPage />} />
 
         <Route
@@ -69,7 +69,7 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route index                    element={<Dashboard />}     />
+          <Route path="dashboard"         element={<Dashboard />}     />
           <Route path="planner"           element={<Planner />}       />
           <Route path="history"           element={<History />}       />
           <Route path="history/:planId"   element={<HistoryDetail />} />
