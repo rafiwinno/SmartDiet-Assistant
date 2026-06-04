@@ -846,7 +846,7 @@ def classify_food_flags(
         'syrup', 'powder',
         'seasoning', 'extract',
         'shortening', 'butter oil',
-        'starch'
+        'starch', 'raw'
     ]
 
     dessert_keywords = [
