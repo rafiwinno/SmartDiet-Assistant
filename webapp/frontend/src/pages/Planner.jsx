@@ -681,7 +681,7 @@ export default function Planner() {
                 <Button
                   fullWidth
                   className="h-11 rounded-2xl bg-gradient-to-r from-blue-500 to-teal-500 text-sm shadow-lg hover:opacity-95"
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/dashboard")}
                 >
                   Dashboard
                 </Button>
