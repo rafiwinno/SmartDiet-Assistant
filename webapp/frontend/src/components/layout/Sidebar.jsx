@@ -3,7 +3,7 @@ import { logout } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
-  { to: "/",        label: "Dashboard", icon: "◈" },
+  { to: "/dashboard",        label: "Dashboard", icon: "◈" },
   { to: "/planner", label: "Planner",   icon: "◉" },
   { to: "/history", label: "History",   icon: "◷" },
   { to: "/account", label: "Akun",      icon: "◎" },
@@ -14,7 +14,7 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/landing");
+    navigate("/");
   };
 
   return (
